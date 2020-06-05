@@ -1,18 +1,26 @@
-<mat-sidenav-container class="nav-container">
-  <mat-sidenav mode="side" opened>
-    <div class="nav container">
-      <h4>Albums</h4>
-      <div>
-        <app-album-container></app-album-container>
-      </div>
+<div class="sidebar">
+  <div class="site-header">
+    <img src="http://1.gravatar.com/avatar/15f4066132eebc5db529115d11285fa5">
+    <h2>{{title}}</h2>
+  </div>
+  <div class="content-header">
+    <h4>Albums:</h4>
+  </div>
+  <div class="content">
+    <app-album-container></app-album-container>
+  </div>
+</div>
+<div class="main">
+  <div class="album-header">
+    <div class="track-title">
+      <img [src]="coverArt" [alt]="selectedAlbum?.title">
+      <h2>{{selectedAlbum?.title}}</h2>
     </div>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="container">
-      <h4>Tracks</h4>
-      <div>
-        <app-track-container></app-track-container>
-      </div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+  <div class="content-header">
+    <h4>Tracks:</h4>
+  </div>
+  <div class="content">
+    <app-track-container></app-track-container>
+  </div>
+</div>

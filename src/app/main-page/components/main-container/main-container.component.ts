@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AudioService } from '../../../player/services/audio.service';
 import { PlayerService } from '../../../player/services/player.service';
+import { TrackService } from '../../../track/services/track.service';
 
 @Component({
   selector: 'app-main-container',
@@ -9,15 +10,15 @@ import { PlayerService } from '../../../player/services/player.service';
   styleUrls: ['./main-container.component.scss']
 })
 export class MainContainerComponent {
-  title = 'tonefolder-audio';
-
   get fileSelected() { return this.playerService.selectedFile; }
+  get albumSelected() { return this.trackService.selectedAlbum; }
 
   constructor(
+    private trackService: TrackService,
     private audioService: AudioService,
     private playerService: PlayerService,
     private snackBar: MatSnackBar) {
-      audioService.audioFailed$
+      this.audioService.audioFailed$
         .subscribe(() => this.showError());
     }
 

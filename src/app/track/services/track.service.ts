@@ -21,8 +21,8 @@ export interface TracksResponse {
 })
 export class TrackService {
   albumTracks: string[];
-  currentAlbum: string;
   currentTracks: string[];
+  selectedAlbum: any;
 
   private fileSelected = new Subject<SelectedFile>();
   fileSelected$ = this.fileSelected.asObservable();
@@ -33,6 +33,10 @@ export class TrackService {
     return this.http
       .get<TracksResponse>(`${this.config.serviceUrl}/tracks.php?album=${album}`)
       .pipe(map(res => {
+        this.selectedAlbum = {
+          title: album,
+          cover: res.cover
+        };
         this.albumTracks = res.tracks;
         return res;
       }));

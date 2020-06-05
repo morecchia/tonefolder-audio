@@ -1,9 +1,78 @@
 :host {
   display: flex;
-  flex-direction: column;
   flex: 1;
+  overflow-y: hidden;
 }
 
-.nav-container {
+h4 {
+  text-decoration: underline;
+  font-weight: 600;
+  letter-spacing: .08rem;
+}
+
+.sidebar, .main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar {
+  width: 300px;
+  background: #4e4e4e;
+}
+
+.site-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background:rgba(0,0,0,0.1);
+  padding: 2em 0.5em;
+  text-align: center;
+
+  img {
+    border-radius: 50%;
+    overflow:hidden;
+		border:4px solid #fafafa;
+		box-shadow:0 0 0 4px rgba(255,255,255,0.2);
+  }
+
+  h2 {
+    margin: 16px 0 0;
+  }
+}
+
+.content-header, .main {
+  padding: 1em 0 0 1em;
+}
+
+.main {
   flex: 1;
+  
+  h2, h4 {
+    color: #333;
+  }
+
+  h4 {
+    margin: 1em 0 0 0;
+  }
+
+  .content {
+    margin-bottom: 1em;
+  }
+}
+
+.content-header .track-title {
+  display: flex;
+  align-items: center;
+}
+
+.track-title img {
+  width: 150px;
+  margin-right: 1em
+}
+
+.content {
+  display: flex;
+  overflow-y: auto;
 }

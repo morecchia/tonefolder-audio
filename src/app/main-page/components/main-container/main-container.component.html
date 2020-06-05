@@ -1,6 +1,6 @@
 <div class="main-page">
-  <div class="main-content">
-    <app-sidenav></app-sidenav>
+  <div [class.player-open]="fileSelected" class="main-content">
+    <app-sidenav [selectedAlbum]="albumSelected"></app-sidenav>
   </div>
   <div [class.closed]="!fileSelected" class="main-player">
     <app-player-container></app-player-container>

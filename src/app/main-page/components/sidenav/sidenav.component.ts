@@ -1,8 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent { }
+export class SidenavComponent {
+  title = 'tonefolder-audio';
+
+  @Input()
+  selectedAlbum: any;
+
+  get coverArt() {
+    return this.selectedAlbum && this.selectedAlbum.cover
+      ? `/source/${this.selectedAlbum.title}/${this.selectedAlbum.cover}`
+      : '/assets/images/subwoofer-100.png';
+  }
+}

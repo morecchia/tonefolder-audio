@@ -4,6 +4,14 @@ mat-sidenav {
   width: 380px;
 }
 
+.mat-list-base .mat-list-item {
+  color: #333;
+}
+
+.main-content .sidebar .mat-list-base .mat-list-item {
+  color: #fafafa;
+}
+
 .mat-list-item {
   cursor: pointer;
 }

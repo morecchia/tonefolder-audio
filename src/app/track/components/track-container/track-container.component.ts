@@ -10,11 +10,10 @@ import { AlbumService } from '../../../album/services/album.service';
 })
 export class TrackContainerComponent {
   tracksResponse: Observable<TracksResponse>;
-  selectedAlbum: string;
+  get selectedAlbum() { return this.albumService.currentAlbum; }
 
   constructor(private trackService: TrackService, private albumService: AlbumService) {
     albumService.albumSelected$.subscribe(album => {
-      this.selectedAlbum = album;
       this.tracksResponse = this.trackService.getTracks(album);
     });
   }
