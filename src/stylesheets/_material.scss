@@ -1,0 +1,75 @@
+@import "./variables";
+
+mat-sidenav {
+  width: 380px;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-list-item:hover {
+  color: $primary;
+}
+
+.mat-spinner,
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #333;
+}
+
+.player-control.button-play.mat-stroked-button {
+  height: 48px;
+  width: 48px;
+  font-size: 48px;
+  padding: 0;
+  min-width: 0;
+  margin-bottom: 5px;
+}
+
+.mat-icon-button[disabled][disabled] {
+  color: #a9a9a9;
+}
+
+.mat-slider.mat-slider-horizontal {
+  .mat-slider-track-wrapper {
+    border-radius: 2px
+  }
+
+  .mat-slider-track-background {
+    background-color: #d9d9d9;
+  }
+
+  .mat-slider-track-fill {
+    background-color: #333;
+  }
+}
+
+.mat-accent .mat-slider-thumb {
+  background-color: white;
+  border: solid 1px rgb(109, 108, 108);
+}
+
+.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+  background-color: white;
+}
+
+.player-duration .mat-slider.mat-slider-horizontal {
+  .mat-slider-wrapper {
+    top: 18px;
+  }
+
+  .mat-slider-track-wrapper {
+    height: 12px;
+    border-radius: 2px
+  }
+
+  .mat-slider-track-background,
+  .mat-slider-track-fill {
+    height: 100%;
+  }
+}
+
+.player-duration .mat-accent .mat-slider-thumb {
+  display: none;
+}

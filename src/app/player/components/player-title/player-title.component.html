@@ -1,0 +1,18 @@
+<div class="player-title-container">
+    <a class="player-title-image">
+        <div>
+            <img [src]="coverArt" [alt]="track">
+            <span class="player-image-icon">
+                <mat-icon>featured_video</mat-icon>
+            </span>
+        </div>
+    </a>
+    <div class="player-title-text">
+        <div class="player-title-placeholder">
+            <span (click)="albumClicked.emit(album)">{{album}}</span>
+        </div>
+        <div class="player-title-link">
+            <span>{{track}}</span>
+        </div>
+    </div>
+</div>

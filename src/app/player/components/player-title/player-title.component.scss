@@ -1,0 +1,68 @@
+:host {
+  width: 240px;
+  margin-right: 1em;
+}
+
+.player-title-container {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.player-title-image {
+  margin: 4px 8px 0 0;
+  cursor: pointer;
+}
+
+.player-title-image .player-image-icon {
+  top: 2px;
+  left: 8px;
+}
+
+.player-title-image img {
+  width: 40px;
+  border: 1px solid #d9d9d9;
+}
+
+.player-title-text {
+  font-size: 12px;
+
+  .player-title-link span {
+    font-weight: 600;
+  }
+  
+  .player-title-placeholder span {
+    color: #7a7a7a;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.player-title-placeholder,
+.player-title-link {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.player-title-image .player-image-icon.visible,
+.player-title-text .player-title-video,
+.player-title-text .player-title-placeholder span {
+  display: block;
+}
+
+.player-title-image .player-image-icon {
+  display: none;
+}
+
+@media (min-width: 820px) {
+  :host {
+    width: 360px;
+  }
+
+  .player-title-placeholder,
+  .playing-title-link {
+    max-width: 300px;
+  }
+}

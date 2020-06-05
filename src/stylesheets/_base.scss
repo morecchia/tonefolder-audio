@@ -1,0 +1,11 @@
+.container {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+
+.error-state {
+  color: red;
+}

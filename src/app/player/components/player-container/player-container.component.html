@@ -1,0 +1,17 @@
+<div *ngIf="selected" class="player-container">
+  <app-player-title
+    [selected]="selected"
+    (albumClicked)="loadAlbum($event)">
+  </app-player-title>
+  
+  <app-player-controls 
+    [currentFile]="selected"
+    [playing]="trackPlaying"
+    [loading]="trackLoading"
+    [playerTime]="trackTime"
+    [playerTimeFormatted]="trackTimeReadable"
+    [duration]="trackDuration"
+    [durationFormatted]="trackDurationReadable"
+    (trackSeek)="trackSeek($event)">
+  </app-player-controls>
+</div>

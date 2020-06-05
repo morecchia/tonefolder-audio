@@ -1,0 +1,6 @@
+<mat-list role="list" *ngIf="tracksResponse">
+  <mat-list-item role="listitem" *ngFor="let track of tracks"
+    (click)="trackSelected.emit({track: track, cover: tracksResponse.cover})">
+    <app-track [title]="track"></app-track>
+  </mat-list-item>
+</mat-list>
