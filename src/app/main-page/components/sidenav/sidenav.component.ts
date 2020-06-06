@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { AlbumService } from '../../../album/services/album.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -6,7 +8,20 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
+  constructor(private fb: FormBuilder, private albumService: AlbumService) {
+    this.filterForm = this.fb.group({
+      albumFilter: ['']
+    });
+
+    this.filterForm.valueChanges.subscribe(f => {
+      console.log(f);
+      this.albumService.filterAlbums(f.albumFilter);
+    });
+  }
+
   title = 'tonefolder-audio';
+
+  filterForm: FormGroup;
 
   @Input()
   selectedAlbum: any;

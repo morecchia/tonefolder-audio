@@ -14,6 +14,9 @@ export class AlbumService {
   private albumSelected = new Subject<string>();
   albumSelected$ = this.albumSelected.asObservable();
 
+  private onAlbumsFiltered = new Subject<string>();
+  albumsFiltered$ = this.onAlbumsFiltered.asObservable();
+
   getAlbums(): Observable<any> {
     return this.http.get<any>(`${this.config.serviceUrl}/albums.php`);
   }
@@ -21,5 +24,9 @@ export class AlbumService {
   selectAlbum(album: string) {
     this.currentAlbum = album;
     this.albumSelected.next(album);
+  }
+
+  filterAlbums(query: string) {
+    this.onAlbumsFiltered.next(query);
   }
 }

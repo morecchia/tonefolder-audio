@@ -10,12 +10,10 @@ import { PlayerModule } from './player/player.module';
 import { AlbumModule } from './album/album.module';
 import { TrackModule } from './track/track.module';
 import { AppComponent } from './app.component';
-import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilterPipe,
   ],
   imports: [
     BrowserModule,

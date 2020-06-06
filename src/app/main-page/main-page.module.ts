@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
 import { COMPONENTS } from './components';
@@ -10,6 +11,8 @@ import { PlayerModule } from '../player/player.module';
   declarations: [...COMPONENTS],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     MaterialModule,
     AlbumModule,
     TrackModule,

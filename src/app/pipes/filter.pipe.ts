@@ -9,10 +9,14 @@ export class FilterPipe implements PipeTransform {
         return [];
     }
 
-    if (!query || query.length < 2) {
+    if (!query || query.length < 1) {
         return items;
     }
 
-    return items.filter(i => i.toLowerCase().includes(query.toLowerCase()));
+    const result = items.filter(i => {
+      return i.toLowerCase().includes(query.toLowerCase());
+    });
+
+    return result;
   }
 }

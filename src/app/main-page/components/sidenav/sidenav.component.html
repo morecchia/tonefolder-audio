@@ -3,8 +3,11 @@
     <img src="http://1.gravatar.com/avatar/15f4066132eebc5db529115d11285fa5">
     <h2>{{title}}</h2>
   </div>
-  <div class="content-header">
-    <h4>Albums:</h4>
+  <div class="content-header" [formGroup]="filterForm">
+    <mat-form-field class="example-full-width">
+      <mat-label>Albums</mat-label>
+      <input formControlName="albumFilter" matInput placeholder="Search Albums">
+    </mat-form-field>
   </div>
   <div class="content">
     <app-album-container></app-album-container>
