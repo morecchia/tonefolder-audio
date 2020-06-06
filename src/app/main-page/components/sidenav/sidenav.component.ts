@@ -8,17 +8,6 @@ import { AlbumService } from '../../../album/services/album.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
-  constructor(private fb: FormBuilder, private albumService: AlbumService) {
-    this.filterForm = this.fb.group({
-      albumFilter: ['']
-    });
-
-    this.filterForm.valueChanges.subscribe(f => {
-      console.log(f);
-      this.albumService.filterAlbums(f.albumFilter);
-    });
-  }
-
   title = 'tonefolder-audio';
 
   filterForm: FormGroup;
@@ -31,5 +20,15 @@ export class SidenavComponent {
     return this.selectedAlbum && this.selectedAlbum.cover
       ? `/source/${this.selectedAlbum.title}/${this.selectedAlbum.cover}`
       : '/assets/images/subwoofer-100.png';
+  }
+  
+  constructor(private fb: FormBuilder, private albumService: AlbumService) {
+    this.filterForm = this.fb.group({
+      albumFilter: ['']
+    });
+
+    this.filterForm.valueChanges.subscribe(f => {
+      this.albumService.filterAlbums(f.albumFilter);
+    });
   }
 }

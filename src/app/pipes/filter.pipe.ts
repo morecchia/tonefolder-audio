@@ -9,7 +9,7 @@ export class FilterPipe implements PipeTransform {
         return [];
     }
 
-    if (!query || query.length < 1) {
+    if (!query || query.length < 2) {
         return items;
     }
 
