@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AudioContextModule } from 'angular-audio-context';
@@ -9,11 +10,12 @@ import { PlayerModule } from './player/player.module';
 import { AlbumModule } from './album/album.module';
 import { TrackModule } from './track/track.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

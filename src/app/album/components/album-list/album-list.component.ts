@@ -7,6 +7,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AlbumListComponent implements OnInit {
   @Input()
+  query: string;
+
+  @Input()
   albumsRequest: any;
 
   @Output()

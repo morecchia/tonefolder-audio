@@ -35,7 +35,8 @@ export class TrackService {
       .pipe(map(res => {
         this.selectedAlbum = {
           title: album,
-          cover: res.cover
+          cover: res.cover,
+          trackCount: res.tracks.length,
         };
         this.albumTracks = res.tracks;
         return res;

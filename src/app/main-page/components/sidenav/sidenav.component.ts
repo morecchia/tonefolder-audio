@@ -11,6 +11,7 @@ export class SidenavComponent {
   @Input()
   selectedAlbum: any;
 
+  get trackCount() { return this.selectedAlbum?.trackCount; }
   get coverArt() {
     return this.selectedAlbum && this.selectedAlbum.cover
       ? `/source/${this.selectedAlbum.title}/${this.selectedAlbum.cover}`

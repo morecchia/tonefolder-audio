@@ -1,5 +1,5 @@
 <mat-list role="list" *ngIf="albumsRequest">
-  <mat-list-item (click)="albumSelected.emit(album)" role="listitem" *ngFor="let album of albums">
+  <mat-list-item (click)="albumSelected.emit(album)" role="listitem" *ngFor="let album of albums | filter : query">
     <app-album [title]="album"></app-album>
   </mat-list-item>
 </mat-list>
