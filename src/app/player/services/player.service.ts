@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from 'ngx-webstorage';
 import { AudioService, StreamState } from './audio.service';
 import { SelectedFile, TrackService } from '../../track/services/track.service';
 
@@ -16,8 +15,7 @@ export class PlayerService {
 
   constructor(
     private audioService: AudioService,
-    private trackService: TrackService,
-    private localStorage: LocalStorageService) {
+    private trackService: TrackService) {
     trackService.fileSelected$
       .subscribe(selected => {
         this.audioService.stop();
@@ -91,11 +89,12 @@ export class PlayerService {
     this.audioService.setVolume(rounded);
 
     if (store) {
-      this.localStorage.store('player-volume', volume);
+      localStorage.setItem('player-volume', volume.toString());
     }
   }
 
   getStoredVolume() {
-    return this.localStorage.retrieve('player-volume') || 50;
+    const storedVolume = localStorage.getItem('player-volume');
+    return parseInt(storedVolume) || 50;
   }
 }
