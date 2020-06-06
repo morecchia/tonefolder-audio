@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilterPipe } from '../../../pipes/filter.pipe';
 
 @Component({
@@ -8,13 +9,23 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
 })
 export class AlbumListComponent {
   @Input()
-  query: string;
-
-  @Input()
   albumsRequest: any;
 
   @Output()
   albumSelected = new EventEmitter<string>();
 
-  get albums() { return this.albumsRequest.albums.sort(); }
+  filterForm: FormGroup;
+  query: string;
+
+  get albums() { return this.albumsRequest.albums; }
+
+  constructor(private fb: FormBuilder) {
+    this.filterForm = this.fb.group({
+      albumFilter: ['']
+    });
+
+    this.filterForm.valueChanges.subscribe(f => {
+      this.query = f.albumFilter;
+    });
+  }
 }

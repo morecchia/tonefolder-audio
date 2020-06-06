@@ -11,7 +11,6 @@ import { TrackService } from '../../../track/services/track.service';
 })
 export class MainContainerComponent {
   get fileSelected() { return this.playerService.selectedFile; }
-  get albumSelected() { return this.trackService.selectedAlbum; }
 
   constructor(
     private trackService: TrackService,

@@ -16,9 +16,11 @@ export class AlbumContainerComponent implements OnInit{
   constructor(private albumService: AlbumService) { }
 
   ngOnInit() {
-    this.albumService.albumsFiltered$.subscribe(q => this.query = q);
     this.albumsRequest$ = this.albumService.getAlbums()
-      .pipe(tap(res => this.selectAlbum(res.albums.sort()[0])));
+      .pipe(tap(res => {
+        const album = this.albumService.getCurrentAlbum(res.albums);
+        this.albumService.selectAlbum(album);
+      }));
   }
 
   selectAlbum(album: string ) {

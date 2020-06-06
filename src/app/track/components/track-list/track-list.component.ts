@@ -8,10 +8,19 @@ import { TracksResponse } from '../../services/track.service';
 })
 export class TrackListComponent {
   @Input()
+  selectedAlbum: any;
+
+  @Input()
   tracksResponse: TracksResponse;
 
   @Output()
   trackSelected = new EventEmitter<{track: string, cover: string}>();
 
+  get trackCount() { return this.selectedAlbum?.trackCount; }
+  get coverArt() {
+    return this.selectedAlbum && this.selectedAlbum.cover
+      ? `/source/${this.selectedAlbum.title}/${this.selectedAlbum.cover}`
+      : '/assets/images/subwoofer-100.png';
+  }
   get tracks() { return this.tracksResponse.tracks.sort(); }
 }

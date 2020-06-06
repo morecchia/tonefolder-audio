@@ -1,3 +1,12 @@
+<div class="album-title">
+  <img [src]="coverArt" [alt]="selectedAlbum?.title">
+  <div class="album-details">
+    <h2>{{selectedAlbum?.title}}</h2>
+    <span class="track-count">{{trackCount}} tracks</span>
+  </div>
+</div>
+
+<h4>Tracks:</h4>
 <mat-list role="list" *ngIf="tracksResponse">
   <mat-list-item role="listitem" *ngFor="let track of tracks"
     (click)="trackSelected.emit({track: track, cover: tracksResponse.cover})">

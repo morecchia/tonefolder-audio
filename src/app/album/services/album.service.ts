@@ -7,7 +7,7 @@ import { AppConfig } from '../../../config';
   providedIn: 'root'
 })
 export class AlbumService {
-  currentAlbum: any;
+  currentAlbum: string;
 
   constructor(private http: HttpClient, private config: AppConfig) { }
 
@@ -21,8 +21,14 @@ export class AlbumService {
     return this.http.get<any>(`${this.config.serviceUrl}/albums.php`);
   }
 
+  getCurrentAlbum(albums: any[]) {
+    const storedAlbum = localStorage.getItem('current-album');
+    return storedAlbum || albums[0];
+  }
+
   selectAlbum(album: string) {
     this.currentAlbum = album;
+    localStorage.setItem('current-album', album);
     this.albumSelected.next(album);
   }
 

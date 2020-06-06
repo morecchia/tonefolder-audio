@@ -1,4 +1,5 @@
 <app-track-list
+  [selectedAlbum]="selectedAlbum"
   [tracksResponse]="tracksResponse | async"
   (trackSelected)="selectTrack($event)">
 </app-track-list>

@@ -10,7 +10,8 @@ import { AlbumService } from '../../../album/services/album.service';
 })
 export class TrackContainerComponent {
   tracksResponse: Observable<TracksResponse>;
-  get selectedAlbum() { return this.albumService.currentAlbum; }
+
+  get selectedAlbum() { return this.trackService.selectedAlbum; }
 
   constructor(private trackService: TrackService, private albumService: AlbumService) {
     albumService.albumSelected$.subscribe(album => {
@@ -19,6 +20,6 @@ export class TrackContainerComponent {
   }
 
   selectTrack({track, cover}) {
-    this.trackService.selectTrack({album: this.selectedAlbum, track, cover});
+    this.trackService.selectTrack({album: this.selectedAlbum.title, track, cover});
   }
 }

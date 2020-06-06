@@ -1,3 +1,10 @@
+<div class="search-header" [formGroup]="filterForm">
+  <mat-form-field color="accent">
+    <mat-label>Albums</mat-label>
+    <input formControlName="albumFilter" matInput placeholder="Search Albums">
+  </mat-form-field>
+</div>
+
 <mat-list role="list" *ngIf="albumsRequest">
   <mat-list-item (click)="albumSelected.emit(album)" role="listitem" *ngFor="let album of albums | filter : query">
     <app-album [title]="album"></app-album>

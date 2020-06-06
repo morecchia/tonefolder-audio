@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1em;
+}
+
+h2, h4 {
+  color: #333;
+}
+
+h4 {
+  margin: 1em 0 0 0;
+  text-decoration: underline;
+  font-weight: 600;
+  letter-spacing: .08rem;
+}
+
+.album-title {
+  display: flex;
+  align-items: center;
+  
+  img {
+    width: 120px;
+    margin-right: 1em
+  }
+
+  .album-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .track-count {
+      color: #a9a9a9;
+    }
+  }
+}
