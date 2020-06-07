@@ -17,7 +17,10 @@ export class AlbumListComponent {
   filterForm: FormGroup;
   query: string;
 
-  get albums() { return this.albumsRequest.albums; }
+  get albums() {
+    return this.albumsRequest.albums
+      .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  }
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
