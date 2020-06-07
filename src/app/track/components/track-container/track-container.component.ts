@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { TrackService, TracksResponse } from '../../services/track.service';
 import { AlbumService } from '../../../album/services/album.service';
@@ -14,7 +14,7 @@ export class TrackContainerComponent {
   get selectedAlbum() { return this.trackService.selectedAlbum; }
 
   constructor(private trackService: TrackService, private albumService: AlbumService) {
-    albumService.albumSelected$.subscribe(album => {
+    this.albumService.albumSelected$.subscribe(album => {
       this.tracksResponse = this.trackService.getTracks(album);
     });
   }

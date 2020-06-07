@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { FilterPipe } from '../../../pipes/filter.pipe';
 import { TracksResponse } from '../../services/track.service';
 
 @Component({
@@ -16,6 +18,9 @@ export class TrackListComponent {
   @Output()
   trackSelected = new EventEmitter<{track: string, cover: string}>();
 
+  query: string;
+  filterForm: FormGroup;
+
   get trackCount() { return this.selectedAlbum?.trackCount; }
   get coverArt() {
     return this.selectedAlbum && this.selectedAlbum.cover
@@ -23,4 +28,14 @@ export class TrackListComponent {
       : '/assets/images/subwoofer-100.png';
   }
   get tracks() { return this.tracksResponse.tracks.sort(); }
+
+  constructor(private fb: FormBuilder) {
+    this.filterForm = this.fb.group({
+      trackFilter: ['']
+    });
+
+    this.filterForm.valueChanges.subscribe(f => {
+      this.query = f.trackFilter;
+    });
+  }
 }

@@ -1,14 +1,24 @@
-<div class="album-title">
-  <img [src]="coverArt" [alt]="selectedAlbum?.title">
-  <div class="album-details">
-    <h2>{{selectedAlbum?.title}}</h2>
-    <span class="track-count">{{trackCount}} tracks</span>
+<div class="album-header">
+  <div class="album-title">
+    <img [src]="coverArt" [alt]="selectedAlbum?.title">
+    <div class="album-details">
+      <h2>{{selectedAlbum?.title}}</h2>
+      <span class="track-count">{{trackCount}} tracks</span>
+    </div>
+  </div>
+
+  <div class="track-search" [formGroup]="filterForm">
+    <mat-form-field>
+      <mat-label>Tracks</mat-label>
+      <input formControlName="trackFilter" matInput placeholder="Search Tracks">
+    </mat-form-field>
+
+    <div class="spacer"></div>
   </div>
 </div>
 
-<h4>Tracks:</h4>
 <mat-list role="list" *ngIf="tracksResponse">
-  <mat-list-item role="listitem" *ngFor="let track of tracks"
+  <mat-list-item role="listitem" *ngFor="let track of tracks | filter : query"
     (click)="trackSelected.emit({track: track, cover: tracksResponse.cover})">
     <app-track [title]="track"></app-track>
   </mat-list-item>

@@ -4,34 +4,62 @@
   padding-top: 1em;
 }
 
-h2, h4 {
-  color: #333;
-}
-
-h4 {
-  margin: 1em 0 0 0;
-  text-decoration: underline;
-  font-weight: 600;
-  letter-spacing: .08rem;
-}
-
-.album-title {
-  display: flex;
-  align-items: center;
-  
-  img {
-    width: 120px;
-    margin-right: 1em
+.album-header {
+  h2 {
+    color: #333;
   }
 
-  .album-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  color: #333;
 
-    .track-count {
-      color: #a9a9a9;
+  .album-title {
+    display: flex;
+    align-items: center;
+    
+    img {
+      width: 120px;
+      margin-right: 1em
     }
+  
+    .album-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  
+      .track-count {
+        color: #a9a9a9;
+      }
+    }
+  }
+  
+  .track-search {
+    display: flex;
+    margin-top: 1em;
+    padding-left: 1em;
+    flex: 1;
+
+    .spacer {
+      flex: 1;
+    }
+  }
+}
+
+::ng-deep .track-search .mat-form-field {
+  flex: 1;
+
+  .mat-input-element,
+  .mat-form-field-label,
+  .mat-form-field-required-marker,
+  .mat-form-field-placeholder,
+  .mat-focused .mat-form-field-placeholder
+  {
+      color: #333;
+  }
+
+  .mat-form-field-underline,
+  .mat-form-field-ripple {
+      background-color: slategray;
   }
 }
