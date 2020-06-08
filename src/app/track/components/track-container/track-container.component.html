@@ -1,5 +1,7 @@
 <app-track-list
   [selectedAlbum]="selectedAlbum"
+  [playerState]="playerState"
   [tracksResponse]="tracksResponse | async"
-  (trackSelected)="selectTrack($event)">
+  (trackSelected)="selectTrack($event)"
+  (trackToggled)="toggleTrack()">
 </app-track-list>

@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.track-name {
+  margin-right: auto;
+  display: flex;
+
+  span {
+    margin: 4px 0 0 6px;
+  }
+
+  span:hover {
+    text-decoration: underline;
+  }
+}
+
+.track-tool {
+  margin-right: 1em;
+}
+
+a.track-tool {
+  color: #333;
+}
+
+ .track-name:hover,
+ .track-tool:hover {
+  cursor: pointer;
+ }

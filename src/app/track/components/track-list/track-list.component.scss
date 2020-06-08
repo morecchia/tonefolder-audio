@@ -2,9 +2,10 @@
   display: flex;
   flex-direction: column;
   padding-top: 1em;
+  max-width: 50%;
 }
 
-.album-header {
+.tracklist-header {
   h2 {
     color: #333;
   }
@@ -44,6 +45,11 @@
       flex: 1;
     }
   }
+}
+
+.mat-list-item:hover {
+  color: #333;
+  cursor: default;
 }
 
 ::ng-deep .track-search .mat-form-field {

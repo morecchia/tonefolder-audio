@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-track',
@@ -8,4 +8,13 @@ import { Component, Input } from '@angular/core';
 export class TrackComponent {
   @Input()
   title: string;
+
+  @Input()
+  playing: boolean;
+
+  @Input()
+  downloadLink: string;
+
+  @Output()
+  trackSelected = new EventEmitter<string>();
 }
