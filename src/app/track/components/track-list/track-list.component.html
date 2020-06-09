@@ -19,7 +19,7 @@
   <mat-list-item role="listitem" *ngFor="let track of tracks | filter : query">
     <app-track
       [title]="track"
-      [playing]="currentTrack === track"
+      [playing]="currentTrack === track && playerState.playing"
       [downloadLink]="getDownloadLink(track)"
       (trackSelected)="selectTrack($event)">
     </app-track>

@@ -35,10 +35,10 @@ export class TrackService {
       .pipe(map(res => {
         this.selectedAlbum = {
           title: album,
-          cover: res.cover,
-          trackCount: res.tracks.length,
+          cover: res?.cover,
+          trackCount: res?.tracks.length,
         };
-        this.albumTracks = res.tracks;
+        this.albumTracks = res?.tracks;
         return res;
       }));
   }

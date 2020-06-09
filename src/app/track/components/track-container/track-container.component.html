@@ -1,5 +1,6 @@
 <app-track-list
   [selectedAlbum]="selectedAlbum"
+  [currentTrack]="currentTrack"
   [playerState]="playerState"
   [tracksResponse]="tracksResponse | async"
   (trackSelected)="selectTrack($event)"

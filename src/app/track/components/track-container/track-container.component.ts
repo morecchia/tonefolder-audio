@@ -14,7 +14,8 @@ export class TrackContainerComponent {
 
   get selectedAlbum() { return this.trackService.selectedAlbum; }
   get playerState() { return this.playerService.state; }
-  
+  get currentTrack() { return this.playerService.currentFile?.track; }
+
   constructor(
     private trackService: TrackService,
     private albumService: AlbumService,

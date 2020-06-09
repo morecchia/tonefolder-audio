@@ -17,6 +17,9 @@ export class TrackListComponent {
   selectedAlbum: any;
 
   @Input()
+  currentTrack: string;
+
+  @Input()
   tracksResponse: TracksResponse;
 
   @Output()
@@ -26,7 +29,6 @@ export class TrackListComponent {
   trackToggled = new EventEmitter<void>();
 
   query: string;
-  currentTrack: string;
   filterForm: FormGroup;
   playingIndex: number;
 
@@ -49,7 +51,6 @@ export class TrackListComponent {
   }
 
   selectTrack(track: string) {
-    this.currentTrack = track;
     const indexOfTrack = this.tracks.indexOf(track);
 
     if (this.playingIndex !== indexOfTrack) {
