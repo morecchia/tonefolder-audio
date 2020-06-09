@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AudioService } from '../../../player/services/audio.service';
 import { PlayerService } from '../../../player/services/player.service';
 import { TrackService } from '../../../track/services/track.service';
+import { AlbumService } from '../../../album/services/album.service';
 
 @Component({
   selector: 'app-main-container',
@@ -14,15 +15,17 @@ export class MainContainerComponent {
 
   constructor(
     private trackService: TrackService,
+    private albumService: AlbumService,
     private audioService: AudioService,
     private playerService: PlayerService,
     private snackBar: MatSnackBar) {
-      this.audioService.audioFailed$
-        .subscribe(() => this.showError());
-    }
+    this.audioService.audioFailed$.subscribe(() => this.showError('Could not play track'));
+    this.trackService.loadingError$.subscribe(() => this.showError('Could not load tracks'));
+    this.albumService.loadingError$.subscribe(() => this.showError('Could not load albums'));
+  }
 
-  showError() {
-    this.snackBar.open('Could not play track', 'Ok', {
+  showError(message: string) {
+    this.snackBar.open(message, 'Ok', {
       panelClass: 'error-state'
     });
   }
