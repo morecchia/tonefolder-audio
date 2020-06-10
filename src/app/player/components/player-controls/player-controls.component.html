@@ -1,8 +1,8 @@
 <div class="player-controls">
-  <button class="player-control button-play" mat-stroked-button aria-label="Pause" (click)="pause()" *ngIf="!loading && playing">
+  <button class="player-control button-play" mat-icon-button aria-label="Pause" (click)="pause()" *ngIf="!loading && playing">
     <mat-icon>pause</mat-icon>
   </button>
-  <button class="player-control button-play" mat-stroked-button aria-label="Play" (click)="play()" *ngIf="!loading && !playing">
+  <button class="player-control button-play" mat-icon-button aria-label="Play" (click)="play()" *ngIf="!loading && !playing">
     <mat-icon>play_arrow</mat-icon>
   </button>
   <span *ngIf="loading" class="play-progress">

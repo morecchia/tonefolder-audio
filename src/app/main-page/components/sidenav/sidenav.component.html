@@ -8,6 +8,9 @@
   </div>
 </div>
 <div class="main">
+  <div class="progress">
+    <mat-progress-bar *ngIf="tracksLoading" mode="indeterminate"></mat-progress-bar>
+  </div>
   <div class="content">
     <app-track-container></app-track-container>
   </div>

@@ -11,7 +11,7 @@
 }
 
 .sidebar {
-  width: 400px;
+  width: 340px;
   background: #4e4e4e;
 
   ::-webkit-scrollbar-track {
@@ -56,4 +56,8 @@
   display: flex;
   overflow-y: auto;
   padding-left: 1em;
+}
+
+.progress {
+  min-height: 4px;
 }
