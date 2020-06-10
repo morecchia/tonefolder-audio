@@ -50,6 +50,10 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "assets": [
+                "src/favicon.ico",
+                "src/assets"
+              ],
               "budgets": [
                 {
                   "type": "initial",
