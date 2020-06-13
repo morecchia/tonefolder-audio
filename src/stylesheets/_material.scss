@@ -13,6 +13,10 @@ mat-sidenav {
   color: #fafafa;
 }
 
+.main .content .mat-list-base .mat-list-item .mat-list-item-content {
+  padding: 0;
+}
+
 .mat-list-item {
   cursor: pointer;
 }
@@ -85,4 +89,14 @@ mat-sidenav {
 
 .mat-form-field {
   color: #fafafa;
+}
+
+.search-header {
+  .mat-form-field-label mat-label {
+    color: #c9c9c9;
+  }
+
+  .mat-form-field-underline {
+    background-color: #c9c9c9;
+  }
 }

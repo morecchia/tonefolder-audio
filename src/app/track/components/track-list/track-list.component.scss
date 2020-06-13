@@ -26,9 +26,11 @@
     .album-details {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-  
+      
+      h2 {
+        margin: 0 0 6px;
+      }
+
       .track-count {
         color: #a9a9a9;
       }
@@ -38,7 +40,6 @@
   .track-search {
     display: flex;
     margin-top: 1em;
-    padding-left: 1em;
     flex: 1;
 
     .spacer {
