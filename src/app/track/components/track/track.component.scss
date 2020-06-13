@@ -1,18 +1,25 @@
 :host {
   display: flex;
   flex: 1;
+  align-items: center;
+  padding: 6px;
+}
+
+:host.playing {
+  background: rgba(0,0,0,.1);
+  border-left: 3px solid #ff319a;
 }
 
 .track-name {
-  margin-right: auto;
+  flex: 1;
   display: flex;
+  
+  &:hover, &.playing {
+    font-weight: 500;
+  }
 
   span {
     margin: 3px 0 0 6px;
-  }
-
-  span:hover {
-    font-weight: 500;
   }
 }
 

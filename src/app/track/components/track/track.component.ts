@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-track',
@@ -17,4 +17,8 @@ export class TrackComponent {
 
   @Output()
   trackSelected = new EventEmitter<string>();
+
+  @HostBinding('class') get HeadingClass() {
+    return this.playing ? 'playing' : '';
+  }
 }

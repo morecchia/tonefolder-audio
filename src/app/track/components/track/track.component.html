@@ -1,6 +1,4 @@
-<div class="track-name" (click)="trackSelected.emit(title)">
-  <mat-icon *ngIf="!playing">play_arrow</mat-icon>
-  <mat-icon *ngIf="playing">pause</mat-icon>
+<div class="track-name" [class.playing]="playing" (click)="trackSelected.emit(title)">
   <span>{{title}}</span>
 </div>
 <a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="title"><mat-icon>cloud_download</mat-icon></a>
