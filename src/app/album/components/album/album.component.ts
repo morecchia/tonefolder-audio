@@ -1,17 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
   styleUrls: ['./album.component.scss']
 })
-export class AlbumComponent implements OnInit {
+export class AlbumComponent {
   @Input()
   title: string;
 
-  constructor() { }
+  @Input()
+  selected: boolean;
 
-  ngOnInit(): void {
+  @HostBinding('class') get HeadingClass() {
+    return this.selected ? 'selected' : '';
   }
-
 }

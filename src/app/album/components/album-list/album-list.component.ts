@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilterPipe } from '../../../pipes/filter.pipe';
+import { AlbumService } from '../../services/album.service';
 
 @Component({
   selector: 'app-album-list',
@@ -19,10 +20,13 @@ export class AlbumListComponent {
 
   get albums() {
     return this.albumsRequest.albums
-      .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+      .sort((a: string, b: string) =>
+        a.toLowerCase().localeCompare(b.toLowerCase()));
   }
 
-  constructor(private fb: FormBuilder) {
+  get currentAlbum() { return this.albumService.currentAlbum; }
+
+  constructor(private fb: FormBuilder, private albumService: AlbumService) {
     this.filterForm = this.fb.group({
       albumFilter: ['']
     });
