@@ -51,13 +51,10 @@ export class TrackListComponent {
   }
 
   selectTrack(track: string) {
-    const indexOfTrack = this.tracks.indexOf(track);
-
-    if (this.playingIndex !== indexOfTrack) {
-      this.playingIndex = indexOfTrack;
-      this.trackSelected.emit({track, cover: this.tracksResponse.cover});
-    } else {
+    if (this.currentTrack === track) {
       this.trackToggled.emit();
+    } else {
+      this.trackSelected.emit({track, cover: this.tracksResponse.cover});
     }
   }
 
