@@ -2,13 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, catchError, debounceTime } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { AppConfig } from '../../../config';
 import { handleError } from '../../../utils/handle-error';
 
 export interface SelectedFile {
   track: string;
   album: string;
+  cover: string;
+}
+
+export interface TrackStore {
+  album: string;
+  tracks: string[];
   cover: string;
 }
 
@@ -21,6 +27,8 @@ export interface TracksResponse {
   providedIn: 'root'
 })
 export class TrackService {
+  trackStorage: TrackStore[] = [];
+
   albumTracks: string[];
   currentTracks: string[];
   selectedAlbum: any;
@@ -36,6 +44,21 @@ export class TrackService {
   constructor(private http: HttpClient, private config: AppConfig) { }
 
   getTracks(album: string): Observable<TracksResponse> {
+    const stored = this.trackStorage.find(ts => ts.album === album);
+
+    if (stored) {
+      this.selectedAlbum = {
+        title: album,
+        cover: stored.cover,
+        trackCount: stored.tracks.length,
+      };
+      this.albumTracks = stored.tracks;
+      return of({
+        tracks: stored.tracks,
+        cover: stored.cover,
+      });
+    }
+
     this.loading = true;
 
     return this.http
@@ -49,6 +72,7 @@ export class TrackService {
             trackCount: res?.tracks.length,
           };
           this.albumTracks = res?.tracks;
+          this.addToStore(album, res);
           return res;
         }),
         catchError(err => {
@@ -61,5 +85,16 @@ export class TrackService {
   selectTrack(file: SelectedFile) {
     this.currentTracks = this.albumTracks;
     this.fileSelected.next(file);
+  }
+
+  private addToStore(album: string, tracksResponse: TracksResponse) {
+    const stored = this.trackStorage.find(ts => ts.album === album);
+    if (!stored){
+      this.trackStorage.push({
+        album,
+        tracks: tracksResponse.tracks,
+        cover: tracksResponse.cover,
+      });
+    }
   }
 }
