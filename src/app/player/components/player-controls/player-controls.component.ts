@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PlayerService } from '../../services/player.service';
 import { SelectedFile } from 'src/app/track/services/track.service';
 import { StartTime } from '../player-time/player-time.component';
@@ -8,7 +8,7 @@ import { StartTime } from '../player-time/player-time.component';
   templateUrl: './player-controls.component.html',
   styleUrls: ['./player-controls.component.scss']
 })
-export class PlayerControlsComponent implements OnInit {
+export class PlayerControlsComponent {
   @Input()
   playing: boolean;
 
@@ -50,10 +50,6 @@ export class PlayerControlsComponent implements OnInit {
   }
 
   constructor(private playerService: PlayerService) { }
-
-  ngOnInit(): void {
-    this.volume = this.playerService.getStoredVolume();
-  }
 
   play() {
     this.playing = true;

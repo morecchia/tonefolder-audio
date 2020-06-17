@@ -9,13 +9,14 @@ export class PlayerService {
   selectedFile: SelectedFile;
   currentFile: SelectedFile;
   state: StreamState;
+  currentVolume: number;
   currentIndex = 0;
 
   get playlist() { return this.trackService.currentTracks; }
 
-  constructor(
-    private audioService: AudioService,
-    private trackService: TrackService) {
+  constructor(private audioService: AudioService, private trackService: TrackService) {
+    this.currentVolume = this.getStoredVolume();
+
     trackService.fileSelected$
       .subscribe(selected => {
         this.audioService.stop();
@@ -35,6 +36,10 @@ export class PlayerService {
   }
 
   load(track: string) {
+    if (this.currentVolume > 0) {
+      this.setVolume(this.getStoredVolume(), false);
+    }
+
     this.audioService
       .playStream(`/source/${track}`)
       .subscribe();
@@ -87,6 +92,7 @@ export class PlayerService {
     const vol = volume / 100;
     const rounded = Math.round(vol * 10) / 10;
     this.audioService.setVolume(rounded);
+    this.currentVolume = rounded;
 
     if (store) {
       localStorage.setItem('player-volume', volume.toString());

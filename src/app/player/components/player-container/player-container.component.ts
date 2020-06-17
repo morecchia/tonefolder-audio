@@ -11,6 +11,7 @@ export class PlayerContainerComponent {
   get trackPlaying() { return this.playerService.state.playing; }
   get trackLoading() { return this.playerService.state.loading; }
   get selected() { return this.playerService.selectedFile; }
+  get volume() { return this.playerService.getStoredVolume(); }
   get trackDuration() { return this.playerService.state.duration; }
   get trackDurationReadable() { return this.playerService.state.readableDuration || '00:00:00'; }
   get trackTime() { return this.playerService.state.currentTime; }
