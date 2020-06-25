@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlbumService } from '../../services/album.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,17 +14,20 @@ export class AlbumContainerComponent implements OnInit{
   query: string;
   albumFilter$: Observable<string>;
 
-  constructor(private albumService: AlbumService) { }
+  constructor(private router: Router, private albumService: AlbumService) { }
 
   ngOnInit() {
     this.albumsRequest$ = this.albumService.getAlbums()
-      .pipe(tap(res => {
-        const album = this.albumService.getCurrentAlbum(res.albums);
-        this.albumService.selectAlbum(album);
-      }));
+      .pipe(
+        tap(res => {
+          const album = this.albumService.getCurrentAlbum(res.albums);
+          this.selectAlbum(album);
+        })
+      );
   }
 
   selectAlbum(album: string ) {
     this.albumService.selectAlbum(album);
+    this.router.navigate(['/', encodeURIComponent(album)]);
   }
 }

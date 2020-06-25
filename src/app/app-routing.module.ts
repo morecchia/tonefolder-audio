@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainContainerComponent } from './main-page/components/main-container/main-container.component';
 
 const routes: Routes = [
-  { path: '', component: MainContainerComponent }
+  {
+    path : '',
+    loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule)
+  }
 ];
 
 @NgModule({

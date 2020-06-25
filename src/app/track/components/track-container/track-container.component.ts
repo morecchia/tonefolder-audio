@@ -21,6 +21,7 @@ export class TrackContainerComponent {
     private albumService: AlbumService,
     private playerService: PlayerService) {
     this.albumService.albumSelected$.subscribe(album => {
+      console.log(album);
       this.tracksResponse = this.trackService.getTracks(album);
     });
   }
