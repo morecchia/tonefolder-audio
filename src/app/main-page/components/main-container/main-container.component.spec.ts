@@ -23,12 +23,6 @@ describe('MainContainerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'tonefolder-audio'`, () => {
-    const tfixture = TestBed.createComponent(MainContainerComponent);
-    const app = tfixture.componentInstance;
-    expect(app.title).toEqual('tonefolder-audio');
-  });
-
   it('should render title', () => {
     const tfixture = TestBed.createComponent(MainContainerComponent);
     tfixture.detectChanges();

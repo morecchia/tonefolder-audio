@@ -22,4 +22,10 @@ describe('SidenavComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(`should have as title 'tonefolder-audio'`, () => {
+    const tfixture = TestBed.createComponent(SidenavComponent);
+    const app = tfixture.componentInstance;
+    expect(app.title).toEqual('tonefolder-audio');
+  });
 });
