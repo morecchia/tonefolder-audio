@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { TrackService, TracksResponse } from '../../services/track.service';
 import { AlbumService } from '../../../album/services/album.service';
 import { PlayerService } from 'src/app/player/services/player.service';
@@ -17,11 +18,15 @@ export class TrackContainerComponent {
   get currentTrack() { return this.playerService.currentFile?.track; }
 
   constructor(
+    private route: ActivatedRoute,
     private trackService: TrackService,
     private albumService: AlbumService,
     private playerService: PlayerService) {
+    this.route.params.subscribe(params => {
+      const album = params.name;
+      this.tracksResponse = this.trackService.getTracks(album);
+    });
     this.albumService.albumSelected$.subscribe(album => {
-      console.log(album);
       this.tracksResponse = this.trackService.getTracks(album);
     });
   }

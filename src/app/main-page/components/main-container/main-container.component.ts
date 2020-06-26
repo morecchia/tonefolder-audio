@@ -4,7 +4,6 @@ import { AudioService } from '../../../player/services/audio.service';
 import { PlayerService } from '../../../player/services/player.service';
 import { TrackService } from '../../../track/services/track.service';
 import { AlbumService } from '../../../album/services/album.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-main-container',
