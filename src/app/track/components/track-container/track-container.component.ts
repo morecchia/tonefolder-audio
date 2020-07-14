@@ -23,10 +23,7 @@ export class TrackContainerComponent {
     private albumService: AlbumService,
     private playerService: PlayerService) {
     this.route.params.subscribe(params => {
-      const album = params.name;
-      this.tracksResponse = this.trackService.getTracks(album);
-    });
-    this.albumService.albumSelected$.subscribe(album => {
+      const album = decodeURIComponent(params.name);
       this.tracksResponse = this.trackService.getTracks(album);
     });
   }

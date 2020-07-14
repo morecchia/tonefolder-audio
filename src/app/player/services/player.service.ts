@@ -41,7 +41,7 @@ export class PlayerService {
     }
 
     this.audioService
-      .playStream(`/source/${encodeURIComponent(track)}`)
+      .playStream(`/source/${track}`)
       .subscribe();
   }
 
