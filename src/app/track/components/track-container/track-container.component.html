@@ -4,5 +4,6 @@
   [playerState]="playerState"
   [tracksResponse]="tracksResponse | async"
   (trackSelected)="selectTrack($event)"
-  (trackToggled)="toggleTrack()">
+  (trackToggled)="toggleTrack()"
+  (trackQueued)="queueTrack($event)">
 </app-track-list>

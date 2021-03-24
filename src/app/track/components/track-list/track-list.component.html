@@ -21,7 +21,8 @@
       [title]="track"
       [playing]="currentTrack === track"
       [downloadLink]="getDownloadLink(track)"
-      (trackSelected)="selectTrack($event)">
+      (trackSelected)="selectTrack($event)"
+      (trackQueued)="queueTrack($event)">
     </app-track>
   </mat-list-item>
 </mat-list>

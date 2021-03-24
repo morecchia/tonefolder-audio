@@ -36,5 +36,9 @@
     <mat-slider [min]="0" [max]="100" [step]="1" #src
       (input)="setVolume(src.value)" [(ngModel)]="volume">
     </mat-slider>
+
+    <button class="player-control" mat-icon-button aria-label="Skip Next" [disabled]="skipDisabled" (click)="togglePlaylist()">
+      <mat-icon>playlist_play</mat-icon>
+    </button>
   </div>
 </div>

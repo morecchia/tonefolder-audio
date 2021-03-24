@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: 6px;
+}
+
+:host.playing {
+  background: rgba(0,0,0,.1);
+  border-left: 3px solid #ff319a;
+}
+
+.track-art {
+  width: 32px;
+  height: 32px;
+}
+
+.track-name {
+  flex: 1;
+  display: flex;
+  
+  &:hover, &.playing {
+    font-weight: 500;
+  }
+
+  span {
+    margin: 3px 0 0 6px;
+  }
+}
+
+.track-tool {
+  margin-right: 1em;
+}
+
+a.track-tool {
+  color: #333;
+}
+
+ .track-name:hover,
+ .track-tool:hover {
+  cursor: pointer;
+ }

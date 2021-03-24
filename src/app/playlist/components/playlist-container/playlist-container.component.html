@@ -1,0 +1,8 @@
+<div mat-dialog-title><span>Playlist</span> <button mat-button>Clear</button></div>
+<mat-dialog-content class="mat-typography">
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let item of playlistItems">
+      <app-playlist-item [item]="item"></app-playlist-item>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>

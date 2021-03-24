@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { TrackService, TracksResponse } from '../../services/track.service';
 import { AlbumService } from '../../../album/services/album.service';
 import { PlayerService } from 'src/app/player/services/player.service';
+import { PlaylistItem, PlaylistService } from '../../../playlist/services/playlist.service';
 
 @Component({
   selector: 'app-track-container',
@@ -21,7 +22,8 @@ export class TrackContainerComponent {
     private route: ActivatedRoute,
     private trackService: TrackService,
     private albumService: AlbumService,
-    private playerService: PlayerService) {
+    private playerService: PlayerService,
+    private playlistService: PlaylistService) {
     this.route.params.subscribe(params => {
       const album = decodeURIComponent(params.name);
       this.tracksResponse = this.trackService.getTracks(album);
@@ -38,5 +40,9 @@ export class TrackContainerComponent {
     } else {
       this.playerService.play();
     }
+  }
+
+  queueTrack(item: PlaylistItem) {
+    this.playlistService.addItem(item);
   }
 }

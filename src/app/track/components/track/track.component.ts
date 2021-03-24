@@ -18,6 +18,9 @@ export class TrackComponent {
   @Output()
   trackSelected = new EventEmitter<string>();
 
+  @Output()
+  trackQueued = new EventEmitter<string>();
+
   @HostBinding('class') get HeadingClass() {
     return this.playing ? 'playing' : '';
   }
