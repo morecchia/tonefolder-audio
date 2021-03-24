@@ -1,6 +1,7 @@
 :host {
   display: flex;
   flex: 1;
+  justify-content: flex-end;
   align-items: center;
   padding: 6px;
 }
@@ -10,33 +11,43 @@
   border-left: 3px solid #ff319a;
 }
 
-.track-art {
-  width: 32px;
-  height: 32px;
-}
-
-.track-name {
+.playlist-item {
   flex: 1;
   display: flex;
+  align-items: center;
   
   &:hover, &.playing {
-    font-weight: 500;
+    cursor: pointer;
   }
 
-  span {
-    margin: 3px 0 0 6px;
+  .item-details {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+
+    .item-title {
+      display: flex;
+      flex-direction: column;
+
+      .album-name {
+        font-size: .9em;
+        color: rgba(0,0,0,.6);
+      }
+    }
+
+    .track-art {
+      width: 32px;
+      height: 32px;
+      padding-right: 8px;
+    }
+  }
+
+  .track-tool {
+    margin-right: 1em;
+  }
+  
+  a.track-tool {
+    color: #333;
   }
 }
 
-.track-tool {
-  margin-right: 1em;
-}
-
-a.track-tool {
-  color: #333;
-}
-
- .track-name:hover,
- .track-tool:hover {
-  cursor: pointer;
- }

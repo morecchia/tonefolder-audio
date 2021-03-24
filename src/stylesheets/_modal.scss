@@ -1,6 +1,17 @@
 .playlist-modal {
   .mat-dialog-container {
+    padding: 1em;
     border-radius: 3px;
     box-shadow: 0 0 4px rgb(0 0 0 / 25%);
+  }
+
+  .mat-dialog-title {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .mat-dialog-content {
+    margin: 0;
+    padding: 0;
   }
 }

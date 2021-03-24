@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface PlaylistItem {
+  album: string;
   title: string;
   cover: string;
 }
@@ -14,8 +15,16 @@ export class PlaylistService {
   constructor() { }
 
   addItem(item: PlaylistItem) {
-    if (!this.playlist || !this.playlist.find(i => i.title === item.title)) {
+    if (!this.playlist || !this.playlist.find(i => this.itemExists(item, i))) {
       this.playlist.push(item);
     }
+  }
+
+  clearPlaylist() {
+    this.playlist = [];
+  }
+
+  private itemExists(item: PlaylistItem, source: PlaylistItem): boolean {
+    return `${source.album}-${source.title}` === `${item.album}-${item.title}`
   }
 }

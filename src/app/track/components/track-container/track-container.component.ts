@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TrackService, TracksResponse } from '../../services/track.service';
-import { AlbumService } from '../../../album/services/album.service';
-import { PlayerService } from 'src/app/player/services/player.service';
+import { PlayerService } from '../../../player/services/player.service';
 import { PlaylistItem, PlaylistService } from '../../../playlist/services/playlist.service';
+import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
 
 @Component({
   selector: 'app-track-container',
@@ -21,9 +21,9 @@ export class TrackContainerComponent {
   constructor(
     private route: ActivatedRoute,
     private trackService: TrackService,
-    private albumService: AlbumService,
     private playerService: PlayerService,
-    private playlistService: PlaylistService) {
+    private playlistService: PlaylistService,
+    private playlistDialog: PlaylistDialogService) {
     this.route.params.subscribe(params => {
       const album = decodeURIComponent(params.name);
       this.tracksResponse = this.trackService.getTracks(album);
@@ -44,5 +44,10 @@ export class TrackContainerComponent {
 
   queueTrack(item: PlaylistItem) {
     this.playlistService.addItem(item);
+
+    if (this.playlistService.playlist.length === 1 && !this.playerService.selectedFile) {
+      this.trackService.selectTrack({album: this.selectedAlbum.title, track: item.title, cover: item.cover});
+      this.playlistDialog.openPlaylist();
+    }
   }
 }

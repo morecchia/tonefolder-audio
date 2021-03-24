@@ -58,12 +58,12 @@ export class TrackListComponent {
     if (this.currentTrack === track) {
       this.trackToggled.emit();
     } else {
-      this.trackSelected.emit({track, cover: this.tracksResponse.cover});
+      this.trackSelected.emit({track, cover: this.coverArt});
     }
   }
 
-  queueTrack(track: string) {
-    this.trackQueued.emit({ title: `${this.selectedAlbum.title} - ${track}`, cover: this.coverArt });
+  queueTrack(title: string) {
+    this.trackQueued.emit({ album: this.selectedAlbum.title, title, cover: this.coverArt });
   }
 
   getDownloadLink(track: string) {

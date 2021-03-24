@@ -1,7 +1,12 @@
-<div class="track-name" [class.playing]="playing" (click)="trackSelected.emit(item.title)">
-  <img class="track-art" [src]="item.cover" />
-  <span>{{item.title}}</span>
+<div class="playlist-item" [class.playing]="playing">
+  <div class="item-details">
+    <img class="track-art" [src]="item.cover" />
+    <div class="item-title">
+      <span class="album-name">{{ item.album }}</span>
+      <span class="track-name">{{ item.title }}</span>
+    </div>
+  </div>
+  <a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.title">
+    <mat-icon>cloud_download</mat-icon>
+  </a>
 </div>
-<a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.title">
-  <mat-icon>cloud_download</mat-icon>
-</a>

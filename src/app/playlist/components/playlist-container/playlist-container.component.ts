@@ -1,16 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { PlaylistService } from '../../services/playlist.service';
+import { Component } from "@angular/core";
+import { PlayerService } from "src/app/player/services/player.service";
+import { TrackService } from "src/app/track/services/track.service";
+import { PlaylistDialogService } from "../../services/playlist-dialog.service";
+import { PlaylistItem, PlaylistService } from "../../services/playlist.service";
 
 @Component({
-  selector: 'app-playlist-container',
-  templateUrl: './playlist-container.component.html',
-  styleUrls: ['./playlist-container.component.scss']
+  selector: "app-playlist-container",
+  templateUrl: "./playlist-container.component.html",
+  styleUrls: ["./playlist-container.component.scss"],
 })
-export class PlaylistContainerComponent implements OnInit {
-  get playlistItems() { return this.playlistService.playlist; }
+export class PlaylistContainerComponent {
+  get playlistItems() {
+    return this.playlistService.playlist;
+  }
+  get currentTrack() {
+    return this.player.currentFile?.track;
+  }
 
-  constructor(private playlistService: PlaylistService) { }
+  constructor(
+    private playlistService: PlaylistService,
+    private player: PlayerService,
+    private trackService: TrackService
+  ) {}
 
-  ngOnInit(): void {
+  playItem(item: PlaylistItem) {
+    this.trackService.selectTrack({album: item.album, track: item.title, cover: item.cover });
+  }
+
+  clearPlaylist() {
+    this.playlistService.clearPlaylist();
   }
 }

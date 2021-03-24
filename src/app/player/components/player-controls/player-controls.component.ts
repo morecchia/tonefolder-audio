@@ -4,6 +4,7 @@ import { PlayerService } from '../../services/player.service';
 import { SelectedFile } from 'src/app/track/services/track.service';
 import { StartTime } from '../player-time/player-time.component';
 import { PlaylistContainerComponent } from 'src/app/playlist/components/playlist-container/playlist-container.component';
+import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
 
 @Component({
   selector: 'app-player-controls',
@@ -43,9 +44,8 @@ export class PlayerControlsComponent {
 
   volumeVisible: boolean;
 
-  dialogRef: MatDialogRef<PlaylistContainerComponent>;
-
   get playlist() { return this.playerService.playlist; }
+  get playlistState() { return this.playlistDialog.dialogRef && this.playlistDialog.dialogRef.getState(); }
   get playlistIndex() { return this.playerService.currentIndex; }
   get skipDisabled() {
     return !this.playlist
@@ -53,7 +53,10 @@ export class PlayerControlsComponent {
       || this.playlistIndex === this.playlist.length - 1;
   }
 
-  constructor(private playerService: PlayerService, private dialog: MatDialog) { }
+  constructor(
+    private playerService: PlayerService,
+    private playlistDialog: PlaylistDialogService,
+    private dialog: MatDialog) { }
 
   play() {
     this.playing = true;
@@ -84,7 +87,7 @@ export class PlayerControlsComponent {
   }
 
   togglePlaylist() {
-    if (this.dialogRef && this.dialogRef.getState() === MatDialogState.OPEN) {
+    if (this.playlistState === MatDialogState.OPEN) {
       this.closePlaylist();
     } else {
       this.openPlaylist();
@@ -92,19 +95,10 @@ export class PlayerControlsComponent {
   }
 
   openPlaylist() {
-    this.dialogRef = this.dialog.open(PlaylistContainerComponent, {
-      panelClass: 'playlist-modal',
-      hasBackdrop: false,
-      autoFocus: false,
-      disableClose: true,
-      position: {
-        bottom: '68px',
-        right: '8px',
-      }
-    });
+    this.playlistDialog.openPlaylist();
   }
 
   closePlaylist() {
-    this.dialogRef.close();
+    this.playlistDialog.dialogRef.close();
   }
 }

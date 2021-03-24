@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, HostBinding } from '@angular/core';
 import { PlaylistItem } from '../../services/playlist.service';
 
 @Component({
@@ -6,9 +6,10 @@ import { PlaylistItem } from '../../services/playlist.service';
   templateUrl: './playlist-item.component.html',
   styleUrls: ['./playlist-item.component.scss']
 })
-export class PlaylistItemComponent implements OnInit {
+export class PlaylistItemComponent {
   downloadLink: string;
 
+  @Input()
   playing: boolean;
 
   @Input()
@@ -17,8 +18,7 @@ export class PlaylistItemComponent implements OnInit {
   @Output()
   trackSelected = new EventEmitter<string>();
 
-  constructor() { }
-
-  ngOnInit(): void {
+  @HostBinding('class') get HeadingClass() {
+    return this.playing ? 'playing' : '';
   }
 }

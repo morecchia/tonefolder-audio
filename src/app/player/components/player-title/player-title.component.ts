@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { SelectedFile } from '../../../track/services/track.service';
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { SelectedFile } from "../../../track/services/track.service";
 
 @Component({
-  selector: 'app-player-title',
-  templateUrl: './player-title.component.html',
-  styleUrls: ['./player-title.component.scss']
+  selector: "app-player-title",
+  templateUrl: "./player-title.component.html",
+  styleUrls: ["./player-title.component.scss"],
 })
 export class PlayerTitleComponent {
   @Input()
@@ -13,11 +13,13 @@ export class PlayerTitleComponent {
   @Output()
   albumClicked = new EventEmitter<string>();
 
-  get album() { return this.selected && this.selected.album; }
-  get track() { return this.selected && this.selected.track; }
+  get album() {
+    return this.selected && this.selected.album;
+  }
+  get track() {
+    return this.selected && this.selected.track;
+  }
   get coverArt() {
-    return this.selected && this.selected.cover
-      ? this.selected && `/source/${this.album}/${this.selected.cover}`
-      : '/assets/images/subwoofer-100.png';
+    return this.selected && this.selected.cover;
   }
 }
