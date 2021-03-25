@@ -15,7 +15,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  
+
   &:hover, &.playing {
     cursor: pointer;
   }
@@ -35,7 +35,7 @@
       }
 
       .track-name {
-        max-width: 320px;
+        max-width: 350px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
