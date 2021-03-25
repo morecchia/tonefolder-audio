@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
-
-export interface PlaylistItem {
-  album: string;
-  title: string;
-  cover: string;
-}
+import { SelectedFile } from 'src/app/track/services/track.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
-  playlist: PlaylistItem[] = [];
+  playlist: SelectedFile[] = [];
 
   constructor() { }
 
-  addItem(item: PlaylistItem) {
+  addItem(item: SelectedFile) {
     if (!this.playlist || !this.playlist.find(i => this.itemExists(item, i))) {
       this.playlist.push(item);
     }
@@ -24,7 +19,7 @@ export class PlaylistService {
     this.playlist = [];
   }
 
-  private itemExists(item: PlaylistItem, source: PlaylistItem): boolean {
-    return `${source.album}-${source.title}` === `${item.album}-${item.title}`
+  private itemExists(item: SelectedFile, source: SelectedFile): boolean {
+    return `${source.album}-${source.track}` === `${item.album}-${item.track}`;
   }
 }

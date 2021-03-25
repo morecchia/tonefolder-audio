@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AudioService, StreamState } from './audio.service';
 import { SelectedFile, TrackService } from '../../track/services/track.service';
+import { PlaylistService } from 'src/app/playlist/services/playlist.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,15 @@ export class PlayerService {
   currentVolume: number;
   currentIndex = 0;
 
-  get playlist() { return this.trackService.currentTracks; }
+  get playlist() {
+    return this.playlistService.playlist && this.playlistService.playlist.length
+      ? this.playlistService.playlist : this.trackService.currentTracks;
+  }
 
-  constructor(private audioService: AudioService, private trackService: TrackService) {
+  constructor(
+    private audioService: AudioService,
+    private trackService: TrackService,
+    private playlistService: PlaylistService) {
     this.currentVolume = this.getStoredVolume();
 
     trackService.fileSelected$
@@ -22,7 +29,7 @@ export class PlayerService {
         this.audioService.stop();
         this.selectedFile = selected;
         this.currentFile = selected;
-        this.currentIndex = this.playlist ? this.playlist.indexOf(selected.track) : 0;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track === selected.track) : 0;
         this.load(`${selected.album}/${selected.track}`);
       });
 
@@ -57,9 +64,10 @@ export class PlayerService {
     this.audioService.stop();
   }
 
-  openFile(file: string) {
+  openFile(file: SelectedFile) {
     this.audioService.stop();
-    this.currentFile.track = file;
+    this.currentFile = file;
+    this.selectedFile = file;
     this.load(`${this.currentFile.album}/${this.currentFile.track}`);
   }
 

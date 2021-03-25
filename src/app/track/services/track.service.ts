@@ -29,8 +29,8 @@ export interface TracksResponse {
 export class TrackService {
   trackStorage: TrackStore[] = [];
 
-  albumTracks: string[];
-  currentTracks: string[];
+  albumTracks: SelectedFile[];
+  currentTracks: SelectedFile[];
   selectedAlbum: any;
 
   private fileSelected = new Subject<SelectedFile>();
@@ -52,7 +52,7 @@ export class TrackService {
         cover: stored.cover,
         trackCount: stored.tracks.length,
       };
-      this.albumTracks = stored.tracks;
+      this.albumTracks = stored.tracks.map(track => ({ album, track, cover: stored.cover }));
       return of({
         tracks: stored.tracks,
         cover: stored.cover,
@@ -65,13 +65,14 @@ export class TrackService {
       .get<TracksResponse>(`${this.config.serviceUrl}/tracks.php?album=${album}`)
       .pipe(
         map(res => {
+          const cover = res?.cover;
           this.loading = false;
           this.selectedAlbum = {
             title: album,
             cover: res?.cover,
             trackCount: res?.tracks.length,
           };
-          this.albumTracks = res?.tracks;
+          this.albumTracks = res?.tracks.map(track => ({ album, track, cover }));
           this.addToStore(album, res);
           return res;
         }),
@@ -82,8 +83,8 @@ export class TrackService {
         }));
   }
 
-  selectTrack(file: SelectedFile) {
-    this.currentTracks = this.albumTracks;
+  selectTrack(file: SelectedFile, playlist?: SelectedFile[]) {
+    this.currentTracks = playlist ? playlist : this.albumTracks;
     this.fileSelected.next(file);
   }
 

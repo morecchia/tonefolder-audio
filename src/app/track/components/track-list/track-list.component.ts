@@ -1,9 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FilterPipe } from '../../../pipes/filter.pipe';
-import { TracksResponse } from '../../services/track.service';
+import { SelectedFile, TracksResponse } from '../../services/track.service';
 import { StreamState } from '../../../player/services/audio.service';
-import { PlaylistItem } from 'src/app/playlist/services/playlist.service';
 
 @Component({
   selector: 'app-track-list',
@@ -30,7 +28,7 @@ export class TrackListComponent {
   trackToggled = new EventEmitter<void>();
 
   @Output()
-  trackQueued = new EventEmitter<PlaylistItem>();
+  trackQueued = new EventEmitter<SelectedFile>();
 
   query: string;
   filterForm: FormGroup;
@@ -62,8 +60,8 @@ export class TrackListComponent {
     }
   }
 
-  queueTrack(title: string) {
-    this.trackQueued.emit({ album: this.selectedAlbum.title, title, cover: this.coverArt });
+  queueTrack(track: string) {
+    this.trackQueued.emit({ album: this.selectedAlbum.title, track, cover: this.coverArt });
   }
 
   getDownloadLink(track: string) {

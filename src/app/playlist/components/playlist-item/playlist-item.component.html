@@ -3,10 +3,10 @@
     <img class="track-art" [src]="item.cover" />
     <div class="item-title">
       <span class="album-name">{{ item.album }}</span>
-      <span class="track-name">{{ item.title }}</span>
+      <span class="track-name">{{ item.track }}</span>
     </div>
   </div>
-  <a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.title">
+  <a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.track">
     <mat-icon>cloud_download</mat-icon>
   </a>
 </div>

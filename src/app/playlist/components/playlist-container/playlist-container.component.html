@@ -5,7 +5,7 @@
 <mat-dialog-content class="mat-typography">
   <mat-list role="list">
     <mat-list-item role="listitem" *ngFor="let item of playlistItems">
-      <app-playlist-item (click)="playItem(item)" [playing]="currentTrack === item.title" [item]="item"></app-playlist-item>
+      <app-playlist-item (click)="playItem(item)" [playing]="currentTrack === item.track" [item]="item"></app-playlist-item>
     </mat-list-item>
   </mat-list>
 </mat-dialog-content>

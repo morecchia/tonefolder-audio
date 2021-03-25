@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, HostBinding } from '@angular/core';
-import { PlaylistItem } from '../../services/playlist.service';
+import { SelectedFile } from 'src/app/track/services/track.service';
 
 @Component({
   selector: 'app-playlist-item',
@@ -13,7 +13,7 @@ export class PlaylistItemComponent {
   playing: boolean;
 
   @Input()
-  item: PlaylistItem;
+  item: SelectedFile;
 
   @Output()
   trackSelected = new EventEmitter<string>();

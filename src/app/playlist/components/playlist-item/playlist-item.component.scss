@@ -33,12 +33,19 @@
         font-size: .9em;
         color: rgba(0,0,0,.6);
       }
+
+      .track-name {
+        max-width: 320px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     .track-art {
       width: 32px;
       height: 32px;
-      padding-right: 8px;
+      padding-right: 12px;
     }
   }
 

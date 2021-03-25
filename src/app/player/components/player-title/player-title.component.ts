@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { SelectedFile } from "../../../track/services/track.service";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { SelectedFile } from '../../../track/services/track.service';
 
 @Component({
-  selector: "app-player-title",
-  templateUrl: "./player-title.component.html",
-  styleUrls: ["./player-title.component.scss"],
+  selector: 'app-player-title',
+  templateUrl: './player-title.component.html',
+  styleUrls: ['./player-title.component.scss'],
 })
 export class PlayerTitleComponent {
   @Input()
