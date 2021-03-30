@@ -1,7 +1,6 @@
 :host {
   display: flex;
   flex: 1;
-  align-items: center;
   padding: 6px;
 }
 
@@ -10,9 +9,18 @@
   border-left: 3px solid #ff319a;
 }
 
+.track-tool {
+  margin-right: 8px;
+}
+
+a.track-tool {
+  color: #333;
+}
+
 .track-name {
   flex: 1;
   display: flex;
+  margin-left: 1em;
   
   &:hover, &.playing {
     font-weight: 500;
@@ -21,14 +29,6 @@
   span {
     margin: 3px 0 0 6px;
   }
-}
-
-.track-tool {
-  margin-right: 1em;
-}
-
-a.track-tool {
-  color: #333;
 }
 
  .track-name:hover,

@@ -1,5 +1,6 @@
+<a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="title"><mat-icon>cloud_download</mat-icon></a>
+<span class="track-tool" matTooltip="Add to Queue" (click)="trackQueued.emit(title)"><mat-icon>playlist_add</mat-icon></span>
+
 <div class="track-name" [class.playing]="playing" (click)="trackSelected.emit(title)">
   <span>{{title}}</span>
 </div>
-<a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="title"><mat-icon>cloud_download</mat-icon></a>
-<span class="track-tool" matTooltip="Add to Queue" (click)="trackQueued.emit(title)"><mat-icon>playlist_add</mat-icon></span>
