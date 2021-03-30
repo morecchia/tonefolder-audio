@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const MATERIAL = [
   MatListModule,
@@ -24,6 +25,7 @@ const MATERIAL = [
   MatTooltipModule,
   MatProgressBarModule,
   MatDialogModule,
+  DragDropModule,
 ];
 
 @NgModule({

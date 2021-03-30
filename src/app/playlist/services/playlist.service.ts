@@ -25,6 +25,12 @@ export class PlaylistService {
     this.playlist = [];
   }
 
+  reorderPlaylist(current: number, item: SelectedFile) {
+    const currentItem = Object.assign({}, this.playlist[current]);
+    this.playlist.splice(current, 1, currentItem);
+    this.playlistUpdated.next(item.track);
+  }
+
   private itemExists(item: SelectedFile, source: SelectedFile): boolean {
     return `${source.album}-${source.track}` === `${item.album}-${item.track}`;
   }

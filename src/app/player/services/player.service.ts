@@ -24,7 +24,7 @@ export class PlayerService {
     private playlistService: PlaylistService) {
     this.currentVolume = this.getStoredVolume();
 
-    trackService.fileSelected$
+    this.trackService.fileSelected$
       .subscribe(selected => {
         this.audioService.stop();
         this.selectedFile = selected;
@@ -40,6 +40,11 @@ export class PlayerService {
 
     this.audioService.audioEnded$
       .subscribe(() => this.next());
+
+    this.playlistService.playlistUpdated$
+      .subscribe(() => {
+        this.currentIndex = this.playlist.findIndex(i => this.currentFile && i.track === this.currentFile.track);
+      });
   }
 
   load(track: string) {
