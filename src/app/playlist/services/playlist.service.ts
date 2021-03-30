@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 export interface PlaylistItem {
   album: string;
@@ -11,6 +12,9 @@ export interface PlaylistItem {
 })
 export class PlaylistService {
   playlist: PlaylistItem[] = [];
+  
+  private playlistUpdated = new Subject<string>();
+  playlistUpdated$ = this.playlistUpdated.asObservable();
 
   constructor() { }
 
@@ -18,6 +22,8 @@ export class PlaylistService {
     if (!this.playlist || !this.playlist.find(i => this.itemExists(item, i))) {
       this.playlist.push(item);
     }
+
+    this.playlistUpdated.next(item.title);
   }
 
   clearPlaylist() {

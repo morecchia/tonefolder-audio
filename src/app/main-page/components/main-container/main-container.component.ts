@@ -1,9 +1,10 @@
 import { Component, HostListener } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AudioService } from '../../../player/services/audio.service';
 import { PlayerService } from '../../../player/services/player.service';
 import { TrackService } from '../../../track/services/track.service';
 import { AlbumService } from '../../../album/services/album.service';
+import { PlaylistService } from 'src/app/playlist/services/playlist.service';
 
 @Component({
   selector: 'app-main-container',
@@ -26,16 +27,17 @@ export class MainContainerComponent {
     private albumService: AlbumService,
     private audioService: AudioService,
     private playerService: PlayerService,
+    private playlistService: PlaylistService,
     private snackBar: MatSnackBar) {
-    this.audioService.audioFailed$.subscribe(() => this.showError('Could not play track'));
-    this.trackService.loadingError$.subscribe(() => this.showError('Could not load tracks'));
-    this.albumService.loadingError$.subscribe(() => this.showError('Could not load albums'));
+    this.audioService.audioFailed$.subscribe(() => this.showToast('Could not play track', 'error-state'));
+    this.trackService.loadingError$.subscribe(() => this.showToast('Could not load tracks', 'error-state'));
+    this.albumService.loadingError$.subscribe(() => this.showToast('Could not load albums', 'error-state'));
+    this.playlistService.playlistUpdated$.subscribe(title => this.showToast(`${title} added to playlist!`));
   }
 
-  showError(message: string) {
-    this.snackBar.open(message, 'Ok', {
-      panelClass: 'error-state'
-    });
+  showToast(message: string, state?: string) {
+    const options: MatSnackBarConfig = state ? { panelClass: state, duration: 2000 } : { duration: 2000 };
+    this.snackBar.open(message, 'Ok', options);
   }
 
   private togglePlay() {
