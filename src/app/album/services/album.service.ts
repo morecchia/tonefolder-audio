@@ -13,9 +13,6 @@ export class AlbumService {
 
   constructor(private http: HttpClient, private config: AppConfig) { }
 
-  private albumSelected = new Subject<string>();
-  albumSelected$ = this.albumSelected.asObservable();
-
   private onAlbumsFiltered = new Subject<string>();
   albumsFiltered$ = this.onAlbumsFiltered.asObservable();
 
@@ -31,14 +28,13 @@ export class AlbumService {
   }
 
   getCurrentAlbum(albums: any[]) {
-    const storedAlbum = localStorage.getItem('current-album');
+    const storedAlbum = localStorage.getItem('tfa-current-album');
     return storedAlbum || albums[0];
   }
 
   selectAlbum(album: string) {
     this.currentAlbum = album;
-    localStorage.setItem('current-album', album);
-    this.albumSelected.next(album);
+    localStorage.setItem('tfa-current-album', album);
   }
 
   filterAlbums(query: string) {

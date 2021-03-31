@@ -1,5 +1,5 @@
 <div class="player-title-container">
-    <a class="player-title-image">
+    <a class="player-title-image" (click)="albumClicked.emit(album)">
         <div>
             <img [src]="coverArt" [alt]="track">
             <span class="player-image-icon">

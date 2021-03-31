@@ -15,7 +15,8 @@ export class PlayerService {
 
   get playlist() {
     return this.playlistService.playlist && this.playlistService.playlist.length
-      ? this.playlistService.playlist : this.trackService.currentTracks;
+      ? this.playlistService.playlist
+      : this.trackService.currentTracks;
   }
 
   constructor(
@@ -23,7 +24,7 @@ export class PlayerService {
     private trackService: TrackService,
     private playlistService: PlaylistService) {
     this.currentVolume = this.getStoredVolume();
-
+    this.selectedFile = JSON.parse(localStorage.getItem('tfa-lastPlayed'));
     this.trackService.fileSelected$
       .subscribe(selected => {
         this.audioService.stop();
@@ -31,6 +32,7 @@ export class PlayerService {
         this.currentFile = selected;
         this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track === selected.track) : 0;
         this.load(`${selected.album}/${selected.track}`);
+        localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
 
     this.audioService.getState()
@@ -108,12 +110,12 @@ export class PlayerService {
     this.currentVolume = rounded;
 
     if (store) {
-      localStorage.setItem('player-volume', volume.toString());
+      localStorage.setItem('tfa-player-volume', volume.toString());
     }
   }
 
   getStoredVolume() {
-    const storedVolume = localStorage.getItem('player-volume');
+    const storedVolume = localStorage.getItem('tfa-player-volume');
     return parseInt(storedVolume) || 50;
   }
 }

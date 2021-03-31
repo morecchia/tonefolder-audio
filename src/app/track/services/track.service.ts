@@ -72,7 +72,8 @@ export class TrackService {
             cover: res?.cover,
             trackCount: res?.tracks.length,
           };
-          this.albumTracks = res?.tracks.map(track => ({ album, track, cover }));
+          this.albumTracks = res?.tracks.map(track => ({ album, track, cover: `/source/${album}/${cover}` }));
+          this.currentTracks = this.albumTracks;
           this.addToStore(album, res);
           return res;
         }),

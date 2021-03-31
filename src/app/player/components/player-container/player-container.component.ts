@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlbumService } from '../../../album/services/album.service';
 import { PlayerService } from '../../../player/services/player.service';
 
@@ -17,7 +18,10 @@ export class PlayerContainerComponent {
   get trackTime() { return this.playerService.state.currentTime; }
   get trackTimeReadable() { return this.playerService.state.readableCurrentTime || '00:00:00'; }
 
-  constructor(private playerService: PlayerService, private albumService: AlbumService) { }
+  constructor(
+    private router: Router,
+    private playerService: PlayerService,
+    private albumService: AlbumService) { }
 
   trackSeek(value: number) {
     this.playerService.seek(value);
@@ -25,5 +29,6 @@ export class PlayerContainerComponent {
 
   loadAlbum(album: string) {
     this.albumService.selectAlbum(album);
+    this.router.navigate(['/', encodeURIComponent(album)]);
   }
 }
