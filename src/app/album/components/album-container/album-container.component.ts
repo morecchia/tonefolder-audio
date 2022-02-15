@@ -20,8 +20,8 @@ export class AlbumContainerComponent implements OnInit{
     this.albumsRequest$ = this.albumService.getAlbums()
       .pipe(
         tap(res => {
-          const album = this.albumService.getCurrentAlbum(res.albums);
-          this.selectAlbum(album);
+          // const album = this.albumService.getCurrentAlbum(res.albums);
+          // this.selectAlbum(album);
         })
       );
   }

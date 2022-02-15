@@ -1,6 +1,10 @@
 <div class="main-page">
+  <div class="site-header">
+    <img src="https://1.gravatar.com/avatar/15f4066132eebc5db529115d11285fa5">
+    <h2>{{title}}</h2>
+  </div>
   <div [class.player-open]="fileSelected" class="main-content">
-    <app-sidenav></app-sidenav>
+    <app-main-content></app-main-content>
   </div>
   <div [class.closed]="!fileSelected" class="main-player">
     <app-player-container></app-player-container>
