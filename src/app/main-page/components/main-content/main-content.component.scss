@@ -4,52 +4,11 @@
   overflow-y: hidden;
 }
 
-.sidebar, .main {
+.main {
   display: flex;
+  flex: 1;
   flex-direction: column;
   height: 100%;
-}
-
-.sidebar {
-  width: 340px;
-  background: #4e4e4e;
-
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 1px;
-    background-color: #7a7a7a;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    border-radius: 1px;
-    background: rgba(0,0,0,.1);
-  }
-}
-
-.site-header {
-  display: flex;
-  align-items: center;
-  background: rgba(0,0,0,.1);
-  padding: 1em;
-  text-align: center;
-
-  img {
-    border-radius: 50%;
-    overflow: hidden;
-		border: 4px solid #fafafa;
-    box-shadow: 0 0 0 4px rgba(255,255,255,0.2);
-    width: 60px;
-    margin-right: 1em;
-  }
-
-  h2 {
-    margin: 0;
-  }
-}
-
-.main {
-  flex: 1;
 }
 
 .content {

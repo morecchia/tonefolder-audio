@@ -57,6 +57,10 @@
 }
 
 @media (min-width: 820px) {
+  :host {
+    width: 320px;
+  }
+
   .player-title-placeholder,
   .playing-title-link {
     max-width: 300px;
