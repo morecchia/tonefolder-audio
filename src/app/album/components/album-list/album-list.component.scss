@@ -15,4 +15,6 @@
 .album-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  margin-right: -13px;
 }
