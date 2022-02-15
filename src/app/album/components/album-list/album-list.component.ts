@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FilterPipe } from '../../../pipes/filter.pipe';
 import { AlbumService } from '../../services/album.service';
 
 @Component({

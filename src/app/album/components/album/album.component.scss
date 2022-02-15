@@ -1,3 +1,16 @@
-:host.selected, span:hover {
+:host {
+  padding: 0 20px 20px 0;
+  width: 14.97%;
+  cursor: pointer;
+}
+
+:host:hover {
+  span {
     color: #ababab;
+  }
+}
+
+img {
+  max-width: 100%;
+  border: 1px solid #cecece;
 }

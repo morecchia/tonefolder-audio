@@ -28,6 +28,6 @@ export class AlbumContainerComponent implements OnInit{
 
   selectAlbum(album: string ) {
     this.albumService.selectAlbum(album);
-    this.router.navigate(['/', encodeURIComponent(album)]);
+    this.router.navigate(['/tracks', encodeURIComponent(album)]);
   }
 }
