@@ -6,9 +6,13 @@ import { COMPONENTS } from './components';
 import { MaterialModule } from '../material/material.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { AlbumRoutingModule } from './album-routing.module';
+import { LazyImgDirective } from '../directives';
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [
+    ...COMPONENTS,
+    LazyImgDirective
+  ],
   imports: [
     CommonModule,
     RouterModule,
