@@ -40,14 +40,10 @@
 }
 
 .main-content {
-  display: flex;
+  flex: 1 1 auto;
   overflow-y: auto;
+  min-height: 0px;
   color: #333;
-  width: 1180px;
-  height: 100%;
-  background: #fafafa;
-  margin: 0 auto;
-  padding: 0 30px;
 }
 
 .main-player {

@@ -1,14 +1,9 @@
-:host {
-  display: flex;
-  flex: 1;
-  overflow-y: hidden;
-}
-
 .main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+  width: 1180px;
   height: 100%;
+  background: #fafafa;
+  margin: 0 auto;
+  padding: 0 30px;
 }
 
 .content {
