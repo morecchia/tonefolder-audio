@@ -12,6 +12,12 @@ export class AlbumComponent {
   @Input()
   selected: boolean;
 
+  get coverArt() {
+    return this.title
+      ? `/source/${this.title}/cover.jpg`
+      : '/assets/images/subwoofer-100.png';
+  }
+
   @HostBinding('class') get HeadingClass() {
     return this.selected ? 'selected' : '';
   }

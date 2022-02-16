@@ -1,7 +1,19 @@
-.search-header, .main {
-  padding: 1em 1em 0 0;
+.search-header {
+  display: flex;
+  justify-content: flex-end;
+  
+  .form-wrapper{
+    float: right;
+    width: 200px;
+  }
 
   .mat-form-field {
     width: 100%;
   }
+}
+
+.album-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -18px;
 }

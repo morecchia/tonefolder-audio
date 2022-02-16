@@ -1,12 +1,16 @@
 <div class="search-header" [formGroup]="filterForm">
-  <mat-form-field>
-    <mat-label>Albums</mat-label>
-    <input formControlName="albumFilter" matInput placeholder="Search Albums">
-  </mat-form-field>
+  <div class="form-wrapper">
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input formControlName="albumFilter" matInput placeholder="Search Albums" autocomplete="off">
+    </mat-form-field>
+  </div>
 </div>
 
-<mat-list role="list" *ngIf="albumsRequest">
-  <mat-list-item (click)="albumSelected.emit(album)" role="listitem" *ngFor="let album of albums | filter : query">
-    <app-album [title]="album" [selected]="album === currentAlbum"></app-album>
-  </mat-list-item>
-</mat-list>
+<div class="album-list" *ngIf="albumsRequest">
+    <app-album *ngFor="let album of albums | filter : query"
+      (click)="albumSelected.emit(album)"
+      [title]="album"
+      [selected]="album === currentAlbum">
+    </app-album>
+</div>

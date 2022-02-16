@@ -20,14 +20,14 @@ export class AlbumContainerComponent implements OnInit{
     this.albumsRequest$ = this.albumService.getAlbums()
       .pipe(
         tap(res => {
-          const album = this.albumService.getCurrentAlbum(res.albums);
-          this.selectAlbum(album);
+          // const album = this.albumService.getCurrentAlbum(res.albums);
+          // this.selectAlbum(album);
         })
       );
   }
 
   selectAlbum(album: string ) {
     this.albumService.selectAlbum(album);
-    this.router.navigate(['/', encodeURIComponent(album)]);
+    this.router.navigate(['/tracks', encodeURIComponent(album)]);
   }
 }
