@@ -12,7 +12,7 @@ import { PlaylistService } from 'src/app/playlist/services/playlist.service';
   styleUrls: ['./main-container.component.scss']
 })
 export class MainContainerComponent {
-  title = 'tonefolder-audio';
+  title = 'tonefolder audio';
 
   get fileSelected() { return this.playerService.selectedFile; }
 
