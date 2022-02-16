@@ -1,10 +1,14 @@
 <div class="main-page">
   <div class="site-header">
     <div class="header-wrapper">
-      <h2 [routerLink]="['/albums']">
+      <h2 [routerLink]="['/']">
         <img src="https://1.gravatar.com/avatar/15f4066132eebc5db529115d11285fa5">
         <span>{{title}}</span>
       </h2>
+      <ul class="nav">
+        <li [routerLink]="['/albums']">Albums</li>
+        <li [routerLink]="['/library']">Sample Library</li>
+      </ul>
     </div>
   </div>
   <div [class.player-open]="fileSelected" class="main-content">

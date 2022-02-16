@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TrackContainerComponent } from './components';
+import { LibraryContainerComponent } from './library-container/library-container.component';
 
 const routes: Routes = [
-  { path: '', component: TrackContainerComponent },
+  { path : '', component : LibraryContainerComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TrackRoutingModule { }
+export class LibraryRoutingModule { }

@@ -3,9 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path : '',
-    loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule)
+    path : 'albums',
+    loadChildren: () => import('./album/album.module').then(m => m.AlbumModule)
   },
+  {
+    path : 'tracks/:name',
+    loadChildren: () => import('./track/track.module').then(m => m.TrackModule)
+  },
+  {
+    path : 'library',
+    loadChildren: () => import('./library/library.module').then(m => m.LibraryModule)
+  },
+  {
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

@@ -17,13 +17,7 @@ export class AlbumContainerComponent implements OnInit{
   constructor(private router: Router, private albumService: AlbumService) { }
 
   ngOnInit() {
-    this.albumsRequest$ = this.albumService.getAlbums()
-      .pipe(
-        tap(res => {
-          // const album = this.albumService.getCurrentAlbum(res.albums);
-          // this.selectAlbum(album);
-        })
-      );
+    this.albumsRequest$ = this.albumService.getAlbums();
   }
 
   selectAlbum(album: string ) {

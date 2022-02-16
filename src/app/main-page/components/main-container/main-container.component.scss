@@ -14,12 +14,25 @@
   display: flex;
   align-items: center;
   background: #333;
-  padding: 1em;
+  padding: 10px;
   text-align: center;
 
   .header-wrapper {
+    display: flex;
+    justify-content: flex-end;
     width: 1240px;
     margin: 0 auto;
+  }
+
+  ul.nav {
+    list-style: none;
+    color: #fafafa;
+
+    li {
+      padding: 0 12px;
+      display: inline-block;
+      cursor: pointer;
+    }
   }
 
   img {
@@ -34,8 +47,9 @@
   h2 {
     display: flex;
     align-items: center;
-    margin: 0;
+    margin: 0 auto 0 0;
     cursor: pointer;
+    width: 25%;
   }
 }
 
