@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
 
 export interface StreamState {
   playing: boolean;
@@ -18,6 +19,10 @@ export interface StreamState {
   providedIn: 'root'
 })
 export class AudioService {
+  constructor() {
+    dayjs.extend(utc);
+  }
+
   private error$ = new Subject();
   audioFailed$ = this.error$.asObservable();
 
@@ -100,9 +105,9 @@ export class AudioService {
     this.audioObj.currentTime = seconds;
   }
 
-  formatTime(time: number, format: string = 'HH:mm:ss') {
-    const momentTime = time * 1000;
-    return moment.utc(momentTime).format(format);
+  formatTime(seconds: number, format: string = 'HH:mm:ss') {
+    const time = seconds * 1000;
+    return dayjs.utc(time).format(format);
   }
 
   setVolume(volume: number) {

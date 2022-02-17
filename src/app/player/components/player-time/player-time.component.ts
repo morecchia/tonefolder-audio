@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl} from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import * as moment from 'moment';
 
 export interface StartTime {
   duration: number;
@@ -32,10 +30,6 @@ export class PlayerTimeComponent implements OnInit, OnDestroy {
 
   @Output()
   trackSeek = new EventEmitter<StartTime>();
-
-  get durationSeconds() {
-    return moment.duration(this.duration, 'seconds').asSeconds();
-  }
 
   constructor() { }
 
