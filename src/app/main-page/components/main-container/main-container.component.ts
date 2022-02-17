@@ -15,6 +15,7 @@ export class MainContainerComponent {
   title = 'tonefolder audio';
 
   get fileSelected() { return this.playerService.selectedFile; }
+  get tracksLoading() { return this.trackService.loading; }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

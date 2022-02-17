@@ -10,7 +10,7 @@
   height: 100%;
 }
 
-.site-header {
+.main-header {
   display: flex;
   align-items: center;
   background: #333;
@@ -24,6 +24,25 @@
     margin: 0 auto;
   }
 
+  h2 {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    margin: 0 auto 0 6px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+
+    img {
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #fafafa;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
+      width: 26px;
+      margin-right: 1em;
+    }
+  }
+
   ul.nav {
     list-style: none;
     color: #fafafa;
@@ -34,32 +53,25 @@
       cursor: pointer;
     }
   }
-
-  img {
-    border-radius: 50%;
-    overflow: hidden;
-		border: 2px solid #fafafa;
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
-    width: 26px;
-    margin-right: 1em;
-  }
-
-  h2 {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    margin: 0 auto 0 6px;
-    font-size: 18px;
-    font-weight: 400;
-    cursor: pointer;
-  }
 }
 
 .main-content {
+  display: flex;
   flex: 1 1 auto;
   overflow-y: auto;
   min-height: 0px;
   color: #333;
+}
+
+.content {
+  width: 1180px;
+  background: #fafafa;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.progress {
+  min-height: 4px;
 }
 
 .main-player {

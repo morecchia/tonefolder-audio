@@ -1,5 +1,5 @@
 <div class="main-page">
-  <div class="site-header">
+  <div class="main-header">
     <div class="header-wrapper">
       <h2 [routerLink]="['/']">
         <img src="https://1.gravatar.com/avatar/15f4066132eebc5db529115d11285fa5">
@@ -11,9 +11,16 @@
       </ul>
     </div>
   </div>
+
   <div [class.player-open]="fileSelected" class="main-content">
-    <app-main-content></app-main-content>
+    <div class="progress">
+      <mat-progress-bar *ngIf="tracksLoading" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
   </div>
+  
   <div [class.closed]="!fileSelected" class="main-player">
     <app-player-container></app-player-container>
   </div>
