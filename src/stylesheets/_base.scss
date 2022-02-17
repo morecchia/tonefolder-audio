@@ -1,10 +1,11 @@
 @import 'variables';
 
-.container {
-  margin: 1em;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.content > * {
+  display: block;
+  width: calc(100vw - 68px);
+  max-width: stretch;
+  max-width: -webkit-fill-available;
+  max-width: -moz-available;
 }
 
 .error-state {

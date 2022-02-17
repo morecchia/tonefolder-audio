@@ -2,9 +2,9 @@
   display: flex;
   justify-content: flex-end;
   
-  .form-wrapper{
-    float: right;
-    width: 200px;
+  .form-wrapper {
+    width: 300px;
+    margin-right: 8px;
   }
 
   .mat-form-field {
@@ -15,5 +15,5 @@
 .album-list {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -18px;
+  justify-content: center;
 }
