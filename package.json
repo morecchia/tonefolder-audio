@@ -9,7 +9,8 @@
     "stats": "webpack-bundle-analyzer dist/tonefolder-audio/stats-es2015.json",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "server": "server.bat"
   },
   "private": true,
   "dependencies": {

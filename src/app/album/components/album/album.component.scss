@@ -63,3 +63,9 @@
     height: 100px;
   }
 }
+
+@media (max-width: 290px) {
+  .album-container span {
+    max-width: 100px;
+  }
+}

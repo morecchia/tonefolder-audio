@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { SelectedFile, TracksResponse } from '../../services/track.service';
 import { StreamState } from '../../../player/services/audio.service';
 
@@ -30,8 +29,6 @@ export class TrackListComponent {
   @Output()
   trackQueued = new EventEmitter<SelectedFile>();
 
-  query: string;
-  filterForm: FormGroup;
   playingIndex: number;
 
   get trackCount() { return this.selectedAlbum?.trackCount; }
@@ -40,17 +37,10 @@ export class TrackListComponent {
       ? `/source/${this.selectedAlbum.title}/${this.selectedAlbum.cover}`
       : '/assets/images/subwoofer-100.png';
   }
-  get tracks() { return this.tracksResponse.tracks.sort(); }
-
-  constructor(private fb: FormBuilder) {
-    this.filterForm = this.fb.group({
-      trackFilter: ['']
-    });
-
-    this.filterForm.valueChanges.subscribe(f => {
-      this.query = f.trackFilter;
-    });
+  get album() {
+    return this.selectedAlbum && this.selectedAlbum.title.split(' - ').reverse();
   }
+  get tracks() { return this.tracksResponse.tracks.sort(); }
 
   selectTrack(track: string) {
     if (this.currentTrack === track) {

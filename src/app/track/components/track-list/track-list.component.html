@@ -1,23 +1,15 @@
 <div class="tracklist-header">
-  <div class="album-title">
-    <img [src]="coverArt" [alt]="selectedAlbum?.title">
     <div class="album-details">
-      <h2>{{selectedAlbum?.title}}</h2>
+      <h2>{{album && album[0]}}</h2>
+      <span class="artist">{{album && album[1]}}</span>
       <span class="track-count">{{trackCount}} tracks</span>
     </div>
-  </div>
+    <img [src]="coverArt" [alt]="selectedAlbum?.title">
 </div>
 
 <div class="tracklist-container">
-  <div class="track-search" [formGroup]="filterForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Search Tracks</mat-label>
-      <input formControlName="trackFilter" matInput placeholder="Filter">
-    </mat-form-field>
-  </div>
-
   <mat-list role="list" *ngIf="tracksResponse">
-    <mat-list-item role="listitem" *ngFor="let track of tracks | filter : query">
+    <mat-list-item role="listitem" *ngFor="let track of tracks">
       <app-track
         [title]="track"
         [playing]="currentTrack === track"
