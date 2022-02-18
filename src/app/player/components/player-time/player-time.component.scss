@@ -25,3 +25,9 @@
 .mat-slider-horizontal {
   flex: 1;
 }
+
+@media (max-width: 415px) {
+  .player-time-wrapper {
+    display: none;
+  }
+}

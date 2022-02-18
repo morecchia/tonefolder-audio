@@ -84,3 +84,23 @@
   max-height: 0;
   padding: 0;
 }
+
+@media (max-width: 440px) {
+  .main-header {
+    .header-wrapper {
+      padding: 6px 0;
+    }
+    
+    h2 {
+      width: 60px;
+
+      img {
+        width: 40px;
+      }
+    
+      span {
+        display: none;
+      }
+    }
+  }
+}

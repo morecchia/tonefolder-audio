@@ -1,13 +1,18 @@
 <div class="player-controls">
-  <button class="player-control button-play" mat-icon-button aria-label="Pause" (click)="pause()" *ngIf="!loading && playing">
-    <mat-icon>pause</mat-icon>
-  </button>
-  <button class="player-control button-play" mat-icon-button aria-label="Play" (click)="play()" *ngIf="!loading && !playing">
-    <mat-icon>play_arrow</mat-icon>
-  </button>
-  <span *ngIf="loading" class="play-progress">
-    <mat-spinner [diameter]="20"></mat-spinner>
-  </span>
+  <div class="player-transport">
+    <button class="player-control button-play" mat-icon-button aria-label="Pause" (click)="pause()" *ngIf="playing">
+      <mat-icon>pause</mat-icon>
+    </button>
+    <button class="player-control button-play" mat-icon-button aria-label="Play" (click)="play()" *ngIf="!playing">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button class="player-control" mat-icon-button aria-label="Skip Previous" (click)="skipPrev()">
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+    <button class="player-control" mat-icon-button aria-label="Skip Next" [disabled]="skipDisabled" (click)="skipNext()">
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </div>
 
   <app-player-time
     [playerTime]="playerTime"
@@ -16,15 +21,6 @@
     [durationFormatted]="durationFormatted"
     (trackSeek)="trackSeek.emit($event)">
   </app-player-time>
-
-  <div class="player-transport">
-    <button class="player-control" mat-icon-button aria-label="Skip Previous" (click)="skipPrev()">
-      <mat-icon>skip_previous</mat-icon>
-    </button>
-    <button class="player-control" mat-icon-button aria-label="Skip Next" [disabled]="skipDisabled" (click)="skipNext()">
-      <mat-icon>skip_next</mat-icon>
-    </button>
-  </div>
 
   <div class="volume-wrapper">
     <button class="player-control" mat-icon-button

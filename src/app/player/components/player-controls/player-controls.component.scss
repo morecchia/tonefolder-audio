@@ -6,15 +6,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
-  .play-progress {
-    height: 48px;
-    width: 48px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 .player-transport {
@@ -24,6 +15,10 @@
 
   button {
     width: 28px;
+  }
+
+  .button-play {
+    margin-right: 1em;
   }
 }
 

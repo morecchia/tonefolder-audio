@@ -1,7 +1,9 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding: 1em 1em 1em 0;;
+  padding: 1em;
+  max-width: 600px;
+    margin: 0 auto;
 }
 
 .tracklist-header {
@@ -35,16 +37,12 @@
       }
     }
   }
-  
-  .track-search {
-    display: flex;
-    margin-top: 1em;
-    flex: 1;
+}
 
-    .spacer {
-      flex: 1;
-    }
-  }
+.track-search {
+  display: flex;
+  margin-top: 1em;
+  flex: 1;
 }
 
 .mat-list-item:hover {

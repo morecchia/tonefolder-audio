@@ -1,10 +1,10 @@
 .search-header {
   display: flex;
-  justify-content: flex-end;
-  
+  justify-content: center;
+  padding: 8px 0;
+
   .form-wrapper {
-    width: 300px;
-    margin-right: 8px;
+    width: 400px;
   }
 
   .mat-form-field {

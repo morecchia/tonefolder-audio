@@ -6,23 +6,25 @@
       <span class="track-count">{{trackCount}} tracks</span>
     </div>
   </div>
-
-  <div class="track-search" [formGroup]="filterForm">
-    <mat-form-field>
-      <mat-label>Tracks</mat-label>
-      <input formControlName="trackFilter" matInput placeholder="Search Tracks">
-    </mat-form-field>
-  </div>
 </div>
 
-<mat-list role="list" *ngIf="tracksResponse">
-  <mat-list-item role="listitem" *ngFor="let track of tracks | filter : query">
-    <app-track
-      [title]="track"
-      [playing]="currentTrack === track"
-      [downloadLink]="getDownloadLink(track)"
-      (trackSelected)="selectTrack($event)"
-      (trackQueued)="queueTrack($event)">
-    </app-track>
-  </mat-list-item>
-</mat-list>
+<div class="tracklist-container">
+  <div class="track-search" [formGroup]="filterForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Search Tracks</mat-label>
+      <input formControlName="trackFilter" matInput placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+  <mat-list role="list" *ngIf="tracksResponse">
+    <mat-list-item role="listitem" *ngFor="let track of tracks | filter : query">
+      <app-track
+        [title]="track"
+        [playing]="currentTrack === track"
+        [downloadLink]="getDownloadLink(track)"
+        (trackSelected)="selectTrack($event)"
+        (trackQueued)="queueTrack($event)">
+      </app-track>
+    </mat-list-item>
+  </mat-list>
+</div>

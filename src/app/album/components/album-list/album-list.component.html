@@ -1,8 +1,9 @@
 <div class="search-header" [formGroup]="filterForm">
   <div class="form-wrapper">
-    <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input formControlName="albumFilter" matInput placeholder="Search Albums" autocomplete="off">
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-label>Search Albums</mat-label>
+      <input formControlName="albumFilter" matInput placeholder="Filter" autocomplete="off">
     </mat-form-field>
   </div>
 </div>
