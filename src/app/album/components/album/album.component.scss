@@ -1,16 +1,65 @@
-:host {
+.album-container {
   cursor: pointer;
   width: 180px;
   padding: 0 8px 16px 8px;
+
+  img {
+    max-width: 100%;
+    border: 1px solid #cecece;
+  }
+  
+  span {
+    display: block;
+    font-weight: 500;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
-:host:hover {
+.album-container:hover {
   span {
     color: #ababab;
   }
 }
 
-img {
-  max-width: 100%;
-  border: 1px solid #cecece;
+.album-info {
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+}
+
+.album-title {
+  color: #4a4a4a;
+}
+.album-artist {
+  color:#aaa;
+  font-size: 12px;
+}
+
+@media (max-width: 460px) {
+  :host{
+    width: 100%;
+  }
+
+  .album-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 0 16px 0;
+  }
+
+  .album-info {
+    padding-left: 1em;
+  }
+
+  .album-container span {
+    max-width: 290px;
+  }
+
+  .album-container img {
+    width: 100px;
+    height: 100px;
+  }
 }

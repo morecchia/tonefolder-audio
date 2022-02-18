@@ -18,6 +18,10 @@ export class AlbumComponent {
       : '/assets/images/subwoofer-100.png';
   }
 
+  get album() {
+    return this.title.split(' - ').reverse();
+  }
+
   @HostBinding('class') get HeadingClass() {
     return this.selected ? 'selected' : '';
   }

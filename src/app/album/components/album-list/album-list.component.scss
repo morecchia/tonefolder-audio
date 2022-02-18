@@ -17,3 +17,9 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+@media (max-width: 460px) {
+  .album-list {
+    justify-content: flex-start;
+  }
+}
