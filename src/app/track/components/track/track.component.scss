@@ -1,7 +1,6 @@
 :host {
   display: flex;
   flex: 1;
-  padding: 6px 6px 0;
 }
 
 :host.playing {
@@ -20,7 +19,6 @@ a.track-tool {
 .track-name {
   flex: 1;
   display: flex;
-  margin-left: 1em;
   
   &:hover, &.playing {
     font-weight: 500;
@@ -28,10 +26,43 @@ a.track-tool {
 
   span {
     margin: 3px 0 0 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
  .track-name:hover,
  .track-tool:hover {
   cursor: pointer;
+ }
+
+ @media (max-width: 820px) {
+  .track-name span {
+    max-width: 640px;
+  }
+ }
+
+ @media (max-width: 768px) {
+  .track-name span {
+    max-width: 520px;
+  }
+ }
+
+ @media (max-width: 600px) {
+  .track-name span {
+    max-width: 480px;
+  }
+ }
+
+ @media (max-width: 540px) {
+  .track-name span {
+    max-width: 390px;
+  }
+ }
+ 
+ @media (max-width: 415px) {
+  .track-name span {
+    max-width: 240px;
+  }
  }

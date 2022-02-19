@@ -9,20 +9,16 @@ mat-sidenav {
   font-size: 14px;
 }
 
-.main-content .sidebar .mat-list-base .mat-list-item {
-  color: #fafafa;
-}
-
-.main .content .mat-list-base .mat-list-item .mat-list-item-content {
-  padding: 0;
-}
-
 .mat-list-item {
   cursor: pointer;
 }
 
 .mat-list-item:hover {
   color: $primary;
+}
+
+.tracklist-container .mat-list .mat-list-item .mat-list-item-content {
+  padding: 0;
 }
 
 .mat-spinner,
