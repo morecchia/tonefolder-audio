@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { PlaylistModule } from '../playlist/playlist.module';
 import { COMPONENTS } from './components';
-import { PIPES } from './pipes';
 
 @NgModule({
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS],
   imports: [
     CommonModule,
     FormsModule,
@@ -15,6 +14,6 @@ import { PIPES } from './pipes';
     MaterialModule,
     PlaylistModule,
   ],
-  exports: [...COMPONENTS, ...PIPES],
+  exports: [...COMPONENTS],
 })
 export class PlayerModule { }

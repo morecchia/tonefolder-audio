@@ -1,8 +1,5 @@
 :host {
   flex: 1;
-}
-
-.player-time-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +24,7 @@
 }
 
 @media (max-width: 415px) {
-  .player-time-wrapper {
+  :host {
     display: none;
   }
 }

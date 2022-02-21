@@ -1,10 +1,8 @@
 :host {
-  width: 240px;
   margin-right: 1em;
 }
 
 .player-title-container {
-  margin-left: 8px;
   display: flex;
   align-items: center;
 }
@@ -38,7 +36,7 @@
   }
 }
 
-.player-title-placeholder,
+.player-title-placeholder span,
 .player-title-link {
   max-width: 200px;
   overflow: hidden;
@@ -57,18 +55,17 @@
 }
 
 @media (min-width: 820px) {
-  :host {
-    width: 320px;
-  }
-
-  .player-title-placeholder,
+  .player-title-placeholder span,
   .playing-title-link {
     max-width: 300px;
   }
 }
 
 @media (max-width: 540px) {
+  :host {
+    margin-right: 0;
+  }
   .player-title-text {
-    display: none;
+    max-width: 100px;
   }
 }

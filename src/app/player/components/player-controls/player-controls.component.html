@@ -1,40 +1,34 @@
-<div class="player-controls">
-  <div class="player-transport">
-    <button class="player-control button-play" mat-icon-button aria-label="Pause" (click)="pause()" *ngIf="playing">
-      <mat-icon>pause</mat-icon>
-    </button>
-    <button class="player-control button-play" mat-icon-button aria-label="Play" (click)="play()" *ngIf="!playing">
-      <mat-icon>play_arrow</mat-icon>
-    </button>
-    <button class="player-control" mat-icon-button aria-label="Skip Previous" (click)="skipPrev()">
-      <mat-icon>skip_previous</mat-icon>
-    </button>
-    <button class="player-control" mat-icon-button aria-label="Skip Next" [disabled]="skipDisabled" (click)="skipNext()">
-      <mat-icon>skip_next</mat-icon>
-    </button>
-  </div>
-
-  <app-player-time
-    [playerTime]="playerTime"
-    [playerTimeFormatted]="playerTimeFormatted"
-    [duration]="duration"
-    [durationFormatted]="durationFormatted"
-    (trackSeek)="trackSeek.emit($event)">
-  </app-player-time>
-
-  <div class="volume-wrapper">
-    <button class="player-control" mat-icon-button
-      (click)="toggleVolume()">
-      <mat-icon class="md-18" *ngIf="volume !== 0">volume_up</mat-icon>
-      <mat-icon class="md-18" *ngIf="volume === 0">volume_off</mat-icon>
-    </button>
-
-    <mat-slider [min]="0" [max]="100" [step]="1" #src
-      (input)="setVolume(src.value)" [(ngModel)]="volume">
-    </mat-slider>
-
-    <button class="player-control" mat-icon-button aria-label="Skip Next" (click)="togglePlaylist()">
-      <mat-icon>playlist_play</mat-icon>
-    </button>
-  </div>
+<div class="player-transport">
+  <button class="player-control button-play" mat-icon-button aria-label="Pause" (click)="pause()" *ngIf="playing">
+    <mat-icon>pause</mat-icon>
+  </button>
+  <button class="player-control button-play" mat-icon-button aria-label="Play" (click)="play()" *ngIf="!playing">
+    <mat-icon>play_arrow</mat-icon>
+  </button>
+  <button class="player-control" mat-icon-button aria-label="Skip Previous" (click)="skipPrev()">
+    <mat-icon>skip_previous</mat-icon>
+  </button>
+  <button class="player-control" mat-icon-button aria-label="Skip Next" [disabled]="skipDisabled" (click)="skipNext()">
+    <mat-icon>skip_next</mat-icon>
+  </button>
+</div>
+<app-player-time
+  [playerTime]="playerTime"
+  [playerTimeFormatted]="playerTimeFormatted"
+  [duration]="duration"
+  [durationFormatted]="durationFormatted"
+  (trackSeek)="trackSeek.emit($event)">
+</app-player-time>
+<div class="volume-wrapper">
+  <button class="player-control" mat-icon-button
+    (click)="toggleVolume()">
+    <mat-icon class="md-18" *ngIf="volume !== 0">volume_up</mat-icon>
+    <mat-icon class="md-18" *ngIf="volume === 0">volume_off</mat-icon>
+  </button>
+  <mat-slider [min]="0" [max]="100" [step]="1" #src
+    (input)="setVolume(src.value)" [(ngModel)]="volume">
+  </mat-slider>
+  <button class="player-control" mat-icon-button aria-label="Skip Next" (click)="togglePlaylist()">
+    <mat-icon>playlist_play</mat-icon>
+  </button>
 </div>

@@ -1,9 +1,6 @@
-<div class="player-time-wrapper">
-  <div class="player-duration">
-    <mat-slider [min]="0" [max]="duration" [step]="1" [value]="playerTime"
-      [formControl]="playerTimeCtrl"></mat-slider>
-  </div>
-
-  <div class="player-time">{{playerTimeFormatted}}<span>/</span></div>
-  <div class="player-time">{{durationFormatted}}</div>
+<div class="player-duration">
+  <mat-slider [min]="0" [max]="duration" [step]="1" [value]="playerTime"
+    [formControl]="playerTimeCtrl"></mat-slider>
 </div>
+<div class="player-time">{{playerTimeFormatted}}<span>/</span></div>
+<div class="player-time">{{durationFormatted}}</div>
