@@ -1,15 +1,17 @@
 :host {
   display: flex;
   flex: 1;
+  align-items: center;
+  height: 100%;
+  border-left: 3px solid transparent;
 }
 
 :host.playing {
-  background: rgba(0,0,0,.1);
   border-left: 3px solid #ff319a;
 }
 
 .track-tool {
-  margin-right: 8px;
+  padding: 4px 4px 0 4px;
 }
 
 a.track-tool {
@@ -63,6 +65,6 @@ a.track-tool {
  
  @media (max-width: 415px) {
   .track-name span {
-    max-width: 240px;
+    max-width: 236px;
   }
  }
