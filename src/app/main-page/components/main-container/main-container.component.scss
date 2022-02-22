@@ -86,6 +86,11 @@
 }
 
 @media (max-width: 440px) {
+  .content {
+    padding: 0;
+    width: 100%;
+  }
+
   .main-header {
     .header-wrapper {
       padding: 6px 0;

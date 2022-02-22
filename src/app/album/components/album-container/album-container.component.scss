@@ -2,3 +2,9 @@
   flex: 1;
   overflow-x: hidden;
 }
+
+@media (max-width: 440px) {
+  :host {
+    padding: 0 12px;
+  }
+}
