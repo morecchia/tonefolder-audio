@@ -43,13 +43,13 @@ a.track-tool {
 
  @media (max-width: 768px) {
   .track-name span {
-    max-width: calc(100vw - 120px);
+    max-width: calc(100vw - 160px);
   }
  }
 
  
  @media (max-width: 440px) {
   .track-name span {
-    max-width: calc(100vw - 90px);
+    max-width: calc(100vw - 100px);
   }
  }
