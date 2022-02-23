@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import 'stylesheets/variables';
 
-@include angular-material-theme($tonefolder-theme);
+@include mat.all-component-themes($tonefolder-theme);
