@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "server.bat"
+    "dev-server": "cd ../server && php -S localhost:8000"
   },
   "private": true,
   "dependencies": {
