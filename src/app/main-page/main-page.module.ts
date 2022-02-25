@@ -4,12 +4,14 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { MainContainerComponent } from './components/main-container/main-container.component';
 import { PlayerModule } from '../player/player.module';
+import { AuthenticationModule } from '../authentication/authentication.module';
 
 @NgModule({
   declarations: [MainContainerComponent],
   imports: [
     CommonModule,
     RouterModule,
+    AuthenticationModule,
     MaterialModule,
     PlayerModule,
   ],
