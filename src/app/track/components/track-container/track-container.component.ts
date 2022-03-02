@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SelectedFile, TrackService, TracksResponse } from '../../services/track.service';
+import { SelectedFile, TrackService } from '../../services/track.service';
 import { PlayerService } from '../../../player/services/player.service';
 import { PlaylistService } from '../../../playlist/services/playlist.service';
 import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
+import { Album } from 'src/app/_shared/models/album';
 
 @Component({
   selector: 'app-track-container',
@@ -12,7 +13,7 @@ import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog
   styleUrls: ['./track-container.component.scss']
 })
 export class TrackContainerComponent {
-  tracksResponse: Observable<TracksResponse>;
+  tracksResponse: Observable<Album>;
 
   get selectedAlbum() { return this.trackService.selectedAlbum; }
   get playerState() { return this.playerService.state; }
@@ -25,8 +26,7 @@ export class TrackContainerComponent {
     private playlistService: PlaylistService,
     private playlistDialog: PlaylistDialogService) {
     this.route.params.subscribe(params => {
-      const album = decodeURIComponent(params.name);
-      this.tracksResponse = this.trackService.getTracks(album);
+      this.tracksResponse = this.trackService.getTracks(params.id);
     });
   }
 

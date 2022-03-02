@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlbumService } from '../../services/album.service';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Album } from 'src/app/_shared/models/album';
 
 @Component({
   selector: 'app-album-container',
@@ -20,8 +20,9 @@ export class AlbumContainerComponent implements OnInit{
     this.albumsRequest$ = this.albumService.getAlbums();
   }
 
-  selectAlbum(album: string ) {
+  selectAlbum(album: Album) {
+    console.log(album);
     this.albumService.selectAlbum(album);
-    this.router.navigate(['/tracks', encodeURIComponent(album)]);
+    this.router.navigate(['/tracks', album.id]);
   }
 }

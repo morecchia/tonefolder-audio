@@ -11,7 +11,7 @@
   <mat-list role="list" *ngIf="tracksResponse">
     <mat-list-item role="listitem" *ngFor="let track of tracks">
       <app-track
-        [title]="track"
+        [title]="track.name"
         [playing]="currentTrack === track"
         [downloadLink]="getDownloadLink(track)"
         (trackSelected)="selectTrack($event)"

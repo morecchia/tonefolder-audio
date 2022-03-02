@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Album, AlbumResponse } from 'src/app/_shared/models/album';
 import { AlbumService } from '../../services/album.service';
 
 @Component({
@@ -9,18 +10,18 @@ import { AlbumService } from '../../services/album.service';
 })
 export class AlbumListComponent {
   @Input()
-  albumsRequest: any;
+  albumsRequest: AlbumResponse;
 
   @Output()
-  albumSelected = new EventEmitter<string>();
+  albumSelected = new EventEmitter<number>();
 
   filterForm: FormGroup;
   query: string;
 
   get albums() {
-    return this.albumsRequest.albums
-      .sort((a: string, b: string) =>
-        a.toLowerCase().localeCompare(b.toLowerCase()));
+    return this.albumsRequest.data
+      .sort((a: Album, b: Album) =>
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
   }
 
   get currentAlbum() { return this.albumService.currentAlbum; }

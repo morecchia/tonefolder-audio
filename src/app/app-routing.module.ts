@@ -7,7 +7,7 @@ const routes: Routes = [
     loadChildren: () => import('./album/album.module').then(m => m.AlbumModule)
   },
   {
-    path : 'tracks/:name',
+    path : 'tracks/:id',
     loadChildren: () => import('./track/track.module').then(m => m.TrackModule)
   },
   {

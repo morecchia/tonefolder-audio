@@ -5,20 +5,16 @@ import { map, catchError, debounceTime } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
 import { AppConfig } from '../../../config';
 import { handleError } from '../../../utils/handle-error';
+import { Album } from 'src/app/_shared/models/album';
 
 export interface SelectedFile {
   track: string;
-  album: string;
+  album: Album;
   cover: string;
 }
 
 export interface TrackStore {
-  album: string;
-  tracks: string[];
-  cover: string;
-}
-
-export interface TracksResponse {
+  album: Album;
   tracks: string[];
   cover: string;
 }
@@ -43,38 +39,31 @@ export class TrackService {
 
   constructor(private http: HttpClient, private config: AppConfig) { }
 
-  getTracks(album: string): Observable<TracksResponse> {
-    const stored = this.trackStorage.find(ts => ts.album === album);
+  getTracks(albumId: number): Observable<Album> {
+    const stored = this.trackStorage.find(ts => ts.album.id === albumId);
 
     if (stored) {
       this.selectedAlbum = {
-        title: album,
+        title: stored.album,
         cover: stored.cover,
         trackCount: stored.tracks.length,
       };
-      this.albumTracks = stored.tracks.map(track => ({ album, track, cover: stored.cover }));
-      return of({
-        tracks: stored.tracks,
-        cover: stored.cover,
-      });
+      this.albumTracks = stored.tracks.map(track => ({ album: stored.album, track, cover: stored.cover }));
+      return of(stored.album);
     }
 
     this.loading = true;
 
     return this.http
-      .get<TracksResponse>(`${this.config.serviceUrl}/tracks.php?album=${album}`)
+      .get<Album>(`${this.config.serviceUrl}/albums/${albumId}`)
       .pipe(
         map(res => {
           const cover = res?.cover;
           this.loading = false;
-          this.selectedAlbum = {
-            title: album,
-            cover: res?.cover,
-            trackCount: res?.tracks.length,
-          };
-          this.albumTracks = res?.tracks.map(track => ({ album, track, cover: `/source/${album}/${cover}` }));
+          this.selectedAlbum = res;
+          this.albumTracks = res?.tracks.map(track => ({ album: res, track: track.name, cover: res.cover }));
           this.currentTracks = this.albumTracks;
-          this.addToStore(album, res);
+          this.addToStore(res);
           return res;
         }),
         catchError(err => {
@@ -89,13 +78,13 @@ export class TrackService {
     this.fileSelected.next(file);
   }
 
-  private addToStore(album: string, tracksResponse: TracksResponse) {
+  private addToStore(album: Album) {
     const stored = this.trackStorage.find(ts => ts.album === album);
     if (!stored){
       this.trackStorage.push({
         album,
-        tracks: tracksResponse.tracks,
-        cover: tracksResponse.cover,
+        tracks: album.tracks.map(t => t.name),
+        cover: album.cover,
       });
     }
   }

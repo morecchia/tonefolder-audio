@@ -4,12 +4,13 @@ import { Observable, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppConfig } from '../../../config';
 import { handleError } from '../../../utils/handle-error';
+import { Album, AlbumResponse } from 'src/app/_shared/models/album';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlbumService {
-  currentAlbum: string;
+  currentAlbum: Album;
 
   constructor(private http: HttpClient, private config: AppConfig) { }
 
@@ -19,22 +20,22 @@ export class AlbumService {
   loadingError = new Subject<any>();
   loadingError$ = this.loadingError.asObservable();
 
-  getAlbums(): Observable<any> {
-    return this.http.get<any>(`${this.config.serviceUrl}/albums.php`)
+  getAlbums(): Observable<AlbumResponse> {
+    return this.http.get<AlbumResponse>(`${this.config.serviceUrl}/albums`)
       .pipe(catchError(err => {
         this.loadingError.next(err);
         return handleError(err);
       }));
   }
 
-  getCurrentAlbum(albums: any[]) {
+  getCurrentAlbum(albums: Album[]) {
     const storedAlbum = localStorage.getItem('tfa-current-album');
     return storedAlbum || albums[0];
   }
 
-  selectAlbum(album: string) {
+  selectAlbum(album: Album) {
     this.currentAlbum = album;
-    localStorage.setItem('tfa-current-album', album);
+    localStorage.setItem('tfa-current-album', JSON.stringify(album));
   }
 
   filterAlbums(query: string) {

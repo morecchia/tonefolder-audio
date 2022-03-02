@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Album } from 'src/app/_shared/models/album';
 import { SelectedFile } from '../../../track/services/track.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class PlayerTitleComponent {
   selected: SelectedFile;
 
   @Output()
-  albumClicked = new EventEmitter<string>();
+  albumClicked = new EventEmitter<Album>();
 
   get album() {
     return this.selected && this.selected.album;

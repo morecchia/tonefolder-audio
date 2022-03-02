@@ -14,7 +14,7 @@ export class FilterPipe implements PipeTransform {
     }
 
     const result = items.filter(i => {
-      return i.toLowerCase().includes(query.toLowerCase());
+      return i.title.toLowerCase().includes(query.toLowerCase());
     });
 
     return result;

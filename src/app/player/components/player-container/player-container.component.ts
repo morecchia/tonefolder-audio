@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Album } from 'src/app/_shared/models/album';
 import { AlbumService } from '../../../album/services/album.service';
 import { PlayerService } from '../../../player/services/player.service';
 
@@ -27,8 +28,8 @@ export class PlayerContainerComponent {
     this.playerService.seek(value);
   }
 
-  loadAlbum(album: string) {
+  loadAlbum(album: Album) {
     this.albumService.selectAlbum(album);
-    this.router.navigate(['/tracks', encodeURIComponent(album)]);
+    this.router.navigate(['/tracks', album.id]);
   }
 }

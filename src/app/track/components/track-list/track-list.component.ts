@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { SelectedFile, TracksResponse } from '../../services/track.service';
+import { SelectedFile } from '../../services/track.service';
 import { StreamState } from '../../../player/services/audio.service';
+import { Album } from 'src/app/_shared/models/album';
+import { Track } from 'src/app/_shared/models/track';
 
 @Component({
   selector: 'app-track-list',
@@ -12,13 +14,13 @@ export class TrackListComponent {
   playerState: StreamState;
 
   @Input()
-  selectedAlbum: any;
+  selectedAlbum: Album;
 
   @Input()
   currentTrack: string;
 
   @Input()
-  tracksResponse: TracksResponse;
+  tracksResponse: Album;
 
   @Output()
   trackSelected = new EventEmitter<{track: string, cover: string}>();
@@ -31,16 +33,19 @@ export class TrackListComponent {
 
   playingIndex: number;
 
-  get trackCount() { return this.selectedAlbum?.trackCount; }
+  get trackCount() { return this.selectedAlbum?.tracks.length; }
   get coverArt() {
     return this.selectedAlbum && this.selectedAlbum.cover
-      ? `/source/${this.selectedAlbum.title}/${this.selectedAlbum.cover}`
+      ? `/source/${this.selectedAlbum.cover}`
       : '/assets/images/subwoofer-100.png';
   }
   get album() {
     return this.selectedAlbum && this.selectedAlbum.title.split(' - ').reverse();
   }
-  get tracks() { return this.tracksResponse.tracks.sort(); }
+  get tracks() { 
+    return this.tracksResponse.tracks
+      .sort((a: Track, b: Track) => b.order - a.order);
+  }
 
   selectTrack(track: string) {
     if (this.currentTrack === track) {
@@ -51,7 +56,7 @@ export class TrackListComponent {
   }
 
   queueTrack(track: string) {
-    this.trackQueued.emit({ album: this.selectedAlbum.title, track, cover: this.coverArt });
+    this.trackQueued.emit({ album: this.selectedAlbum, track, cover: this.coverArt });
   }
 
   getDownloadLink(track: string) {
