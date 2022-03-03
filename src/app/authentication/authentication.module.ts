@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { AuthModule } from '@auth0/auth0-angular';
 
@@ -10,8 +11,8 @@ import { AuthModule } from '@auth0/auth0-angular';
   imports: [
     CommonModule,
     AuthModule.forRoot({
-      domain: 'dev-4g4kgxu3.us.auth0.com',
-      clientId: 'Yc7f7Bm2Jo97S0UNAgpgSC7hKhVAXR3G'
+      domain: environment.authDomain,
+      clientId: environment.authClientId,
     }),
   ],
   exports: [LoginComponent],
