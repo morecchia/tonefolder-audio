@@ -23,14 +23,12 @@ export class AudioService {
     dayjs.extend(utc);
   }
 
-  private error$ = new Subject();
-  audioFailed$ = this.error$.asObservable();
-
-  private end$ = new Subject();
-  audioEnded$ = this.end$.asObservable();
+  error$ = new BehaviorSubject<Event>(null);
+  end$ = new BehaviorSubject<Event>(null);
 
   private stop$ = new Subject();
   private audioObj = new Audio();
+
   audioEvents = [
     'ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'loadedmetadata', 'loadstart'
   ];

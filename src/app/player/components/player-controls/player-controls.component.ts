@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogRef, MatDialogState } from '@angular/material/dialog';
+import { MatDialog, MatDialogState } from '@angular/material/dialog';
 import { PlayerService } from '../../services/player.service';
 import { SelectedFile } from 'src/app/track/services/track.service';
 import { StartTime } from '../player-time/player-time.component';
-import { PlaylistContainerComponent } from 'src/app/playlist/components/playlist-container/playlist-container.component';
 import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
 
 @Component({
@@ -55,8 +54,7 @@ export class PlayerControlsComponent {
 
   constructor(
     private playerService: PlayerService,
-    private playlistDialog: PlaylistDialogService,
-    private dialog: MatDialog) { }
+    private playlistDialog: PlaylistDialogService) { }
 
   play() {
     this.playing = true;

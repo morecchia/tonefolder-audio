@@ -42,7 +42,7 @@ export class PlayerService {
         this.state = state;
       });
 
-    this.audioService.audioEnded$
+    this.audioService.end$
       .subscribe(() => this.next());
 
     this.playlistService.playlistUpdated$
@@ -62,7 +62,11 @@ export class PlayerService {
   }
 
   play() {
-    this.audioService.play();
+    if (this.state && this.state.currentTime) {
+      this.audioService.play();
+    } else {
+      this.load(this.selectedFile.file);
+    }
   }
 
   pause() {
@@ -81,7 +85,7 @@ export class PlayerService {
   }
 
   next() {
-    if (this.currentIndex === this.playlist.length - 1) {
+    if (!this.playlist || (this.currentIndex === this.playlist.length - 1)) {
       return;
     }
 

@@ -31,7 +31,7 @@ export class MainContainerComponent {
     private playerService: PlayerService,
     private playlistService: PlaylistService,
     private snackBar: MatSnackBar) {
-    this.audioService.audioFailed$.subscribe(() => this.showToast('Could not play track', 'error-state'));
+    this.audioService.error$.subscribe(err => err && this.showToast('Could not play track', 'error-state'));
     this.trackService.loadingError$.subscribe(() => this.showToast('Could not load tracks', 'error-state'));
     this.albumService.loadingError$.subscribe(() => this.showToast('Could not load albums', 'error-state'));
     this.playlistService.playlistUpdated$.subscribe(title => {
