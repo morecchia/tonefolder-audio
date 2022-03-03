@@ -11,7 +11,7 @@
 <div class="album-list" *ngIf="albumsRequest">
     <app-album *ngFor="let album of albums | filter : query"
       (click)="albumSelected.emit(album)"
-      [title]="album.title"
+      [album]="album"
       [selected]="album === currentAlbum">
     </app-album>
 </div>

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Album } from 'src/app/_shared/models/album';
+import { AppConfig } from 'src/config';
 import { SelectedFile } from '../../../track/services/track.service';
 
 @Component({
@@ -12,15 +12,19 @@ export class PlayerTitleComponent {
   selected: SelectedFile;
 
   @Output()
-  albumClicked = new EventEmitter<Album>();
+  albumClicked = new EventEmitter<string>();
 
   get album() {
     return this.selected && this.selected.album;
   }
   get track() {
-    return this.selected && this.selected.track;
+    return this.selected && this.selected.title;
   }
   get coverArt() {
-    return this.selected && this.selected.cover;
+    return this.selected && this.selected.cover
+      ? `${this.config.serviceUrl}/${this.selected.cover}`
+      : `${this.config.serviceUrl}/assets/images/subwoofer-100.png`;
   }
+
+  constructor(private config: AppConfig) {}
 }

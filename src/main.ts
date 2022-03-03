@@ -4,10 +4,10 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import { AppConfig } from './config';
 
-let serviceUrl = 'http://localhost:8000/api';
+let serviceUrl = 'http://localhost:8000';
 
 if (environment.production) {
-  serviceUrl = '/api';
+  serviceUrl = '';
   enableProdMode();
 }
 

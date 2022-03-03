@@ -10,7 +10,7 @@
 <mat-dialog-content class="mat-typography">
   <mat-list *ngIf="playlistItems?.length; else playlistEmpty" role="list" cdkDropList (cdkDropListDropped)="drop($event)" class="playlist-list">
     <mat-list-item role="listitem" *ngFor="let playlistItem of playlistItems" cdkDrag [cdkDragData]="playlistItem" class="playlist-item">
-      <app-playlist-item (click)="playItem(playlistItem)" [playing]="currentTrack === playlistItem.track" [item]="playlistItem"></app-playlist-item>
+      <app-playlist-item (click)="playItem(playlistItem)" [playing]="currentTrack === playlistItem.title" [item]="playlistItem"></app-playlist-item>
     </mat-list-item>
   </mat-list>
   <ng-template #playlistEmpty>

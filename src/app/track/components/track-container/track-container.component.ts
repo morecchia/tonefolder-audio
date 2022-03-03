@@ -6,6 +6,9 @@ import { PlayerService } from '../../../player/services/player.service';
 import { PlaylistService } from '../../../playlist/services/playlist.service';
 import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
 import { Album } from 'src/app/_shared/models/album';
+import { Track } from 'src/app/_shared/models/track';
+import { Config } from 'protractor';
+import { AppConfig } from 'src/config';
 
 @Component({
   selector: 'app-track-container',
@@ -17,9 +20,10 @@ export class TrackContainerComponent {
 
   get selectedAlbum() { return this.trackService.selectedAlbum; }
   get playerState() { return this.playerService.state; }
-  get currentTrack() { return this.playerService.currentFile?.track; }
+  get currentTrack() { return this.playerService.currentFile?.title; }
 
   constructor(
+    private config: AppConfig,
     private route: ActivatedRoute,
     private trackService: TrackService,
     private playerService: PlayerService,
@@ -30,8 +34,13 @@ export class TrackContainerComponent {
     });
   }
 
-  selectTrack({track, cover}) {
-    this.trackService.selectTrack({album: this.selectedAlbum.title, track, cover});
+  selectTrack(track: Track) {
+    this.trackService.selectTrack({
+      album: this.selectedAlbum.title,
+      file: track.filePath,
+      title: track.name,
+      cover: this.selectedAlbum.cover
+    });
   }
 
   toggleTrack() {
@@ -46,7 +55,7 @@ export class TrackContainerComponent {
     this.playlistService.addItem(item);
 
     if (this.playlistService.playlist.length === 1 && !this.playerService.selectedFile) {
-      this.trackService.selectTrack({album: this.selectedAlbum.title, track: item.track, cover: item.cover});
+      this.trackService.selectTrack(item);
       this.playlistDialog.openPlaylist();
     }
   }

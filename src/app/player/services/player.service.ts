@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AudioService, StreamState } from './audio.service';
 import { SelectedFile, TrackService } from '../../track/services/track.service';
 import { PlaylistService } from 'src/app/playlist/services/playlist.service';
+import { AppConfig } from 'src/config';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class PlayerService {
   }
 
   constructor(
+    private config: AppConfig,
     private audioService: AudioService,
     private trackService: TrackService,
     private playlistService: PlaylistService) {
@@ -30,8 +32,8 @@ export class PlayerService {
         this.audioService.stop();
         this.selectedFile = selected;
         this.currentFile = selected;
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track === selected.track) : 0;
-        this.load(`${selected.album}/${selected.track}`);
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.title) : 0;
+        this.load(selected.file);
         localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
 
@@ -45,7 +47,7 @@ export class PlayerService {
 
     this.playlistService.playlistUpdated$
       .subscribe(() => {
-        this.currentIndex = this.playlist.findIndex(i => this.currentFile && i.track === this.currentFile.track);
+        this.currentIndex = this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title);
       });
   }
 
@@ -55,7 +57,7 @@ export class PlayerService {
     }
 
     this.audioService
-      .playStream(`/source/${track}`)
+      .playStream(`${this.config.serviceUrl}/${track}`)
       .subscribe();
   }
 
@@ -75,7 +77,7 @@ export class PlayerService {
     this.audioService.stop();
     this.currentFile = file;
     this.selectedFile = file;
-    this.load(`${this.currentFile.album}/${this.currentFile.track}`);
+    this.load(this.currentFile.file);
   }
 
   next() {

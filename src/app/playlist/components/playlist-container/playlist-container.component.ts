@@ -14,7 +14,7 @@ export class PlaylistContainerComponent {
     return this.playlistService.playlist;
   }
   get currentTrack() {
-    return this.player.currentFile?.track;
+    return this.player.currentFile?.title;
   }
 
   constructor(
@@ -24,7 +24,7 @@ export class PlaylistContainerComponent {
   ) {}
 
   playItem(item: SelectedFile) {
-    this.trackService.selectTrack({album: item.album, track: item.track, cover: item.cover });
+    this.trackService.selectTrack(item);
   }
 
   clearPlaylist() {

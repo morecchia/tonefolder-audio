@@ -21,7 +21,7 @@ export class AlbumService {
   loadingError$ = this.loadingError.asObservable();
 
   getAlbums(): Observable<AlbumResponse> {
-    return this.http.get<AlbumResponse>(`${this.config.serviceUrl}/albums`)
+    return this.http.get<AlbumResponse>(`${this.config.serviceUrl}/api/albums`)
       .pipe(catchError(err => {
         this.loadingError.next(err);
         return handleError(err);

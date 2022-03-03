@@ -21,7 +21,6 @@ export class AlbumContainerComponent implements OnInit{
   }
 
   selectAlbum(album: Album) {
-    console.log(album);
     this.albumService.selectAlbum(album);
     this.router.navigate(['/tracks', album.id]);
   }

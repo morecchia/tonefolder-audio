@@ -16,10 +16,10 @@ export class TrackComponent {
   downloadLink: string;
 
   @Output()
-  trackSelected = new EventEmitter<string>();
+  trackSelected = new EventEmitter<void>();
 
   @Output()
-  trackQueued = new EventEmitter<string>();
+  trackQueued = new EventEmitter<void>();
 
   @HostBinding('class') get HeadingClass() {
     return this.playing ? 'playing' : '';

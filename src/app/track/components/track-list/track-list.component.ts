@@ -3,6 +3,7 @@ import { SelectedFile } from '../../services/track.service';
 import { StreamState } from '../../../player/services/audio.service';
 import { Album } from 'src/app/_shared/models/album';
 import { Track } from 'src/app/_shared/models/track';
+import { AppConfig } from 'src/config';
 
 @Component({
   selector: 'app-track-list',
@@ -23,7 +24,7 @@ export class TrackListComponent {
   tracksResponse: Album;
 
   @Output()
-  trackSelected = new EventEmitter<{track: string, cover: string}>();
+  trackSelected = new EventEmitter<Track>();
 
   @Output()
   trackToggled = new EventEmitter<void>();
@@ -33,30 +34,40 @@ export class TrackListComponent {
 
   playingIndex: number;
 
-  get trackCount() { return this.selectedAlbum?.tracks.length; }
+  get trackCount() { return this.tracksResponse?.tracks.length; }
   get coverArt() {
-    return this.selectedAlbum && this.selectedAlbum.cover
-      ? `/source/${this.selectedAlbum.cover}`
-      : '/assets/images/subwoofer-100.png';
+    return this.tracksResponse && this.tracksResponse.cover
+      ? `${this.config.serviceUrl}/${this.tracksResponse.cover}`
+      : `${this.config.serviceUrl}/assets/images/subwoofer-100.png`;
   }
   get album() {
-    return this.selectedAlbum && this.selectedAlbum.title.split(' - ').reverse();
+    return this.tracksResponse && this.tracksResponse.title;
   }
-  get tracks() { 
+  get artist() {
+    return this.tracksResponse && this.tracksResponse.artist;
+  }
+  get tracks() {
     return this.tracksResponse.tracks
-      .sort((a: Track, b: Track) => b.order - a.order);
+      .sort((a: Track, b: Track) => a.order - b.order);
   }
 
-  selectTrack(track: string) {
-    if (this.currentTrack === track) {
+  constructor(private config: AppConfig) { }
+
+  selectTrack(track: Track) {
+    if (this.currentTrack === track.name) {
       this.trackToggled.emit();
     } else {
-      this.trackSelected.emit({track, cover: this.coverArt});
+      this.trackSelected.emit(track);
     }
   }
 
-  queueTrack(track: string) {
-    this.trackQueued.emit({ album: this.selectedAlbum, track, cover: this.coverArt });
+  queueTrack(track: Track) {
+    this.trackQueued.emit({
+      album: this.selectedAlbum.title,
+      title: track.name,
+      file: track.filePath,
+      cover: this.coverArt
+    });
   }
 
   getDownloadLink(track: string) {

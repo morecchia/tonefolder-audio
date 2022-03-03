@@ -1,7 +1,7 @@
 <div class="album-container">
-  <img [src]="coverArt" [alt]="title" width="180px" height="180px" loading="lazy">
+  <img [src]="coverArt" [alt]="album.title" width="180px" height="180px" loading="lazy">
   <div class="album-info">
-    <span class="album-title">{{album[0]}}</span>
-    <span class="album-artist">{{album[1]}}</span>
+    <span class="album-title">{{album.title}}</span>
+    <span class="album-artist">{{album.artist}}</span>
   </div>
 </div>

@@ -8,14 +8,9 @@ import { handleError } from '../../../utils/handle-error';
 import { Album } from 'src/app/_shared/models/album';
 
 export interface SelectedFile {
-  track: string;
-  album: Album;
-  cover: string;
-}
-
-export interface TrackStore {
-  album: Album;
-  tracks: string[];
+  file: string;
+  title: string;
+  album: string;
   cover: string;
 }
 
@@ -23,11 +18,10 @@ export interface TrackStore {
   providedIn: 'root'
 })
 export class TrackService {
-  trackStorage: TrackStore[] = [];
-
+  trackStorage: Album[] = [];
   albumTracks: SelectedFile[];
   currentTracks: SelectedFile[];
-  selectedAlbum: any;
+  selectedAlbum: Album;
 
   private fileSelected = new Subject<SelectedFile>();
   fileSelected$ = this.fileSelected.asObservable();
@@ -40,28 +34,34 @@ export class TrackService {
   constructor(private http: HttpClient, private config: AppConfig) { }
 
   getTracks(albumId: number): Observable<Album> {
-    const stored = this.trackStorage.find(ts => ts.album.id === albumId);
+    const stored = this.trackStorage.find(ts => ts.id === albumId);
 
     if (stored) {
-      this.selectedAlbum = {
-        title: stored.album,
+      this.selectedAlbum = stored;
+      this.albumTracks = stored.tracks.map(track => ({
+        album: stored.title,
+        file: track.filePath,
         cover: stored.cover,
-        trackCount: stored.tracks.length,
-      };
-      this.albumTracks = stored.tracks.map(track => ({ album: stored.album, track, cover: stored.cover }));
-      return of(stored.album);
+        title: track.name
+      }));
+
+      return of(stored);
     }
 
     this.loading = true;
 
     return this.http
-      .get<Album>(`${this.config.serviceUrl}/albums/${albumId}`)
+      .get<Album>(`${this.config.serviceUrl}/api/albums/${albumId}`)
       .pipe(
         map(res => {
-          const cover = res?.cover;
           this.loading = false;
           this.selectedAlbum = res;
-          this.albumTracks = res?.tracks.map(track => ({ album: res, track: track.name, cover: res.cover }));
+          this.albumTracks = res?.tracks.map(track => ({
+            album: res.title,
+            cover: res.cover,
+            file: track.filePath,
+            title: track.name
+          }));
           this.currentTracks = this.albumTracks;
           this.addToStore(res);
           return res;
@@ -79,13 +79,9 @@ export class TrackService {
   }
 
   private addToStore(album: Album) {
-    const stored = this.trackStorage.find(ts => ts.album === album);
+    const stored = this.trackStorage.find(ts => ts.id === album.id);
     if (!stored){
-      this.trackStorage.push({
-        album,
-        tracks: album.tracks.map(t => t.name),
-        cover: album.cover,
-      });
+      this.trackStorage.push(album);
     }
   }
 }

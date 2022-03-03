@@ -21,7 +21,7 @@ export class PlaylistService {
     }
 
     if (this.playlist?.length > 1) {
-      this.playlistUpdated.next(item.track);
+      this.playlistUpdated.next(item.title);
     }
 
     this.storePlaylist();
@@ -51,6 +51,6 @@ export class PlaylistService {
   }
 
   private itemExists(item: SelectedFile, source: SelectedFile): boolean {
-    return `${source.album}-${source.track}` === `${item.album}-${item.track}`;
+    return `${source.album}-${source.title}` === `${item.album}-${item.title}`;
   }
 }

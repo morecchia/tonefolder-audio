@@ -1,4 +1,6 @@
 import { Component, HostBinding, Input } from '@angular/core';
+import { AppConfig } from 'src/config';
+import { Album } from 'src/app/_shared/models/album';
 
 @Component({
   selector: 'app-album',
@@ -7,22 +9,14 @@ import { Component, HostBinding, Input } from '@angular/core';
 })
 export class AlbumComponent {
   @Input()
-  title: string;
+  album: Album;
 
   @Input()
   selected: boolean;
 
   get coverArt() {
-    return this.title
-      ? `/source/${this.title}/cover.jpg`
-      : '/assets/images/subwoofer-100.png';
+    return `${this.config.serviceUrl}/${this.album.cover}` || `${this.config.serviceUrl}/assets/images/subwoofer-100.png`;
   }
 
-  get album() {
-    return this.title.split(' - ').reverse();
-  }
-
-  @HostBinding('class') get HeadingClass() {
-    return this.selected ? 'selected' : '';
-  }
+  constructor(private config: AppConfig) { }
 }
