@@ -1,17 +1,19 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AudioService } from '../../../player/services/audio.service';
 import { PlayerService } from '../../../player/services/player.service';
 import { TrackService } from '../../../track/services/track.service';
 import { AlbumService } from '../../../album/services/album.service';
 import { PlaylistService } from 'src/app/playlist/services/playlist.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main-container',
   templateUrl: './main-container.component.html',
   styleUrls: ['./main-container.component.scss']
 })
-export class MainContainerComponent {
+export class MainContainerComponent implements OnDestroy {
   title = 'tonefolder audio';
 
   get fileSelected() { return this.playerService.selectedFile; }
@@ -24,6 +26,8 @@ export class MainContainerComponent {
     }
   }
 
+  private _destroy = new Subject();
+
   constructor(
     private trackService: TrackService,
     private albumService: AlbumService,
@@ -31,14 +35,27 @@ export class MainContainerComponent {
     private playerService: PlayerService,
     private playlistService: PlaylistService,
     private snackBar: MatSnackBar) {
-    this.audioService.error$.subscribe(err => err && this.showToast('Could not play track', 'error-state'));
-    this.trackService.loadingError$.subscribe(() => this.showToast('Could not load tracks', 'error-state'));
-    this.albumService.loadingError$.subscribe(() => this.showToast('Could not load albums', 'error-state'));
-    this.playlistService.playlistUpdated$.subscribe(title => {
-      if (title) {
-        this.showToast(`${title} added to playlist!`);
-      }
-    });
+    this.audioService.error$
+      .pipe(takeUntil(this._destroy))
+      .subscribe(err => err && this.showToast('Could not play track', 'error-state'));
+    this.trackService.loadingError$
+      .pipe(takeUntil(this._destroy))
+      .subscribe(() => this.showToast('Could not load tracks', 'error-state'));
+    this.albumService.loadingError$
+      .pipe(takeUntil(this._destroy))
+      .subscribe(() => this.showToast('Could not load albums', 'error-state'));
+    this.playlistService.playlistUpdated$
+      .pipe(takeUntil(this._destroy))
+      .subscribe(title => {
+        if (title) {
+          this.showToast(`${title} added to playlist!`);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   showToast(message: string, state?: string) {

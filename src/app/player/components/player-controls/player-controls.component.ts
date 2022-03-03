@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogState } from '@angular/material/dialog';
+import { MatDialogState } from '@angular/material/dialog';
 import { PlayerService } from '../../services/player.service';
 import { SelectedFile } from 'src/app/track/services/track.service';
-import { StartTime } from '../player-time/player-time.component';
 import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
 
 @Component({
@@ -36,7 +35,7 @@ export class PlayerControlsComponent {
   durationFormatted: string;
 
   @Output()
-  trackSeek = new EventEmitter<StartTime>();
+  trackSeek = new EventEmitter<number>();
 
   @Output()
   volumeSet = new EventEmitter<number>();

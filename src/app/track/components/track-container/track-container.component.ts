@@ -7,8 +7,6 @@ import { PlaylistService } from '../../../playlist/services/playlist.service';
 import { PlaylistDialogService } from 'src/app/playlist/services/playlist-dialog.service';
 import { Album } from 'src/app/_shared/models/album';
 import { Track } from 'src/app/_shared/models/track';
-import { Config } from 'protractor';
-import { AppConfig } from 'src/config';
 
 @Component({
   selector: 'app-track-container',
@@ -23,7 +21,6 @@ export class TrackContainerComponent {
   get currentTrack() { return this.playerService.currentFile?.title; }
 
   constructor(
-    private config: AppConfig,
     private route: ActivatedRoute,
     private trackService: TrackService,
     private playerService: PlayerService,

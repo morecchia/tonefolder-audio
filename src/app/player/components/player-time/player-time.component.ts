@@ -2,11 +2,6 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { FormControl} from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-export interface StartTime {
-  duration: number;
-  seconds: number;
-}
-
 @Component({
   selector: 'app-player-time',
   templateUrl: './player-time.component.html',
@@ -29,14 +24,15 @@ export class PlayerTimeComponent implements OnInit, OnDestroy {
   durationFormatted: string;
 
   @Output()
-  trackSeek = new EventEmitter<StartTime>();
+  trackSeek = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit(): void {
     this.playerCtrlSub = this.playerTimeCtrl.valueChanges
-      .subscribe(newValue =>
-        this.trackSeek.emit(newValue));
+      .subscribe(newValue => {
+        this.trackSeek.emit(newValue)
+      });
   }
 
   ngOnDestroy() {

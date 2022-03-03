@@ -113,6 +113,8 @@ export class AudioService {
   }
 
   private updateStateEvents(event: Event): void {
+    console.log('updateStateEvents', event.type);
+
     switch (event.type) {
       case 'loadstart':
         this.state.loading = true;
