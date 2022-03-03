@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { SelectedFile } from '../../services/track.service';
 import { StreamState } from '../../../player/services/audio.service';
 import { Album } from 'src/app/_shared/models/album';
 import { Track } from 'src/app/_shared/models/track';
-import { AppConfig } from 'src/config';
 
 @Component({
   selector: 'app-track-list',
@@ -37,8 +37,8 @@ export class TrackListComponent {
   get trackCount() { return this.tracksResponse?.tracks.length; }
   get coverArt() {
     return this.tracksResponse && this.tracksResponse.cover
-      ? `${this.config.serviceUrl}/${this.tracksResponse.cover}`
-      : `${this.config.serviceUrl}/assets/images/subwoofer-100.png`;
+      ? `${environment.serviceUrl}/${this.tracksResponse.cover}`
+      : `${environment.serviceUrl}/assets/images/subwoofer-100.png`;
   }
   get album() {
     return this.tracksResponse && this.tracksResponse.title;
@@ -50,8 +50,6 @@ export class TrackListComponent {
     return this.tracksResponse.tracks
       .sort((a: Track, b: Track) => a.order - b.order);
   }
-
-  constructor(private config: AppConfig) { }
 
   selectTrack(track: Track) {
     if (this.currentTrack === track.name) {

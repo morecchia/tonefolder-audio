@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AppConfig } from '../../../config';
+import { environment } from 'src/environments/environment';
 import { handleError } from '../../../utils/handle-error';
 import { Album, AlbumResponse } from 'src/app/_shared/models/album';
 
@@ -12,7 +12,7 @@ import { Album, AlbumResponse } from 'src/app/_shared/models/album';
 export class AlbumService {
   currentAlbum: Album;
 
-  constructor(private http: HttpClient, private config: AppConfig) { }
+  constructor(private http: HttpClient) { }
 
   private onAlbumsFiltered = new Subject<string>();
   albumsFiltered$ = this.onAlbumsFiltered.asObservable();
@@ -21,7 +21,7 @@ export class AlbumService {
   loadingError$ = this.loadingError.asObservable();
 
   getAlbums(): Observable<AlbumResponse> {
-    return this.http.get<AlbumResponse>(`${this.config.serviceUrl}/api/albums`)
+    return this.http.get<AlbumResponse>(`${environment.serviceUrl}/api/albums`)
       .pipe(catchError(err => {
         this.loadingError.next(err);
         return handleError(err);

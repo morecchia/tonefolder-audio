@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { AudioService, StreamState } from './audio.service';
 import { SelectedFile, TrackService } from '../../track/services/track.service';
 import { PlaylistService } from 'src/app/playlist/services/playlist.service';
-import { AppConfig } from 'src/config';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,6 @@ export class PlayerService {
   }
 
   constructor(
-    private config: AppConfig,
     private audioService: AudioService,
     private trackService: TrackService,
     private playlistService: PlaylistService) {
@@ -37,7 +36,7 @@ export class PlayerService {
         localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
 
-    this.audioService.getState()
+    this.audioService.stateChange$
       .subscribe(state => {
         this.state = state;
       });
@@ -57,7 +56,7 @@ export class PlayerService {
     }
 
     this.audioService
-      .playStream(`${this.config.serviceUrl}/${track}`)
+      .playStream(`${environment.serviceUrl}/${track}`)
       .subscribe();
   }
 

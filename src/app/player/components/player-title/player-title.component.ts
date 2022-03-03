@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AppConfig } from 'src/config';
+import { environment } from 'src/environments/environment';
 import { SelectedFile } from '../../../track/services/track.service';
 
 @Component({
@@ -22,9 +22,7 @@ export class PlayerTitleComponent {
   }
   get coverArt() {
     return this.selected && this.selected.cover
-      ? `${this.config.serviceUrl}/${this.selected.cover}`
-      : `${this.config.serviceUrl}/assets/images/subwoofer-100.png`;
+      ? `${environment.serviceUrl}/${this.selected.cover}`
+      : `${environment.serviceUrl}/assets/images/subwoofer-100.png`;
   }
-
-  constructor(private config: AppConfig) {}
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, catchError, debounceTime } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
-import { AppConfig } from '../../../config';
+import { environment } from 'src/environments/environment';
 import { handleError } from '../../../utils/handle-error';
 import { Album } from 'src/app/_shared/models/album';
 
@@ -31,7 +31,7 @@ export class TrackService {
 
   loading: boolean;
 
-  constructor(private http: HttpClient, private config: AppConfig) { }
+  constructor(private http: HttpClient) { }
 
   getTracks(albumId: number): Observable<Album> {
     const stored = this.trackStorage.find(ts => ts.id === albumId);
@@ -51,7 +51,7 @@ export class TrackService {
     this.loading = true;
 
     return this.http
-      .get<Album>(`${this.config.serviceUrl}/api/albums/${albumId}`)
+      .get<Album>(`${environment.serviceUrl}/api/albums/${albumId}`)
       .pipe(
         map(res => {
           this.loading = false;

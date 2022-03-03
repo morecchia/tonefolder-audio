@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl} from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-player-time',
@@ -9,7 +10,6 @@ import { Subscription } from 'rxjs';
 })
 export class PlayerTimeComponent implements OnInit, OnDestroy {
   playerTimeCtrl = new FormControl();
-  playerCtrlSub: Subscription;
 
   @Input()
   playerTime: number;
@@ -26,16 +26,18 @@ export class PlayerTimeComponent implements OnInit, OnDestroy {
   @Output()
   trackSeek = new EventEmitter<number>();
 
+  private _destroy = new Subject();
+
   constructor() { }
 
   ngOnInit(): void {
-    this.playerCtrlSub = this.playerTimeCtrl.valueChanges
-      .subscribe(newValue => {
-        this.trackSeek.emit(newValue)
-      });
+    this.playerTimeCtrl.valueChanges
+      .pipe(takeUntil(this._destroy))
+      .subscribe(newValue => this.trackSeek.emit(newValue));
   }
 
   ngOnDestroy() {
-    this.playerCtrlSub.unsubscribe();
+    this._destroy.next();
+    this._destroy.complete();
   }
 }

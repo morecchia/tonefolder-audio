@@ -1,5 +1,5 @@
-import { Component, HostBinding, Input } from '@angular/core';
-import { AppConfig } from 'src/config';
+import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/_shared/models/album';
 
 @Component({
@@ -15,8 +15,6 @@ export class AlbumComponent {
   selected: boolean;
 
   get coverArt() {
-    return `${this.config.serviceUrl}/${this.album.cover}` || `${this.config.serviceUrl}/assets/images/subwoofer-100.png`;
+    return `${environment.serviceUrl}/${this.album.cover}` || `${environment.serviceUrl}/assets/images/subwoofer-100.png`;
   }
-
-  constructor(private config: AppConfig) { }
 }

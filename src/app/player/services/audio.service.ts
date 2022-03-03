@@ -23,13 +23,10 @@ export class AudioService {
     dayjs.extend(utc);
   }
 
-  error$ = new BehaviorSubject<Event>(null);
-  end$ = new BehaviorSubject<Event>(null);
-
   private stop$ = new Subject();
   private audioObj = new Audio();
 
-  audioEvents = [
+  private audioEvents = [
     'ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'loadedmetadata', 'loadstart'
   ];
 
@@ -44,7 +41,9 @@ export class AudioService {
     error: false,
   };
 
-  private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
+  error$ = new BehaviorSubject<Event>(null);
+  end$ = new BehaviorSubject<Event>(null);
+  stateChange$: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
 
   private streamObservable(url: string) {
     return new Observable(observer => {
@@ -113,8 +112,6 @@ export class AudioService {
   }
 
   private updateStateEvents(event: Event): void {
-    console.log('updateStateEvents', event.type);
-
     switch (event.type) {
       case 'loadstart':
         this.state.loading = true;
@@ -145,7 +142,7 @@ export class AudioService {
         break;
     }
 
-    this.stateChange.next(this.state);
+    this.stateChange$.next(this.state);
   }
 
   private resetState() {
@@ -159,9 +156,5 @@ export class AudioService {
       canplay: false,
       error: false
     };
-  }
-
-  getState(): Observable<StreamState> {
-    return this.stateChange.asObservable();
   }
 }
