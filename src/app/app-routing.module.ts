@@ -4,16 +4,16 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path : 'albums',
-    loadChildren: () => import('./album/album.module').then(m => m.AlbumModule)
+    loadChildren: () => import('./modules/album/album.module').then(m => m.AlbumModule)
   },
   {
     path : 'tracks/:id',
-    loadChildren: () => import('./track/track.module').then(m => m.TrackModule)
+    loadChildren: () => import('./modules/track/track.module').then(m => m.TrackModule)
   },
-  {
-    path : 'library',
-    loadChildren: () => import('./library/library.module').then(m => m.LibraryModule)
-  },
+  // {
+  //   path : 'library',
+  //   loadChildren: () => import('./library/library.module').then(m => m.LibraryModule)
+  // },
   {
     path: '',
     redirectTo: '/albums',

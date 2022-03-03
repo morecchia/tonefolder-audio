@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './material/material.module';
-import { AppRoutingModule } from './app-routing.module';
-import { MainPageModule } from './main-page/main-page.module';
-import { PlayerModule } from './player/player.module';
+import { MaterialModule } from './shared/material/material.module';
+import { MainLayoutModule } from './core/main-layout/main-layout.module';
+import { PlayerModule } from './modules/player/player.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    MainPageModule,
+    MainLayoutModule,
     PlayerModule,
     AppRoutingModule,
   ],
