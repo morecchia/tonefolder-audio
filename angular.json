@@ -17,8 +17,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../audio-server/public",
-            "index": "src/index.html",
+            "outputPath": "../tonefolder-audio-server/public",
+            "index": "",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",

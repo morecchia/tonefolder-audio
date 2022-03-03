@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production --aot",
+    "build": "ng build --configuration production --aot && npm run cp-index",
     "build-stats": "ng build --configuration production --aot --stats-json",
     "stats": "webpack-bundle-analyzer dist/tonefolder-audio/stats-es2015.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev-server": "cd ../server && php -S localhost:8000"
+    "cp-index": "cp src/index.php ../tonefolder-audio-server/public/index.php"
   },
   "private": true,
   "dependencies": {
