@@ -1,27 +1,31 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
 import { SelectedFile } from 'src/app/shared/services/track.service';
-import { Subject } from 'rxjs';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlaylistService {
+export class PlaylistService extends BaseService{
   playlist: SelectedFile[] = [];
 
-  private playlistUpdated = new Subject<string>();
-  playlistUpdated$ = this.playlistUpdated.asObservable();
+  playlistUpdated$ = new BehaviorSubject<void>(null);
 
-  constructor() {
+  constructor(private snackbar: MatSnackBar) {
+    super(snackbar);
     this.initPlaylist();
   }
 
   addItem(item: SelectedFile) {
-    if (!this.playlist || !this.playlist.find(i => this.itemExists(item, i))) {
+    if (!this.playlist.find(i => this.itemExists(item, i))) {
       this.playlist.push(item);
     }
 
-    if (this.playlist?.length > 1) {
-      this.playlistUpdated.next(item.title);
+    this.playlistUpdated$.next();
+    
+    if (item.title) {
+      this.showToast(`${item.title} added to playlist!`);
     }
 
     this.storePlaylist();
@@ -41,7 +45,7 @@ export class PlaylistService {
     const currentItem = Object.assign({}, this.playlist[current]);
     this.playlist.splice(current, 1, currentItem);
     this.storePlaylist();
-    this.playlistUpdated.next();
+    this.playlistUpdated$.next();
   }
 
   private initPlaylist() {

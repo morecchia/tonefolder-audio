@@ -1,31 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { handleError } from '../../../utils/handle-error';
 import { Album, AlbumResponse } from 'src/app/shared/models/album';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AlbumService {
+export class AlbumService extends BaseService {
   currentAlbum: Album;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackbar: MatSnackBar) {
+    super(snackbar);
+  }
 
-  private onAlbumsFiltered = new Subject<string>();
-  albumsFiltered$ = this.onAlbumsFiltered.asObservable();
-
-  loadingError = new Subject<any>();
-  loadingError$ = this.loadingError.asObservable();
+  albumsFiltered$ = new BehaviorSubject<string>('');
 
   getAlbums(): Observable<AlbumResponse> {
     return this.http.get<AlbumResponse>(`${environment.serviceUrl}/api/albums`)
-      .pipe(catchError(err => {
-        this.loadingError.next(err);
-        return handleError(err);
-      }));
+      .pipe(catchError(this.errorCallback));
   }
 
   getCurrentAlbum(albums: Album[]) {
@@ -39,14 +35,11 @@ export class AlbumService {
   }
 
   filterAlbums(query: string) {
-    this.onAlbumsFiltered.next(query);
+    this.albumsFiltered$.next(query);
   }
 
   createAlbum(album: Album) {
     return this.http.post<any>(`${environment.serviceUrl}/api/albums`, album)
-      .pipe(catchError(err => {
-        this.loadingError.next(err);
-        return handleError(err);
-      }));
+      .pipe(catchError(this.errorCallback));
   }
 }

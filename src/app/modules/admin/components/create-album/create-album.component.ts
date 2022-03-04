@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Album } from 'src/app/shared/models/album';
 
@@ -10,6 +10,9 @@ import { Album } from 'src/app/shared/models/album';
 export class CreateAlbumComponent {
   createForm: FormGroup;
 
+  @Input()
+  saving: boolean;
+  
   @Output()
   albumSubmitted = new EventEmitter<Album>()
 

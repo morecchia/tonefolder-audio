@@ -1,12 +1,9 @@
 import { Component, HostListener, OnDestroy } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { AudioService } from 'src/app/shared/services/audio.service';
-import { PlayerService } from 'src/app/shared//services/player.service';
-import { TrackService } from 'src/app/shared/services/track.service';
-import { AlbumService } from 'src/app/shared/services/album.service';
-import { PlaylistService } from 'src/app/shared/services/playlist.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
+import { PlayerService } from 'src/app/shared//services/player.service';
 
 @Component({
   selector: 'app-main-container',
@@ -17,50 +14,34 @@ export class MainContainerComponent implements OnDestroy {
   title = 'tonefolder audio';
 
   get fileSelected() { return this.playerService.selectedFile; }
+  get isLoggedIn$() { return this.auth.isAuthenticated$; }
+  get isAdminPage() { return this._currentRoute === '/admin'; }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.keyCode === 32 && this.fileSelected) {
+    if (event.code === 'Space' && this.fileSelected && !this.isAdminPage) {
       event.preventDefault();
       this.togglePlay();
     }
   }
 
+  private _currentRoute: string;
   private _destroy = new Subject();
 
-  constructor(
-    private trackService: TrackService,
-    private albumService: AlbumService,
-    private audioService: AudioService,
-    private playerService: PlayerService,
-    private playlistService: PlaylistService,
-    private snackBar: MatSnackBar) {
-    this.audioService.error$
-      .pipe(takeUntil(this._destroy))
-      .subscribe(err => err && this.showToast('Could not play track', 'error-state'));
-    this.trackService.loadingError$
-      .pipe(takeUntil(this._destroy))
-      .subscribe(() => this.showToast('Could not load tracks', 'error-state'));
-    this.albumService.loadingError$
-      .pipe(takeUntil(this._destroy))
-      .subscribe(() => this.showToast('Could not load albums', 'error-state'));
-    this.playlistService.playlistUpdated$
-      .pipe(takeUntil(this._destroy))
-      .subscribe(title => {
-        if (title) {
-          this.showToast(`${title} added to playlist!`);
-        }
+  constructor(private router: Router, private auth: AuthService, private playerService: PlayerService) {
+    this.router.events
+      .pipe(
+        takeUntil(this._destroy),
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe((event: any) => {
+        this._currentRoute = event.url;
       });
   }
 
   ngOnDestroy(): void {
     this._destroy.next();
     this._destroy.complete();
-  }
-
-  showToast(message: string, state?: string) {
-    const options: MatSnackBarConfig = state ? { panelClass: state, duration: 2000 } : { duration: 2000 };
-    this.snackBar.open(message, 'Ok', options);
   }
 
   private togglePlay() {

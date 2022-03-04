@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { handleError } from '../../../utils/handle-error';
 import { Album } from 'src/app/shared/models/album';
+import { BaseService } from './base.service';
 
 export interface SelectedFile {
   file: string;
@@ -17,7 +18,7 @@ export interface SelectedFile {
 @Injectable({
   providedIn: 'root'
 })
-export class TrackService {
+export class TrackService extends BaseService {
   trackStorage: Album[] = [];
   albumTracks: SelectedFile[];
   currentTracks: SelectedFile[];
@@ -26,12 +27,11 @@ export class TrackService {
   private fileSelected = new Subject<SelectedFile>();
   fileSelected$ = this.fileSelected.asObservable();
 
-  loadingError = new Subject<any>();
-  loadingError$ = this.loadingError.asObservable();
-
   loading: boolean;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackbar: MatSnackBar) {
+    super(snackbar);
+  }
 
   getTracks(albumId: number): Observable<Album> {
     const stored = this.trackStorage.find(ts => ts.id === albumId);
@@ -66,11 +66,7 @@ export class TrackService {
           this.addToStore(res);
           return res;
         }),
-        catchError(err => {
-          this.loading = false;
-          this.loadingError.next(err);
-          return handleError(err);
-        }));
+        catchError(this.errorCallback));
   }
 
   selectTrack(file: SelectedFile, playlist?: SelectedFile[]) {

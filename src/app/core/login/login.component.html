@@ -1,9 +1,17 @@
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <button mat-button (click)="auth.logout({ returnTo: document.location.origin })">
-    Log out
+  <button mat-icon-button
+    (click)="auth.logout({ returnTo: document.location.origin })"
+    matTooltip="Log out"
+    aria-label="Logout button">
+    <mat-icon>logout</mat-icon>
   </button>
 </ng-container>
 
 <ng-template #loggedOut>
-  <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
+  <button mat-icon-button 
+    (click)="auth.loginWithRedirect()"
+    matTooltip="Log in"
+    aria-label="Login button">
+    <mat-icon>login</mat-icon>
+  </button>
 </ng-template>

@@ -46,7 +46,7 @@ export class PlayerService {
 
     this.playlistService.playlistUpdated$
       .subscribe(() => {
-        this.currentIndex = this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title);
+        this.currentIndex = this.playlist && this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title);
       });
   }
 

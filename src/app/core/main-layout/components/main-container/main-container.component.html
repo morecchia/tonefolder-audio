@@ -7,14 +7,12 @@
     <ul class="nav">
       <li [routerLink]="['/albums']">Albums</li>
       <!-- <li [routerLink]="['/library']">Sample Library</li> -->
-      <li><app-login></app-login></li>
+      <li *ngIf="isLoggedIn$ | async" [routerLink]="['/admin']">Admin</li>
+      <li class="login"><app-login></app-login></li>
     </ul>
   </div>
 </div>
 <div [class.player-open]="fileSelected" class="main-content">
-  <!-- <div class="progress">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div> -->
   <div class="content">
     <router-outlet></router-outlet>
   </div>

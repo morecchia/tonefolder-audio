@@ -23,6 +23,6 @@
   </div>
   
   <div class="form-wrapper actions">
-    <button mat-flat-button [disabled]="!createForm.valid" (click)="create()">Create</button>
+    <button mat-flat-button [disabled]="!createForm.valid || saving" (click)="create()">Create</button>
   </div>
 </div>

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
+import { BaseService } from './base.service';
 
 export interface StreamState {
   playing: boolean;
@@ -18,8 +20,9 @@ export interface StreamState {
 @Injectable({
   providedIn: 'root'
 })
-export class AudioService {
-  constructor() {
+export class AudioService extends BaseService {
+  constructor(private snackbar: MatSnackBar) {
+    super(snackbar);
     dayjs.extend(utc);
   }
 
@@ -138,7 +141,7 @@ export class AudioService {
       case 'error':
         this.resetState();
         this.state.error = true;
-        this.error$.next(event);
+        this.showToast('Could not play track', 'error-state');
         break;
     }
 
