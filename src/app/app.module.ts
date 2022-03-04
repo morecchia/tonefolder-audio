@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { MaterialModule } from './shared/material/material.module';
 import { MainLayoutModule } from './core/main-layout/main-layout.module';
 import { PlayerModule } from './modules/player/player.module';
@@ -21,7 +22,9 @@ import { AppRoutingModule } from './app-routing.module';
     PlayerModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

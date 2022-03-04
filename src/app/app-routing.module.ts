@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   {
@@ -9,6 +10,11 @@ const routes: Routes = [
   {
     path : 'tracks/:id',
     loadChildren: () => import('./modules/track/track.module').then(m => m.TrackModule)
+  },
+  {
+    path : 'admin',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
   },
   // {
   //   path : 'library',
