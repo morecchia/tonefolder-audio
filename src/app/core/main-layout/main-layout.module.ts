@@ -3,18 +3,23 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../shared/material/material.module';
 import { MainContainerComponent } from './components/main-container/main-container.component';
+import { LoginComponent } from '../login/login.component';
 import { PlayerModule } from '../../modules/player/player.module';
-import { AuthenticationModule } from '../authentication/authentication.module';
 
 @NgModule({
-  declarations: [MainContainerComponent],
+  declarations: [
+    MainContainerComponent,
+    LoginComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,
-    AuthenticationModule,
     MaterialModule,
     PlayerModule,
   ],
-  exports: [MainContainerComponent],
+  exports: [
+    MainContainerComponent,
+    LoginComponent,
+  ],
 })
 export class MainLayoutModule { }
