@@ -41,4 +41,12 @@ export class AlbumService {
   filterAlbums(query: string) {
     this.onAlbumsFiltered.next(query);
   }
+
+  createAlbum(album: Album) {
+    return this.http.post<any>(`${environment.serviceUrl}/api/albums`, album)
+      .pipe(catchError(err => {
+        this.loadingError.next(err);
+        return handleError(err);
+      }));
+  }
 }

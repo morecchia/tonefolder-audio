@@ -15,16 +15,12 @@ import { AuthModule } from "@auth0/auth0-angular";
         allowedList: [
           // Matching on HTTP methods
           {
-            uri: "/api/*",
+            uri: "/api/albums",
             httpMethod: "post",
-          },
-          {
-            uri: "/api/*",
-            httpMethod: "put",
-          },
-          {
-            uri: "/api/*",
-            httpMethod: "delete",
+            tokenOptions: {
+              audience: 'https://tonefolder-api',
+              scope: 'write:albums',
+            },
           },
         ],
       },

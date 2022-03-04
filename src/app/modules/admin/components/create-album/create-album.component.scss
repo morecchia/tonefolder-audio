@@ -11,13 +11,12 @@ h2 {
   color: #333;
 }
 
-.form-wrapper {
-  padding: 1em;
+.form-container, .form-wrapper, .mat-form-field {
   width: 100%;
 }
 
-.mat-form-field {
-  width: 100%;
+.form-wrapper {
+  padding: 1em;
 }
 
 .actions {

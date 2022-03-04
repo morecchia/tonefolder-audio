@@ -1,26 +1,28 @@
 <h2>Create an Album</h2>
 
-<div class="form-wrapper">
-  <mat-form-field appearance="outline">
-    <mat-label>Title</mat-label>
-    <input formControlName="title" matInput placeholder="Enter the Album Title" autocomplete="off">
-  </mat-form-field>
-</div>
-
-<div class="form-wrapper">
-  <mat-form-field appearance="outline">
-    <mat-label>Artist</mat-label>
-    <input formControlName="artist" matInput placeholder="Enter the Album Artist" autocomplete="off">
-  </mat-form-field>
-</div>
-
-<div class="form-wrapper">
-  <mat-form-field appearance="outline">
-    <mat-label>Cover</mat-label>
-    <input formControlName="cover" matInput placeholder="Enter the Album Cover" autocomplete="off">
-  </mat-form-field>
-</div>
-
-<div class="form-wrapper actions">
-  <button mat-flat-button>Create</button>
+<div class="form-container" [formGroup]="createForm">
+  <div class="form-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput placeholder="Enter the Album Title" autocomplete="off">
+    </mat-form-field>
+  </div>
+  
+  <div class="form-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Artist</mat-label>
+      <input formControlName="artist" matInput placeholder="Enter the Album Artist" autocomplete="off">
+    </mat-form-field>
+  </div>
+  
+  <div class="form-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Cover</mat-label>
+      <input formControlName="cover" matInput placeholder="Enter the Album Cover" autocomplete="off">
+    </mat-form-field>
+  </div>
+  
+  <div class="form-wrapper actions">
+    <button mat-flat-button [disabled]="!createForm.valid" (click)="create()">Create</button>
+  </div>
 </div>
