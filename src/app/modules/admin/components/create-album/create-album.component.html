@@ -4,21 +4,24 @@
   <div class="form-wrapper">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input formControlName="title" matInput placeholder="Enter the Album Title" autocomplete="off">
+      <input formControlName="title" matInput placeholder="Enter the Album Title" autocomplete="off"
+        (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
     </mat-form-field>
   </div>
   
   <div class="form-wrapper">
     <mat-form-field appearance="outline">
       <mat-label>Artist</mat-label>
-      <input formControlName="artist" matInput placeholder="Enter the Album Artist" autocomplete="off">
+      <input formControlName="artist" matInput placeholder="Enter the Album Artist" autocomplete="off"
+        (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
     </mat-form-field>
   </div>
   
   <div class="form-wrapper">
     <mat-form-field appearance="outline">
       <mat-label>Cover</mat-label>
-      <input formControlName="cover" matInput placeholder="Enter the Album Cover" autocomplete="off">
+      <input formControlName="cover" matInput placeholder="Enter the Album Cover" autocomplete="off"
+        (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
     </mat-form-field>
   </div>
   

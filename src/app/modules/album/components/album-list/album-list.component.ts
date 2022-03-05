@@ -25,6 +25,7 @@ export class AlbumListComponent {
   }
 
   get currentAlbum() { return this.albumService.currentAlbum; }
+  get focusChange() { return this.albumService.focusChange$; }
 
   constructor(private fb: FormBuilder, private albumService: AlbumService) {
     this.filterForm = this.fb.group({

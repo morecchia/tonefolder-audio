@@ -12,7 +12,7 @@ export class PlaylistService extends BaseService{
 
   playlistUpdated$ = new BehaviorSubject<void>(null);
 
-  constructor(private snackbar: MatSnackBar) {
+  constructor(snackbar: MatSnackBar) {
     super(snackbar);
     this.initPlaylist();
   }

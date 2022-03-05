@@ -13,7 +13,7 @@ import { BaseService } from './base.service';
 export class AlbumService extends BaseService {
   currentAlbum: Album;
 
-  constructor(private http: HttpClient, private snackbar: MatSnackBar) {
+  constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
   }
 

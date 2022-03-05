@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Album } from 'src/app/shared/models/album';
+import { AlbumService } from 'src/app/shared/services/album.service';
 
 @Component({
   selector: 'app-create-album',
@@ -16,7 +17,9 @@ export class CreateAlbumComponent {
   @Output()
   albumSubmitted = new EventEmitter<Album>()
 
-  constructor(private fb: FormBuilder) {
+  get focusChange() { return this.albumService.focusChange$; }
+
+  constructor(private fb: FormBuilder, private albumService: AlbumService) {
     this.createForm = this.fb.group({
       title: ['', Validators.required],
       artist: ['', Validators.required],
@@ -25,7 +28,7 @@ export class CreateAlbumComponent {
   }
 
   create() {
-    if (!this.createForm.valid) {
+    if (!this.createForm.valid || this.saving) {
       return;
     }
 

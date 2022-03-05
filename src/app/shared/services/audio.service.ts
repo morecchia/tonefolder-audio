@@ -21,7 +21,7 @@ export interface StreamState {
   providedIn: 'root'
 })
 export class AudioService extends BaseService {
-  constructor(private snackbar: MatSnackBar) {
+  constructor(snackbar: MatSnackBar) {
     super(snackbar);
     dayjs.extend(utc);
   }

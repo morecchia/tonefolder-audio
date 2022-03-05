@@ -5,11 +5,9 @@ import { handleError } from '../../../utils/handle-error';
 
 export class BaseService {
   httpError$ = new BehaviorSubject<any>(null);
-  private _sb: MatSnackBar;
-
-  constructor(snackbar: MatSnackBar) {
-    this._sb = snackbar;
-  }
+  focusChange$ = new BehaviorSubject<boolean>(false);
+  
+  constructor(private snackbar: MatSnackBar) { }
 
   errorCallback = (errObj: HttpErrorResponse) => {
     console.log(errObj);
@@ -24,6 +22,6 @@ export class BaseService {
 
   showToast(message: string, state?: string) {
     const options: MatSnackBarConfig = state ? { panelClass: state, duration: 2000 } : { duration: 2000 };
-    this._sb.open(message, 'Ok', options);
+    this.snackbar.open(message, 'Ok', options);
   }
 }

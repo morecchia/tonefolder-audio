@@ -29,7 +29,7 @@ export class TrackService extends BaseService {
 
   loading: boolean;
 
-  constructor(private http: HttpClient, private snackbar: MatSnackBar) {
+  constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
   }
 
