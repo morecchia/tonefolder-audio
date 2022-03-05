@@ -5,9 +5,9 @@
       <span>{{title}}</span>
     </h2>
     <ul class="nav">
-      <li [routerLink]="['/albums']">Albums</li>
+      <li [class.selected]="currentRoute === '/albums' || currentRoute === '/'" [routerLink]="['/albums']">Albums</li>
       <!-- <li [routerLink]="['/library']">Sample Library</li> -->
-      <li *ngIf="isLoggedIn$ | async" [routerLink]="['/admin']">Admin</li>
+      <li [class.selected]="currentRoute === '/admin'"  *ngIf="isLoggedIn$ | async" [routerLink]="['/admin']">Admin</li>
       <li class="login"><app-login></app-login></li>
     </ul>
   </div>

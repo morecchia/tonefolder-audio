@@ -10,3 +10,5 @@ $accent: mat.get-color-from-palette($app-accent);
 $warn: mat.get-color-from-palette($app-warn);
 
 $tonefolder-theme: mat.define-light-theme($app-primary, $app-accent, $app-warn);
+
+$highlight-color: #ff319a;

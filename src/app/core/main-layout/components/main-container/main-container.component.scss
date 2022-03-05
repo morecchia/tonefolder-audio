@@ -1,3 +1,5 @@
+@import 'src/stylesheets/variables';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -40,11 +42,17 @@
   ul.nav {
     list-style: none;
     color: #fafafa;
+    margin: 8px 0;
+    padding-left: 0;
 
     li {
       padding: 0 12px;
       display: inline-block;
       cursor: pointer;
+    }
+
+    li.selected {
+      color: $highlight-color;
     }
   }
 }
