@@ -3,16 +3,22 @@
     <mat-form-field appearance="outline">
       <mat-icon matPrefix>search</mat-icon>
       <mat-label>Search Albums</mat-label>
-      <input formControlName="albumFilter" matInput placeholder="Filter" autocomplete="off"
-        (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
+      <input
+        formControlName="albumFilter"
+        matInput
+        placeholder="Filter"
+        autocomplete="off"
+        (focus)="focusChange.next(true)"
+        (blur)="focusChange.next(false)"/>
     </mat-form-field>
   </div>
 </div>
 
-<div class="album-list" *ngIf="albumsRequest">
-    <app-album *ngFor="let album of albums | filter : query"
-      (click)="albumSelected.emit(album)"
-      [album]="album"
-      [selected]="album === currentAlbum">
-    </app-album>
+<div class="album-list" *ngIf="albums">
+  <app-album
+    *ngFor="let album of albums | filter: query"
+    (click)="albumSelected.emit(album)"
+    [album]="album"
+    [selected]="album === currentAlbum">
+  </app-album>
 </div>

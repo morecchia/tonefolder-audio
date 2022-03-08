@@ -14,4 +14,6 @@ export interface AlbumResponse {
   total: number;
   next_page_url: string;
   prev_page_url: string;
+  current_page: number;
+  last_page: number;
 }

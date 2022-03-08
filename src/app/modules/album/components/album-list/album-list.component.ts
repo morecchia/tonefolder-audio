@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Album, AlbumResponse } from 'src/app/shared/models/album';
+import { Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
+import { Album } from 'src/app/shared/models/album';
 import { AlbumService } from 'src/app/shared/services/album.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { AlbumService } from 'src/app/shared/services/album.service';
 })
 export class AlbumListComponent {
   @Input()
-  albumsRequest: AlbumResponse;
+  albums: Album[];
 
   @Output()
   albumSelected = new EventEmitter<number>();
@@ -18,16 +20,23 @@ export class AlbumListComponent {
   filterForm: FormGroup;
   query: string;
 
-  get albums() {
-    return this.albumsRequest.data
-      .sort((a: Album, b: Album) =>
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
-  }
-
   get currentAlbum() { return this.albumService.currentAlbum; }
   get focusChange() { return this.albumService.focusChange$; }
 
+  private _destroy = new Subject();
+
   constructor(private fb: FormBuilder, private albumService: AlbumService) {
+    this.albumService.albumsScrolled$
+      .pipe(
+        switchMap(() => this.albumService.getAlbums()),
+        takeUntil(this._destroy)
+      )
+      .subscribe(data => {
+        if (this.albums && data && data.length) {
+          this.albums.push(...data);
+        }
+      });
+
     this.filterForm = this.fb.group({
       albumFilter: ['']
     });
@@ -35,5 +44,10 @@ export class AlbumListComponent {
     this.filterForm.valueChanges.subscribe(f => {
       this.query = f.albumFilter;
     });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy.next();
+    this._destroy.complete();
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Album, AlbumResponse } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
@@ -12,16 +12,25 @@ import { BaseService } from './base.service';
 })
 export class AlbumService extends BaseService {
   currentAlbum: Album;
+  nextPageUrl: string;
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
   }
 
   albumsFiltered$ = new BehaviorSubject<string>('');
+  albumsScrolled$ = new BehaviorSubject<void>(null);
 
-  getAlbums(): Observable<AlbumResponse> {
-    return this.http.get<AlbumResponse>(`${environment.serviceUrl}/api/albums`)
-      .pipe(catchError(this.errorCallback));
+  getAlbums(): Observable<Album[]> {
+    const url = this.nextPageUrl || `${environment.serviceUrl}/api/albums`;
+    return this.http.get<AlbumResponse>(url)
+      .pipe(
+        map(res => {
+          this.nextPageUrl = res.next_page_url;
+          return res.data;
+        }),
+        catchError(this.errorCallback)
+      );
   }
 
   getCurrentAlbum(albums: Album[]) {

@@ -12,7 +12,12 @@
     </ul>
   </div>
 </div>
-<div [class.player-open]="fileSelected" class="main-content">
+<div [class.player-open]="fileSelected" class="main-content"
+  infiniteScroll
+  [infiniteScrollDistance]="10"
+  [infiniteScrollThrottle]="200"
+  [scrollWindow]="false"
+  (scrolled)="onScroll()">
   <div class="content">
     <router-outlet></router-outlet>
   </div>

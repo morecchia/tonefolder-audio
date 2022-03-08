@@ -52,6 +52,12 @@ export class MainContainerComponent implements OnDestroy {
     this._destroy.next();
     this._destroy.complete();
   }
+  
+  onScroll() {
+    if (this.albumService.nextPageUrl) {
+      this.albumService.albumsScrolled$.next();
+    }
+  }
 
   private togglePlay() {
     if (this.playerService.state.playing) {
