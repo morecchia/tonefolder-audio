@@ -11,6 +11,7 @@ import { PlaylistService } from 'src/app/shared/services/playlist.service';
 })
 export class PlaylistContainerComponent {
   get playlistItems() {
+    console.log(this.playlistService.playlist);
     return this.playlistService.playlist;
   }
   get currentTrack() {
@@ -20,8 +21,7 @@ export class PlaylistContainerComponent {
   constructor(
     private playlistService: PlaylistService,
     private player: PlayerService,
-    private trackService: TrackService
-  ) {}
+    private trackService: TrackService) { }
 
   playItem(item: SelectedFile) {
     this.trackService.selectTrack(item);

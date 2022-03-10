@@ -65,7 +65,7 @@ export class TrackListComponent {
       album: this.selectedAlbum.title,
       title: track.name,
       file: track.filePath,
-      cover: this.coverArt
+      cover: this.tracksResponse.cover,
     });
   }
 

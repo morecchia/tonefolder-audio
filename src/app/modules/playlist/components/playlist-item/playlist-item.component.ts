@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, HostBinding } from '@angular/core';
+import { Component, EventEmitter, Input, Output, HostBinding } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { SelectedFile } from 'src/app/shared/services/track.service';
 
 @Component({
@@ -20,5 +21,10 @@ export class PlaylistItemComponent {
 
   @HostBinding('class') get HeadingClass() {
     return this.playing ? 'playing' : '';
+  }
+
+  get cover() { return this.item && this.item.cover
+    ? `${environment.serviceUrl}/${this.item.cover}`
+    : `${environment.serviceUrl}/assets/images/subwoofer-100.png`; 
   }
 }
