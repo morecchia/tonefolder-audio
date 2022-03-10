@@ -1,4 +1,5 @@
 <app-album-list
   [albums]="albumsRequest$ | async"
-  (albumSelected)="selectAlbum($event)">
+  (albumSelected)="selectAlbum($event)"
+  (sortSelected)="sortAlbums($event)">
 </app-album-list>

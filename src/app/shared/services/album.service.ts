@@ -13,6 +13,7 @@ import { BaseService } from './base.service';
 export class AlbumService extends BaseService {
   albums: Album[] = [];
   currentAlbum: Album;
+  currentPage: number;
   nextPageUrl: string;
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
@@ -20,13 +21,17 @@ export class AlbumService extends BaseService {
   }
 
   albumsFiltered$ = new BehaviorSubject<string>('');
-  albumsScrolled$ = new BehaviorSubject<void>(null);
+  albumsScrolled$ = new BehaviorSubject<number>(null);
 
-  getAlbums(): Observable<Album[]> {
-    const url = this.nextPageUrl || `${environment.serviceUrl}/api/albums`;
-    return this.http.get<AlbumResponse>(url)
+  getAlbums(sortBy: string = null, q: string = null, page: number = null): Observable<Album[]> {
+    const sortParam = sortBy ? `?sortBy=${sortBy}` : '';
+    const qParam = q ? `&q=${q}` : '';
+    const pageParam = this.nextPageUrl && page ? `&page=${page}` : '';
+    const url = `${environment.serviceUrl}/api/albums`;
+    return this.http.get<AlbumResponse>(`${url}${sortParam}${qParam}${pageParam}`)
       .pipe(
         map(res => {
+          this.currentPage = res.current_page;
           this.nextPageUrl = res.next_page_url;
           return res.data;
         }),

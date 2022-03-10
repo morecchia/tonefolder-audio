@@ -23,4 +23,8 @@ export class AlbumContainerComponent implements OnInit {
     this.albumService.selectAlbum(album);
     this.router.navigate(['/tracks', album.id]);
   }
+
+  sortAlbums(sortBy: string){
+    this.albumsRequest$ = this.albumService.getAlbums(sortBy);
+  }
 }

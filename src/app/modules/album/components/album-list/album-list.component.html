@@ -1,6 +1,14 @@
 <div class="search-header" [formGroup]="filterForm">
   <div class="form-wrapper">
     <mat-form-field appearance="outline">
+      <mat-label>Sort By</mat-label>
+      <mat-select [(value)]="selectedSort" (selectionChange)="sortSelected.emit(selectedSort)">
+        <mat-option *ngFor="let option of sortOptions" [value]="option.value">
+          {{option.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="search" appearance="outline">
       <mat-icon matPrefix>search</mat-icon>
       <mat-label>Search Albums</mat-label>
       <input
@@ -16,7 +24,7 @@
 
 <div class="album-list" *ngIf="albums">
   <app-album
-    *ngFor="let album of albums | filter: query"
+    *ngFor="let album of albums"
     (click)="albumSelected.emit(album)"
     [album]="album"
     [selected]="album === currentAlbum">

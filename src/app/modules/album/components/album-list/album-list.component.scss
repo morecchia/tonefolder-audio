@@ -3,12 +3,12 @@
   justify-content: center;
   padding: 8px 0;
 
-  .form-wrapper {
-    width: 400px;
+  .mat-form-field {
+    margin: 0 1em;
   }
 
-  .mat-form-field {
-    width: 100%;
+  .mat-form-field.search {
+    width: 300px;
   }
 }
 

@@ -55,7 +55,7 @@ export class MainContainerComponent implements OnDestroy {
   
   onScroll() {
     if (this.albumService.nextPageUrl) {
-      this.albumService.albumsScrolled$.next();
+      this.albumService.albumsScrolled$.next(this.albumService.currentPage + 1);
     }
   }
 
