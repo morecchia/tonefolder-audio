@@ -11,6 +11,7 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class AlbumService extends BaseService {
+  albums: Album[] = [];
   currentAlbum: Album;
   nextPageUrl: string;
 

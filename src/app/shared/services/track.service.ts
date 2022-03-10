@@ -11,6 +11,7 @@ import { BaseService } from './base.service';
 export interface SelectedFile {
   file: string;
   title: string;
+  albumId: number;
   album: string;
   cover: string;
 }
@@ -39,6 +40,7 @@ export class TrackService extends BaseService {
     if (stored) {
       this.selectedAlbum = stored;
       this.albumTracks = stored.tracks.map(track => ({
+        albumId: stored.id,
         album: stored.title,
         file: track.filePath,
         cover: stored.cover,
@@ -57,6 +59,7 @@ export class TrackService extends BaseService {
           this.loading = false;
           this.selectedAlbum = res;
           this.albumTracks = res?.tracks.map(track => ({
+            albumId: res.id,
             album: res.title,
             cover: res.cover,
             file: track.filePath,

@@ -61,6 +61,7 @@ export class TrackListComponent {
 
   queueTrack(track: Track) {
     this.trackQueued.emit({
+      albumId: this.selectedAlbum.id,
       album: this.selectedAlbum.title,
       title: track.name,
       file: track.filePath,

@@ -34,6 +34,7 @@ export class AlbumListComponent {
       .subscribe(data => {
         if (this.albums && data && data.length) {
           this.albums.push(...data);
+          this.albumService.albums = this.albums;
         }
       });
 

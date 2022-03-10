@@ -12,7 +12,7 @@ export class PlayerTitleComponent {
   selected: SelectedFile;
 
   @Output()
-  albumClicked = new EventEmitter<string>();
+  albumClicked = new EventEmitter<SelectedFile>();
 
   get album() {
     return this.selected && this.selected.album;

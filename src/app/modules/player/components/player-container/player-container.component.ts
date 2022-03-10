@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Album } from 'src/app/shared/models/album';
 import { AlbumService } from 'src/app/shared/services/album.service';
 import { PlayerService } from 'src/app/shared/services/player.service';
+import { SelectedFile } from 'src/app/shared/services/track.service';
 
 @Component({
   selector: 'app-player-container',
@@ -28,8 +28,9 @@ export class PlayerContainerComponent {
     this.playerService.seek(value);
   }
 
-  loadAlbum(album: Album) {
+  loadAlbum(selected: SelectedFile) {
+    const album = this.albumService.albums.find(a => a.id == selected.albumId);
     this.albumService.selectAlbum(album);
-    this.router.navigate(['/tracks', album.id]);
+    this.router.navigate(['/tracks', selected.albumId]);
   }
 }

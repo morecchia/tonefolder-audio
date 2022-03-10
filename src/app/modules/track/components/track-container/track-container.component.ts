@@ -33,6 +33,7 @@ export class TrackContainerComponent {
 
   selectTrack(track: Track) {
     this.trackService.selectTrack({
+      albumId: this.selectedAlbum.id,
       album: this.selectedAlbum.title,
       file: track.filePath,
       title: track.name,
