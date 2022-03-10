@@ -12,7 +12,7 @@
     <mat-list-item role="listitem" *ngFor="let track of tracks">
       <app-track
         [title]="track.name"
-        [playing]="currentTrack === track"
+        [playing]="currentTrack === track.name"
         [downloadLink]="getDownloadLink(track)"
         (trackSelected)="selectTrack(track)"
         (trackQueued)="queueTrack(track)">
