@@ -11,7 +11,6 @@ import { PlaylistService } from 'src/app/shared/services/playlist.service';
 })
 export class PlaylistContainerComponent {
   get playlistItems() {
-    console.log(this.playlistService.playlist);
     return this.playlistService.playlist;
   }
   get currentTrack() {
