@@ -24,7 +24,15 @@ h2 {
   justify-content: flex-end;
 
   button {
-    background-color: #ff319a;
+    background-color: #7a7a7a;
     color: #fff;
+  }
+}
+
+.upload-table {
+  margin: 1em 0;
+  
+  table {
+    width: 100%;
   }
 }

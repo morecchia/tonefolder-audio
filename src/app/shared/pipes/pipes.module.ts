@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { FilterPipe } from './filter.pipe';
+import { FileSizePipe } from './filesize.pipe';
 
 @NgModule({
-  declarations: [FilterPipe],
+  declarations: [FilterPipe, FileSizePipe],
   imports: [],
-  exports: [FilterPipe]
+  exports: [FilterPipe, FileSizePipe]
 })
 export class PipesModule { }
