@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, catchError } from 'rxjs/operators';
-import { Subject, of } from 'rxjs';
+import { Subject, of, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
@@ -16,6 +16,9 @@ export interface SelectedFile {
   cover: string;
 }
 
+export const imageFileTypes = ['.jpg', '.png'];
+export const audioFileTypes = ['.mp3', '.wav'];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +30,8 @@ export class TrackService extends BaseService {
 
   private fileSelected = new Subject<SelectedFile>();
   fileSelected$ = this.fileSelected.asObservable();
+
+  trackRequested$ = new BehaviorSubject<Observable<any>>(null);
 
   loading: boolean;
 
@@ -72,14 +77,43 @@ export class TrackService extends BaseService {
         catchError(this.errorCallback));
   }
 
+  saveTracks(files: File[], album: Album): Observable<any>[] {
+    var requests = [];
+    for (const [i,v] of files.entries()) {
+      if (this.isAccepted(v.name, audioFileTypes)) {
+        requests.push(this.http
+          .post(`${environment.serviceUrl}/api/tracks`, {
+            album_id: album.id,
+            filePath: `source/${album.artist} - ${album.title}/${v.name}`,
+            name: v.name,
+            order: i,
+          })
+          .pipe(catchError(this.errorCallback))
+        );
+      }
+      const formData = new FormData();
+      formData.append('uploadFile', v, `${album.artist};${album.title};${v.name}`);
+      requests.push(this.http
+        .post(`${environment.serviceUrl}/api/uploads`, formData)
+        .pipe(catchError(this.errorCallback))
+      );
+    }
+    return requests;
+  }
+
   selectTrack(file: SelectedFile, playlist?: SelectedFile[]) {
     this.currentTracks = playlist ? playlist : this.albumTracks;
     this.fileSelected.next(file);
   }
 
+  isAccepted(filename: string, accepted: string[]): boolean {
+    const ext = filename.split('.').pop();
+    return accepted.includes(`.${ext}`);
+  }
+
   private addToStore(album: Album) {
     const stored = this.trackStorage.find(ts => ts.id === album.id);
-    if (!stored){
+    if (!stored) {
       this.trackStorage.push(album);
     }
   }

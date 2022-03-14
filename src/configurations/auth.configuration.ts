@@ -9,6 +9,14 @@ export const authConfig = {
       allowedList: [{
         uri: `${environment.serviceUrl}/api/albums`,
         httpMethod: HttpMethod.Post,
+      },
+      {
+        uri: `${environment.serviceUrl}/api/tracks`,
+        httpMethod: HttpMethod.Post,
+      },
+      {
+        uri: `${environment.serviceUrl}/api/uploads`,
+        httpMethod: HttpMethod.Post,
       }],
     },
   }
