@@ -27,7 +27,8 @@ export class CreateAlbumComponent {
 
   get focusChange() { return this.albumService.focusChange$; }
   get acceptedFileTypes() { return [...imageFileTypes, ...audioFileTypes]; }
-
+  get artistControl() { return this.createForm.get('artist'); }
+  get titleControl() { return this.createForm.get('title'); }
 
   constructor(private fb: FormBuilder, private albumService: AlbumService, private trackService: TrackService) {
     this.createForm = this.fb.group({
@@ -55,7 +56,7 @@ export class CreateAlbumComponent {
       const fileEntry = v.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
         this.data.push({
-          name: v.relativePath,
+          name: file.name,
           size: file.size,
           modified: file.lastModified.toLocaleString()
         });
@@ -63,9 +64,13 @@ export class CreateAlbumComponent {
         this.fileAdded.emit(file);
         
         if (this.trackService.isAccepted(v.relativePath, imageFileTypes)) {
-          this.createForm.patchValue({cover: `source/${v.relativePath}`});
+          this.createForm.patchValue({cover: this.getCoverPath(file.name)});
         }
       });
     }
+  }
+
+  private getCoverPath(filename: string) {
+    return `source/${this.artistControl.value} - ${this.titleControl.value}/${filename}`;
   }
 }

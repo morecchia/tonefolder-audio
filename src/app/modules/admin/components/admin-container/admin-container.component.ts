@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, concat, forkJoin } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { Subject, concat } from 'rxjs';
+import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
 import { AlbumService } from 'src/app/shared/services/album.service';
 import { TrackService } from 'src/app/shared/services/track.service';
@@ -15,6 +15,7 @@ export class AdminContainerComponent implements OnDestroy {
   saving = false;
   albumFiles: File[] = [];
   albumId: number;
+  completedUploads: string[];
 
   private _destroy = new Subject();
 
@@ -36,12 +37,14 @@ export class AdminContainerComponent implements OnDestroy {
         takeUntil(this._destroy),
         switchMap(album => {
           this.albumId = album.id;
-          return forkJoin(this.trackService.saveTracks(this.albumFiles, album))
+          return concat(...this.trackService.saveTracks(this.albumFiles, album))
+        }),
+        finalize(() => {
+          this.saving = false;
+          this.router.navigate(['/tracks', this.albumId]);
         })
-      )
-      .subscribe(() => {
-        this.saving = false;
-        this.router.navigate(['/tracks', this.albumId]);
+      ).subscribe(res => {
+        console.log(res);
       });
   }
 }
