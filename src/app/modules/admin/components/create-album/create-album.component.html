@@ -17,17 +17,15 @@
     </mat-form-field>
   </div>
 
-  <div class="form-wrapper drop-zone">
-    <ngx-file-drop dropZoneLabel="Drop files here" [accept]="acceptedFileTypes" (onFileDrop)="dropped($event)">
+  <div class="form-wrapper drop-zone" *ngIf="artistControl.valid && titleControl.valid">
+    <ngx-file-drop dropZoneLabel="Drop files here" [accept]="acceptedFileTypes" [disabled]="saving" (onFileDrop)="dropped($event)">
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-        <div>Drop a folder containing the album audio files and cover art</div>
-        <div>
-          <button mat-button type="button" (click)="openFileSelector()">Click to browse files</button>
-        </div>
+        <div class="drop-message">Drop a folder containing the album audio files and cover art</div>
+        <button mat-stroked-button type="button" (click)="openFileSelector()" [disabled]="saving">Click to browse files</button>
       </ng-template>
     </ngx-file-drop>
-    <div class="upload-table" *ngIf="data && data.length">
-      <table mat-table [dataSource]="data">
+    <div class="upload-table" *ngIf="fileList && fileList.length">
+      <table mat-table [dataSource]="fileList">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Filename </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -45,6 +43,7 @@
   </div>
 
   <div class="form-wrapper actions">
+    <button mat-button [disabled]="saving" (click)="reset()">Reset</button>
     <button mat-flat-button [disabled]="!createForm.valid || saving" (click)="create()">Create</button>
   </div>
 </div>

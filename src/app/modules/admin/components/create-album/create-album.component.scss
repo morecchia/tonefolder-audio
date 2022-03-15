@@ -24,6 +24,10 @@ h2 {
   justify-content: flex-end;
 
   button {
+    margin-left: 1em;
+  }
+
+  button.mat-flat-button {
     background-color: #6a6a6a;
     color: #fff;
   }
@@ -31,6 +35,10 @@ h2 {
   button:disabled {
     background-color: #bababa;
   }
+}
+
+.drop-message {
+  padding-bottom: 1em;
 }
 
 .upload-table {

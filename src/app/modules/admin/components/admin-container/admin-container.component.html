@@ -1,4 +1,9 @@
+<div *ngIf="saving" class="progress">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
 <app-create-album
+  [saving]="saving"
   (albumSubmitted)="submitAlbum($event)"
-  (fileAdded)="addFile($event)">
+  (fileAdded)="addFile($event)"
+  (fileListReset)="clearFileList()">
 </app-create-album> 

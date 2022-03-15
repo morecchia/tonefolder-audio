@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Album, AlbumResponse } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
@@ -53,8 +53,27 @@ export class AlbumService extends BaseService {
     this.albumsFiltered$.next(query);
   }
 
-  createAlbum(album: Album) {
-    return this.http.post<any>(`${environment.serviceUrl}/api/albums`, album)
-      .pipe(catchError(this.errorCallback));
+  createAlbum(album: Album, cover: File) {
+    return this.http.post<Album>(`${environment.serviceUrl}/api/albums`, album)
+      .pipe(
+        switchMap(res => this.uploadCover(res, cover)),
+        catchError(this.errorCallback)
+      );
+  }
+
+  uploadCover(album: Album, cover: File) {
+    if (!cover) {
+      return of(album);
+    }
+    
+    const formData = new FormData();
+    formData.append('uploadFile', cover, `${album.artist};${album.title};${cover.name}`);
+
+    return this.http
+      .post(`${environment.serviceUrl}/api/uploads`, formData)
+      .pipe(
+        map(() => album),
+        catchError(this.errorCallback)
+      );
   }
 }

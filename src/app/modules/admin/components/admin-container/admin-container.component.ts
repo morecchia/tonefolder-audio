@@ -30,21 +30,24 @@ export class AdminContainerComponent implements OnDestroy {
     this.albumFiles.push(file);
   }
 
-  submitAlbum(album: Album) {
+  clearFileList() {
+    this.albumFiles = [];
+  }
+
+  submitAlbum(value: {album: Album, cover: File}) {
     this.saving = true;
-    this.albumService.createAlbum(album)
+    this.albumService.createAlbum(value.album, value.cover)
       .pipe(
         takeUntil(this._destroy),
-        switchMap(album => {
-          this.albumId = album.id;
-          return concat(...this.trackService.saveTracks(this.albumFiles, album))
+        switchMap(a => {
+          this.albumId = a.id;
+          return concat(...this.trackService.saveTracks(this.albumFiles, a))
         }),
         finalize(() => {
           this.saving = false;
           this.router.navigate(['/tracks', this.albumId]);
         })
-      ).subscribe(res => {
-        console.log(res);
-      });
+      )
+      .subscribe();
   }
 }
