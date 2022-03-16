@@ -51,7 +51,6 @@ export class AdminContainerComponent implements OnDestroy {
         })
       )
       .subscribe((res: any) => {
-        console.log(res);
         if (res.hasOwnProperty('inProgress')) {
           this.setUploadStatus(res.inProgress, 'In Progress');
         }

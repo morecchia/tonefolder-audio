@@ -56,7 +56,9 @@ export class CreateAlbumComponent implements OnDestroy {
   }
 
   create() {
-    this.setCoverPath(this.albumCover.name);
+    if (this.albumCover) {
+      this.setCoverPath(this.albumCover.name);
+    }
 
     if (!this.createForm.valid || this.saving) {
       return;

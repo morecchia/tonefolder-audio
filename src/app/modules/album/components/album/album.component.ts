@@ -15,6 +15,8 @@ export class AlbumComponent {
   selected: boolean;
 
   get coverArt() {
-    return `${environment.serviceUrl}/${this.album.cover}` || `${environment.serviceUrl}/assets/images/subwoofer-100.png`;
+    return this.album.cover
+      ? `${environment.serviceUrl}/${this.album.cover}`
+      : `${environment.serviceUrl}/assets/images/subwoofer-100.png`;
   }
 }
