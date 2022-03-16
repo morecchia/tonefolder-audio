@@ -3,6 +3,7 @@
 </div>
 <app-create-album
   [saving]="saving"
+  [uploads]="uploads"
   (albumSubmitted)="submitAlbum($event)"
   (fileAdded)="addFile($event)"
   (fileListReset)="clearFileList()">

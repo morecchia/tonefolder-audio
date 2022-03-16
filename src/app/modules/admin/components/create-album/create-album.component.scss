@@ -1,9 +1,9 @@
 :host {
-  padding: 1em;
+  padding: 1em 2em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -43,8 +43,15 @@ h2 {
 
 .upload-table {
   margin: 1em 0;
+  overflow: auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
   
   table {
     width: 100%;
+  }
+
+  tr:last-child td {
+    border-bottom-width: 0
   }
 }

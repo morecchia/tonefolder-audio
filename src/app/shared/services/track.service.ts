@@ -80,23 +80,24 @@ export class TrackService extends BaseService {
   saveTracks(files: File[], album: Album): Observable<any>[] {
     var requests = [];
     for (const [i,v] of files.entries()) {
-      if (this.isAccepted(v.name, audioFileTypes)) {
-        requests.push(this.http
-          .post(`${environment.serviceUrl}/api/tracks`, {
-            album_id: album.id,
-            filePath: `source/${album.artist} - ${album.title}/${v.name}`,
-            name: v.name,
-            order: i,
-          })
-          .pipe(catchError(this.errorCallback))
-        );
-      }
+      const start$ = of({inProgress: v.name});
+      const track$ = this.http
+        .post(`${environment.serviceUrl}/api/tracks`, {
+          album_id: album.id,
+          filePath: `source/${album.artist} - ${album.title}/${v.name}`,
+          name: v.name,
+          order: i,
+        })
+        .pipe(catchError(this.errorCallback));
+
       const formData = new FormData();
       formData.append('uploadFile', v, `${album.artist};${album.title};${v.name}`);
-      requests.push(this.http
+
+      const file$ = this.http
         .post(`${environment.serviceUrl}/api/uploads`, formData)
-        .pipe(catchError(this.errorCallback))
-      );
+        .pipe(catchError(this.errorCallback));
+      
+      requests.push(start$, track$, file$);
     }
     return requests;
   }

@@ -93,3 +93,12 @@ mat-sidenav {
     border-top: 0.5em solid transparent;
   }
 }
+
+table {
+  text-align: center !important;
+  width: 100%;
+}
+
+tr.mat-header-row th.mat-header-cell {
+  text-align: center;
+}

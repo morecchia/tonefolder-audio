@@ -17,8 +17,16 @@
     </mat-form-field>
   </div>
 
-  <div class="form-wrapper drop-zone" *ngIf="artistControl.valid && titleControl.valid">
-    <ngx-file-drop dropZoneLabel="Drop files here" [accept]="acceptedFileTypes" [disabled]="saving" (onFileDrop)="dropped($event)">
+  <div class="form-wrapper" *ngIf="albumCover">
+    <mat-form-field appearance="outline">
+      <mat-label>Cover</mat-label>
+      <input readonly matInput  autocomplete="off" [value]="albumCover.name">
+    </mat-form-field>
+  </div>
+
+  <div class="form-wrapper drop-zone">
+    <ngx-file-drop dropZoneLabel="Drop files here" *ngIf="!fileList || !fileList.length"
+      [accept]="acceptedFileTypes" [disabled]="saving" (onFileDrop)="dropped($event)">
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         <div class="drop-message">Drop a folder containing the album audio files and cover art</div>
         <button mat-stroked-button type="button" (click)="openFileSelector()" [disabled]="saving">Click to browse files</button>
@@ -34,6 +42,11 @@
         <ng-container matColumnDef="size">
           <th mat-header-cell *matHeaderCellDef> Size </th>
           <td mat-cell *matCellDef="let element"> {{element.size | fileSize}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Upload Status </th>
+          <td mat-cell *matCellDef="let element"> {{getUploadStatus(element.name)}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, concat } from 'rxjs';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
+import { UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/shared/services/album.service';
 import { TrackService } from 'src/app/shared/services/track.service';
 
@@ -13,9 +14,9 @@ import { TrackService } from 'src/app/shared/services/track.service';
 })
 export class AdminContainerComponent implements OnDestroy {
   saving = false;
-  albumFiles: File[] = [];
   albumId: number;
-  completedUploads: string[];
+  albumFiles: File[] = [];
+  uploads: UploadStatus[] = [];
 
   private _destroy = new Subject();
 
@@ -28,6 +29,7 @@ export class AdminContainerComponent implements OnDestroy {
 
   addFile(file: File) {
     this.albumFiles.push(file);
+    this.uploads.push({name: file.name, status: 'Pending'})
   }
 
   clearFileList() {
@@ -48,6 +50,21 @@ export class AdminContainerComponent implements OnDestroy {
           this.router.navigate(['/tracks', this.albumId]);
         })
       )
-      .subscribe();
+      .subscribe((res: any) => {
+        console.log(res);
+        if (res.hasOwnProperty('inProgress')) {
+          this.setUploadStatus(res.inProgress, 'In Progress');
+        }
+
+        if (typeof res === 'string') {
+          const trackName = res.split('/').pop();
+          this.setUploadStatus(trackName, 'Complete');
+        }
+      });
+  }
+
+  private setUploadStatus(trackName: string, status: string) {
+    const idx = this.uploads.findIndex(u => u.name === trackName);
+    this.uploads.splice(idx, 1, { name: trackName, status: status });
   }
 }

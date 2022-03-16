@@ -18,7 +18,7 @@
   [infiniteScrollThrottle]="300"
   [scrollWindow]="false"
   (scrolled)="onScroll()">
-  <div class="content">
+  <div class="content" [class.admin]="currentRoute === '/admin'">
     <router-outlet></router-outlet>
   </div>
 </div>
