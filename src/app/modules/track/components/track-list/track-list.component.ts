@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SelectedFile } from 'src/app/shared/services/track.service';
-import { StreamState } from 'src/app/shared/services/audio.service';
+import { SelectedFile } from 'src/app/core/services/track.service';
+import { StreamState } from 'src/app/core/services/audio.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track } from 'src/app/shared/models/track';
 

@@ -3,8 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { PlayerService } from 'src/app/shared//services/player.service';
-import { AlbumService } from 'src/app/shared//services/album.service';
+import { PlayerService } from 'src/app/core/services/player.service';
+import { AlbumService } from 'src/app/core/services/album.service';
 
 @Component({
   selector: 'app-main-container',

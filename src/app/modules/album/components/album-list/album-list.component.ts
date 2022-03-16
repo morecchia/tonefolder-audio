@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
-import { AlbumService } from 'src/app/shared/services/album.service';
+import { AlbumService } from 'src/app/core/services/album.service';
 
 @Component({
   selector: 'app-album-list',

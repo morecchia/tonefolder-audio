@@ -63,7 +63,7 @@ export class TrackService extends BaseService {
         map(res => {
           this.loading = false;
           this.selectedAlbum = res;
-          this.albumTracks = res?.tracks.map(track => ({
+          this.albumTracks = res?.tracks?.map(track => ({
             albumId: res.id,
             album: res.title,
             cover: res.cover,

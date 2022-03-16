@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlbumService } from 'src/app/shared/services/album.service';
-import { PlayerService } from 'src/app/shared/services/player.service';
-import { SelectedFile } from 'src/app/shared/services/track.service';
+import { AlbumService } from 'src/app/core/services/album.service';
+import { PlayerService } from 'src/app/core/services/player.service';
+import { SelectedFile } from 'src/app/core/services/track.service';
 
 @Component({
   selector: 'app-player-container',

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SelectedFile, TrackService } from 'src/app/shared/services/track.service';
-import { PlayerService } from 'src/app/shared/services/player.service';
-import { PlaylistService } from 'src/app/shared/services/playlist.service';
-import { PlaylistDialogService } from 'src/app/shared/services/playlist-dialog.service';
+import { SelectedFile, TrackService } from 'src/app/core/services/track.service';
+import { PlayerService } from 'src/app/core/services/player.service';
+import { PlaylistService } from 'src/app/core/services/playlist.service';
+import { PlaylistDialogService } from 'src/app/core/services/playlist-dialog.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track } from 'src/app/shared/models/track';
 

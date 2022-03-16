@@ -4,8 +4,8 @@ import { Subject, concat } from 'rxjs';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
 import { UploadStatus } from 'src/app/shared/models/track';
-import { AlbumService } from 'src/app/shared/services/album.service';
-import { TrackService } from 'src/app/shared/services/track.service';
+import { AlbumService } from 'src/app/core/services/album.service';
+import { TrackService } from 'src/app/core/services/track.service';
 
 @Component({
   selector: 'app-admin-container',

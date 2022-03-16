@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MaterialModule } from '../../shared/material/material.module';
 import { MainContainerComponent } from './components/main-container/main-container.component';
-import { LoginComponent } from '../login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { PlayerModule } from '../../modules/player/player.module';
 
 @NgModule({
@@ -24,4 +24,4 @@ import { PlayerModule } from '../../modules/player/player.module';
     LoginComponent,
   ],
 })
-export class MainLayoutModule { }
+export class LayoutModule { }

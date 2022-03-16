@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlbumService } from 'src/app/shared/services/album.service';
+import { AlbumService } from 'src/app/core/services/album.service';
 import { Observable } from 'rxjs';
 import { Album } from 'src/app/shared/models/album';
 

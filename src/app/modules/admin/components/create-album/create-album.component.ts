@@ -4,9 +4,8 @@ import { Subject } from 'rxjs';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { Album } from 'src/app/shared/models/album';
 import { FileListItem } from 'src/app/shared/models/track';
-import { AlbumService } from 'src/app/shared/services/album.service';
-import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/shared/services/track.service';
-import { takeUntil } from 'rxjs/operators';
+import { AlbumService } from 'src/app/core/services/album.service';
+import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 
 @Component({
   selector: 'app-create-album',
