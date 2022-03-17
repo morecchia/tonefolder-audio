@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Album, AlbumResponse } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
@@ -11,10 +11,21 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class AlbumService extends BaseService {
+  loading: boolean;
   albums: Album[] = [];
   currentAlbum: Album;
   currentPage: number;
   nextPageUrl: string;
+  sorts = [{
+    label: 'Artist',
+    value: 'artist'
+  }, {
+    label: 'Title',
+    value: 'title'
+  }, {
+    label: 'Date Added',
+    value: 'created_at'
+  }];
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -28,6 +39,7 @@ export class AlbumService extends BaseService {
     const qParam = q ? `&q=${q}` : '';
     const pageParam = this.nextPageUrl && page ? `&page=${page}` : '';
     const url = `${environment.serviceUrl}/api/albums`;
+    this.loading = true;
     return this.http.get<AlbumResponse>(`${url}${sortParam}${qParam}${pageParam}`)
       .pipe(
         map(res => {
@@ -35,6 +47,7 @@ export class AlbumService extends BaseService {
           this.nextPageUrl = res.next_page_url;
           return res.data;
         }),
+        finalize(() => this.loading = false),
         catchError(this.errorCallback)
       );
   }

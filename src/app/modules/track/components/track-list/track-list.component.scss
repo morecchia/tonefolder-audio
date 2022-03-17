@@ -6,13 +6,23 @@
 .tracklist-header {
   display: flex;
   justify-content: flex-end;
+  min-height: 180px;
   padding: 1em;
   color: #aaa;
   background: rgb(64,56,63);
   background: linear-gradient(45deg, rgba(64,56,63,1) 0%, rgba(153,153,153,1) 100%, rgba(224,149,149,1) 100%);
 
-  img {
+  img, .img-loading {
     width: 180px;
+    border: 1px solid #555;
+  }
+
+  .img-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+    background-color: #9a9a9a;
   }
 
   .album-details {
@@ -74,6 +84,10 @@
 }
 
 @media (max-width: 460px) {
+  .tracklist-header {
+    min-height: 120px;
+  }
+
   .tracklist-header h2 {
     font-size: 1em;
     line-height: 1.3rem;

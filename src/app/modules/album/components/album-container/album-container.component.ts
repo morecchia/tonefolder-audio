@@ -25,6 +25,7 @@ export class AlbumContainerComponent implements OnInit {
   }
 
   sortAlbums(sortBy: string){
+    this.albumService.albums = [];
     this.albumsRequest$ = this.albumService.getAlbums(sortBy);
   }
 }

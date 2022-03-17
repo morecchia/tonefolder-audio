@@ -14,8 +14,8 @@
 </div>
 <div [class.player-open]="fileSelected" class="main-content"
   infiniteScroll
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="300"
+  [infiniteScrollDistance]="10"
+  [infiniteScrollThrottle]="200"
   [scrollWindow]="false"
   (scrolled)="onScroll()">
   <div class="content" [class.admin]="currentRoute === '/admin'">

@@ -30,3 +30,7 @@
     [selected]="album === currentAlbum">
   </app-album>
 </div>
+
+<div class="album-list loading" *ngIf="loading">
+  <mat-spinner diameter="30"></mat-spinner>
+</div>

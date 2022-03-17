@@ -7,7 +7,7 @@ export interface Track extends Entity {
   album_id: number;
 }
 
-export interface UploadStatus {
+export interface  TrackUpload {
   name: string;
   status: string;
 }
@@ -16,4 +16,10 @@ export interface FileListItem {
   name: string;
   size: number;
   modified: string;
+}
+
+export const UploadStatus = {
+  pending: 'pending',
+  inProgress: 'in progress',
+  done: 'done'
 }

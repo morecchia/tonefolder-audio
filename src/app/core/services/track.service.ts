@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, finalize } from 'rxjs/operators';
 import { Subject, of, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/shared/models/album';
@@ -23,6 +23,7 @@ export const audioFileTypes = ['.mp3', '.wav'];
   providedIn: 'root'
 })
 export class TrackService extends BaseService {
+  loading: boolean;
   trackStorage: Album[] = [];
   albumTracks: SelectedFile[];
   currentTracks: SelectedFile[];
@@ -32,8 +33,6 @@ export class TrackService extends BaseService {
   fileSelected$ = this.fileSelected.asObservable();
 
   trackRequested$ = new BehaviorSubject<Observable<any>>(null);
-
-  loading: boolean;
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -61,7 +60,6 @@ export class TrackService extends BaseService {
       .get<Album>(`${environment.serviceUrl}/api/albums/${albumId}`)
       .pipe(
         map(res => {
-          this.loading = false;
           this.selectedAlbum = res;
           this.albumTracks = res?.tracks?.map(track => ({
             albumId: res.id,
@@ -74,6 +72,7 @@ export class TrackService extends BaseService {
           this.addToStore(res);
           return res;
         }),
+        finalize(() => this.loading = false),
         catchError(this.errorCallback));
   }
 

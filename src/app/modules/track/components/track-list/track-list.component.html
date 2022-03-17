@@ -4,7 +4,10 @@
       <span class="artist">{{artist}}</span>
       <span class="track-count">{{trackCount}} tracks</span>
     </div>
-    <img [src]="coverArt" [alt]="selectedAlbum?.title">
+    <img *ngIf="!loading" [src]="coverArt" [alt]="selectedAlbum?.title">
+    <span *ngIf="loading" class="img-loading">
+      <mat-spinner diameter="30"></mat-spinner>
+    </span>
 </div>
 
 <div class="tracklist-container">

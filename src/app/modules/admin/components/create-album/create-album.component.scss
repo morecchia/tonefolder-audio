@@ -54,4 +54,10 @@ h2 {
   tr:last-child td {
     border-bottom-width: 0
   }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

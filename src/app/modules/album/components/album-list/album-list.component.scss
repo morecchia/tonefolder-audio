@@ -16,6 +16,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  &.loading {
+    height: 80px;
+    align-items: center;
+  }
 }
 
 @media (max-width: 460px) {

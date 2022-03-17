@@ -21,6 +21,12 @@
     <mat-form-field appearance="outline">
       <mat-label>Cover</mat-label>
       <input readonly matInput  autocomplete="off" [value]="albumCover.name">
+      <span *ngIf="coverUploadStatus === 'in progress'; else coverPendingDone" matSuffix>
+        <mat-spinner diameter="20"></mat-spinner>
+      </span>
+      <ng-template #coverPendingDone>
+        <span matSuffix><mat-icon aria-hidden="false" aria-label="Example home icon">{{coverUploadStatus}}</mat-icon></span>
+      </ng-template>
     </mat-form-field>
   </div>
 
@@ -46,7 +52,14 @@
 
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Upload Status </th>
-          <td mat-cell *matCellDef="let element"> {{getUploadStatus(element.name)}} </td>
+          <td mat-cell *matCellDef="let element">
+            <span class="spinner-container" *ngIf="getUploadStatus(element.name) === uploadStatus.inProgress; else pendingDone">
+              <mat-spinner diameter="20"></mat-spinner>
+            </span>
+            <ng-template #pendingDone>
+              <span><mat-icon aria-hidden="false" aria-label="Example home icon">{{getUploadStatus(element.name)}}</mat-icon></span>
+            </ng-template>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

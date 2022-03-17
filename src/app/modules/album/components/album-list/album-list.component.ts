@@ -22,11 +22,12 @@ export class AlbumListComponent {
 
   filterForm: FormGroup;
   query: string;
-  sortOptions = [{label: 'Artist', value: 'artist'}, {label: 'Title', value: 'title'}];
   selectedSort = 'artist';
 
   get currentAlbum() { return this.albumService.currentAlbum; }
   get focusChange() { return this.albumService.focusChange$; }
+  get sortOptions() { return this.albumService.sorts; }
+  get loading() { return this.albumService.loading }
 
   private _destroy = new Subject();
 
@@ -50,10 +51,12 @@ export class AlbumListComponent {
 
     this.filterForm.valueChanges
       .pipe(
-        debounceTime(300),
+        debounceTime(200),
         distinctUntilChanged(),
         switchMap(f => {
           this.query = f.albumFilter;
+          this.albums = [];
+          this.albumService.albums = [];
           return this.albumService.getAlbums(this.selectedSort, this.query, this.albumService.currentPage)
         }),
         takeUntil(this._destroy)

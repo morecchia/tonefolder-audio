@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, concat } from 'rxjs';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
-import { UploadStatus } from 'src/app/shared/models/track';
+import { TrackUpload, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackService } from 'src/app/core/services/track.service';
 
@@ -16,7 +16,8 @@ export class AdminContainerComponent implements OnDestroy {
   saving = false;
   albumId: number;
   albumFiles: File[] = [];
-  uploads: UploadStatus[] = [];
+  uploads: TrackUpload[] = [];
+  coverStatus = UploadStatus.pending;
 
   private _destroy = new Subject();
 
@@ -29,7 +30,7 @@ export class AdminContainerComponent implements OnDestroy {
 
   addFile(file: File) {
     this.albumFiles.push(file);
-    this.uploads.push({name: file.name, status: 'Pending'})
+    this.uploads.push({name: file.name, status: UploadStatus.pending})
   }
 
   clearFileList() {
@@ -38,10 +39,12 @@ export class AdminContainerComponent implements OnDestroy {
 
   submitAlbum(value: {album: Album, cover: File}) {
     this.saving = true;
+    this.coverStatus = UploadStatus.inProgress;
     this.albumService.createAlbum(value.album, value.cover)
       .pipe(
         takeUntil(this._destroy),
         switchMap(a => {
+          this.coverStatus = 'done';
           this.albumId = a.id;
           return concat(...this.trackService.saveTracks(this.albumFiles, a))
         }),
@@ -52,12 +55,12 @@ export class AdminContainerComponent implements OnDestroy {
       )
       .subscribe((res: any) => {
         if (res.hasOwnProperty('inProgress')) {
-          this.setUploadStatus(res.inProgress, 'In Progress');
+          this.setUploadStatus(res.inProgress, UploadStatus.inProgress);
         }
 
         if (typeof res === 'string') {
           const trackName = res.split('/').pop();
-          this.setUploadStatus(trackName, 'Complete');
+          this.setUploadStatus(trackName, UploadStatus.done);
         }
       });
   }

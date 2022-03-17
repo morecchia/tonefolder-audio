@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { Album } from 'src/app/shared/models/album';
-import { FileListItem } from 'src/app/shared/models/track';
+import { FileListItem, TrackUpload, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 
@@ -18,12 +18,16 @@ export class CreateAlbumComponent implements OnDestroy {
   displayedColumns = ['name', 'size', 'status'];
   fileList: FileListItem[] = [];
   albumCover: File;
+  uploadStatus = UploadStatus;
+  
+  @Input()
+  coverUploadStatus: string;
 
   @Input()
   saving: boolean;
 
   @Input()
-  uploads: any[] = [];
+  uploads: TrackUpload[] = [];
 
   @Output()
   albumSubmitted = new EventEmitter<{ album: Album, cover: File }>();
@@ -105,7 +109,7 @@ export class CreateAlbumComponent implements OnDestroy {
 
   getUploadStatus(filename: string): string {
     const uploadStatus = this.uploads && this.uploads.find(u => u.name === filename);
-    return uploadStatus ? uploadStatus.status : 'Pending';
+    return uploadStatus ? uploadStatus.status : UploadStatus.pending;
   }
 
   private setCoverPath(filename: string) {

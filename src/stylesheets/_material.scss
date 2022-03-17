@@ -102,3 +102,13 @@ table {
 tr.mat-header-row th.mat-header-cell {
   text-align: center;
 }
+
+.img-loading {
+  .mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #d9d9d9;
+  }
+}
+
+.mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #9a9a9a;
+}
