@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { authConfig } from 'src/configurations/auth.configuration';
-import { MaterialModule } from './shared/material/material.module';
-import { LayoutModule } from './core/layout/layout.module';
+import { MaterialModule } from 'src/app/shared/material/material.module';
+import { LayoutModule } from 'src/app/core/layout/layout.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
