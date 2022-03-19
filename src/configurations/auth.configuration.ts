@@ -11,8 +11,16 @@ export const authConfig = {
         httpMethod: HttpMethod.Post,
       },
       {
+        uri: `${environment.serviceUrl}/api/albums/*`,
+        httpMethod: HttpMethod.Put,
+      },
+      {
         uri: `${environment.serviceUrl}/api/tracks`,
         httpMethod: HttpMethod.Post,
+      },
+      {
+        uri: `${environment.serviceUrl}/api/tracks`,
+        httpMethod: HttpMethod.Put,
       },
       {
         uri: `${environment.serviceUrl}/api/uploads`,

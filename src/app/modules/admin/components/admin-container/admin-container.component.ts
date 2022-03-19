@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, concat } from 'rxjs';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
-import { TrackUpload, UploadStatus } from 'src/app/shared/models/track';
+import { FileUpload, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackService } from 'src/app/core/services/track.service';
 
@@ -16,7 +16,7 @@ export class AdminContainerComponent implements OnDestroy {
   saving = false;
   albumId: number;
   albumFiles: File[] = [];
-  uploads: TrackUpload[] = [];
+  uploads: FileUpload[] = [];
   coverStatus = UploadStatus.pending;
 
   private _destroy = new Subject();

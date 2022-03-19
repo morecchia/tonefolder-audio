@@ -7,7 +7,7 @@ export interface Track extends Entity {
   album_id: number;
 }
 
-export interface  TrackUpload {
+export interface  FileUpload {
   name: string;
   status: string;
 }

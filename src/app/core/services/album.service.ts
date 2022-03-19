@@ -74,6 +74,14 @@ export class AlbumService extends BaseService {
       );
   }
 
+  updateAlbum(album: Album, cover: File) {
+    return this.http.put<Album>(`${environment.serviceUrl}/api/albums/${album.id}`, album)
+      .pipe(
+        switchMap(res => this.uploadCover(res, cover)),
+        catchError(this.errorCallback)
+      );
+  }
+
   uploadCover(album: Album, cover: File) {
     if (!cover) {
       return of(album);
@@ -88,5 +96,9 @@ export class AlbumService extends BaseService {
         map(() => album),
         catchError(this.errorCallback)
       );
+  }
+
+  getCoverPath(filename: string, artist: string, title: string) {
+    return `source/${artist} - ${title}/${filename}`;
   }
 }

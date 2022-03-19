@@ -4,10 +4,25 @@
       <span class="artist">{{artist}}</span>
       <span class="track-count">{{trackCount}} tracks</span>
     </div>
-    <img *ngIf="!loading" [src]="coverArt" [alt]="selectedAlbum?.title">
-    <span *ngIf="loading" class="img-loading">
-      <mat-spinner diameter="30"></mat-spinner>
+    <span *ngIf="!loading; else imgLoading" class="cover-container">
+      <span class="edit-artwork">
+        <button *ngIf="coverFile" mat-icon-button aria-label="Save artwork" (click)="saveAlbum()">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Edit artwork" (click)="openEditModal()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </span>
+      <img *ngIf="tempCoverArt; else coverArtwork" [src]="tempCoverArt" [alt]="selectedAlbum?.title">
+      <ng-template #coverArtwork>
+        <img [src]="coverArt" [alt]="selectedAlbum?.title">
+      </ng-template>
     </span>
+    <ng-template #imgLoading>
+      <span *ngIf="loading" class="img-loading">
+        <mat-spinner diameter="30"></mat-spinner>
+      </span>
+    </ng-template>
 </div>
 
 <div class="tracklist-container">

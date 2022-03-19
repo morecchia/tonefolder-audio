@@ -1,0 +1,24 @@
+.drop-message {
+  padding-bottom: 1em;
+}
+
+.upload-table {
+  margin: 1em 0;
+  overflow: auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  
+  table {
+    width: 100%;
+  }
+
+  tr:last-child td {
+    border-bottom-width: 0
+  }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

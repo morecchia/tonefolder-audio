@@ -106,11 +106,6 @@ export class TrackService extends BaseService {
     this.fileSelected.next(file);
   }
 
-  isAccepted(filename: string, accepted: string[]): boolean {
-    const ext = filename.split('.').pop();
-    return accepted.includes(`.${ext}`);
-  }
-
   private addToStore(album: Album) {
     const stored = this.trackStorage.find(ts => ts.id === album.id);
     if (!stored) {

@@ -3,9 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { Album } from 'src/app/shared/models/album';
-import { FileListItem, TrackUpload, UploadStatus } from 'src/app/shared/models/track';
+import { FileListItem, FileUpload, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
-import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
+import { audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
+import { FileDropService } from 'src/app/core/services/file-drop.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-album',
@@ -14,7 +16,6 @@ import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/servi
 })
 export class CreateAlbumComponent implements OnDestroy {
   createForm: FormGroup;
-  files: NgxFileDropEntry[] = [];
   displayedColumns = ['name', 'size', 'status'];
   fileList: FileListItem[] = [];
   albumCover: File;
@@ -27,7 +28,7 @@ export class CreateAlbumComponent implements OnDestroy {
   saving: boolean;
 
   @Input()
-  uploads: TrackUpload[] = [];
+  uploads: FileUpload[] = [];
 
   @Output()
   albumSubmitted = new EventEmitter<{ album: Album, cover: File }>();
@@ -45,12 +46,18 @@ export class CreateAlbumComponent implements OnDestroy {
 
   private _destroy = new Subject();
 
-  constructor(private fb: FormBuilder, private albumService: AlbumService, private trackService: TrackService) {
+  constructor(private fb: FormBuilder, private albumService: AlbumService, private fileDropService: FileDropService) {
     this.createForm = this.fb.group({
       title: ['', Validators.required],
       artist: ['', Validators.required],
       cover: [''],
     });
+
+    this.fileDropService.fileDropped
+      .pipe(takeUntil(this._destroy))
+      .subscribe(file => {
+        this.dropped(file);
+      });
   }
 
   ngOnDestroy() {
@@ -76,35 +83,26 @@ export class CreateAlbumComponent implements OnDestroy {
   reset() {
     this.createForm.reset();
     this.albumCover = null;
-    this.files = [];
     this.fileList = [];
     this.fileListReset.emit();
   }
 
-  dropped(files: NgxFileDropEntry[]) {
-    this.files = files;
-    this.fileList = [];
-    for (const v of files) {
-      if (!v.fileEntry.isFile || !this.trackService.isAccepted(v.relativePath, this.acceptedFileTypes)) {
-        continue;
-      }
-
-      const fileEntry = v.fileEntry as FileSystemFileEntry;
-      fileEntry.file((file: File) => {
-        if (this.trackService.isAccepted(v.relativePath, audioFileTypes)) {
+  dropped(file: NgxFileDropEntry) {
+      const fileEntry = file.fileEntry as FileSystemFileEntry;
+      fileEntry.file((f: File) => {
+        if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
           this.fileList.push({
-            name: file.name,
-            size: file.size,
-            modified: file.lastModified.toLocaleString()
+            name: f.name,
+            size: f.size,
+            modified: f.lastModified.toLocaleString()
           });
-          this.fileAdded.emit(file);
+          this.fileAdded.emit(f);
         }
         
-        if (this.trackService.isAccepted(v.relativePath, imageFileTypes)) {
-          this.albumCover = file;
+        if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
+          this.albumCover = f;
         }
       });
-    }
   }
 
   getUploadStatus(filename: string): string {
@@ -114,7 +112,9 @@ export class CreateAlbumComponent implements OnDestroy {
 
   private setCoverPath(filename: string) {
     if (this.artistControl.value && this.titleControl.value) {
-      this.createForm.patchValue({cover: `source/${this.artistControl.value} - ${this.titleControl.value}/${filename}`});
+      this.createForm.patchValue({
+        cover: this.albumService.getCoverPath(filename, this.artistControl.value, this.titleControl.value)
+      });
     }
   }
 }

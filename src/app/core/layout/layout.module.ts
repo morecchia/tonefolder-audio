@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { MaterialModule } from '../../shared/material/material.module';
+import { MaterialModule } from 'src/app/shared/material/material.module';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { MainContainerComponent } from './components/main-container/main-container.component';
-import { LoginComponent } from './components/login/login.component';
-import { PlayerModule } from '../../modules/player/player.module';
+import { LoginComponent } from 'src/app/core/components/login/login.component';
+import { PlayerModule } from 'src/app/modules/player/player.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PlayerModule } from '../../modules/player/player.module';
     RouterModule,
     InfiniteScrollModule,
     MaterialModule,
+    PipesModule,
     PlayerModule,
   ],
   exports: [

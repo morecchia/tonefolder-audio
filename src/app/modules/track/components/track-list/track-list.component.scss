@@ -6,7 +6,6 @@
 .tracklist-header {
   display: flex;
   justify-content: flex-end;
-  min-height: 180px;
   padding: 1em;
   color: #aaa;
   background: rgb(64,56,63);
@@ -23,6 +22,16 @@
     align-items: center;
     height: 180px;
     background-color: #9a9a9a;
+  }
+
+  .cover-container {
+    position: relative;
+    
+    .edit-artwork {
+      position: absolute;
+      right: 0;
+      color: #fff;
+    }
   }
 
   .album-details {
@@ -84,10 +93,6 @@
 }
 
 @media (max-width: 460px) {
-  .tracklist-header {
-    min-height: 120px;
-  }
-
   .tracklist-header h2 {
     font-size: 1em;
     line-height: 1.3rem;

@@ -1,0 +1,8 @@
+<div class="drop-container drop-zone">
+  <ngx-file-drop [multiple]="multiple" [accept]="acceptedFileTypes" (onFileDrop)="dropped($event)">
+    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+      <div class="drop-message">{{message}}</div>
+      <button mat-stroked-button type="button" (click)="openFileSelector()">Click to browse files</button>
+    </ng-template>
+  </ngx-file-drop>
+</div>

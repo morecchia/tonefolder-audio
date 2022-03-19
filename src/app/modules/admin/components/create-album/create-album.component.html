@@ -31,13 +31,11 @@
   </div>
 
   <div class="form-wrapper drop-zone">
-    <ngx-file-drop dropZoneLabel="Drop files here" *ngIf="!fileList || !fileList.length"
-      [accept]="acceptedFileTypes" [disabled]="saving" (onFileDrop)="dropped($event)">
-      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-        <div class="drop-message">Drop a folder containing the album audio files and cover art</div>
-        <button mat-stroked-button type="button" (click)="openFileSelector()" [disabled]="saving">Click to browse files</button>
-      </ng-template>
-    </ngx-file-drop>
+    <app-file-dropper
+      [message]="'Drop a folder containing the album audio files and cover art'"
+      [acceptedFileTypes]=""
+      [multiple]="true">
+    </app-file-dropper>
     <div class="upload-table" *ngIf="fileList && fileList.length">
       <table mat-table [dataSource]="fileList">
         <ng-container matColumnDef="name">
