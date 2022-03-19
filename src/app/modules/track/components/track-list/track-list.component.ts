@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialogRef, } from "@angular/material/dialog";
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { SelectedFile, TrackService, imageFileTypes } from 'src/app/core/services/track.service';
@@ -10,8 +12,6 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { FileDropperComponent } from 'src/app/core/file-drop/components/file-dropper/file-dropper.component'
 import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-track-list',
@@ -90,6 +90,7 @@ export class TrackListComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.fileDropService.fileDropped.next(null);
     this._destroy.next();
     this._destroy.complete();
   }
