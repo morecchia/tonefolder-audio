@@ -5,7 +5,7 @@
       <span class="track-count">{{trackCount}} tracks</span>
     </div>
     <span *ngIf="!loading; else imgLoading" class="cover-container">
-      <span class="edit-artwork">
+      <span class="edit-artwork" *ngIf="loggedIn$ | async">
         <span>
           <button *ngIf="coverFile" mat-icon-button aria-label="Save artwork" (click)="saveAlbum()">
             <mat-icon>save</mat-icon>

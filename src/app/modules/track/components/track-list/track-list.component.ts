@@ -9,7 +9,7 @@ import { StreamState } from 'src/app/core/services/audio.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track } from 'src/app/shared/models/track';
 import { ModalService } from 'src/app/core/services/modal.service';
-import { FileDropperComponent } from 'src/app/core/file-drop/components/file-dropper/file-dropper.component'
+import { FileDropperComponent } from 'src/app/modules/file-drop/components/file-dropper/file-dropper.component'
 import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 
