@@ -7,6 +7,7 @@ import { PlaylistService } from 'src/app/core/services/playlist.service';
 import { PlaylistDialogService } from 'src/app/core/services/playlist-dialog.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track } from 'src/app/shared/models/track';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-track-container',
@@ -19,8 +20,10 @@ export class TrackContainerComponent {
   get selectedAlbum() { return this.trackService.selectedAlbum; }
   get playerState() { return this.playerService.state; }
   get currentTrack() { return this.playerService.currentFile?.title; }
+  get loggedIn$() { return this.auth.isAuthenticated$; }
 
   constructor(
+    private auth: AuthService,
     private route: ActivatedRoute,
     private trackService: TrackService,
     private playerService: PlayerService,

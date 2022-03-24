@@ -80,14 +80,17 @@
       background: #333;
       border-radius: 10px;
       text-align: center;
-      cursor: pointer;
 
-      &:hover .add-track {
+      &.logged-in {
+        cursor: pointer;
+      }
+
+      &.logged-in:hover .add-track {
         display: flex;
         align-items: center;
       }
 
-      &:hover .track-count {
+      &.logged-in:hover .track-count {
         display: none;
       }
 

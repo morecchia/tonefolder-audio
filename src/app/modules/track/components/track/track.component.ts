@@ -9,6 +9,9 @@ import { Track } from 'src/app/shared/models/track';
 })
 export class TrackComponent {
   @Input()
+  loggedIn: boolean;
+
+  @Input()
   track: Track;
 
   @Input()
@@ -29,8 +32,6 @@ export class TrackComponent {
   @HostBinding('class') get HeadingClass() {
     return this.playing ? 'playing' : '';
   }
-
-  get loggedIn$() { return this.auth.isAuthenticated$; }
 
   constructor(private auth: AuthService) { }
 }

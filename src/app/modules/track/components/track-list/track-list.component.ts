@@ -21,6 +21,9 @@ import { TrackFormComponent } from '../track-form/track-form.component';
 })
 export class TrackListComponent implements OnDestroy {
   @Input()
+  loggedIn: boolean;
+
+  @Input()
   playerState: StreamState;
 
   @Input()
@@ -56,7 +59,7 @@ export class TrackListComponent implements OnDestroy {
     return this.tracksResponse.tracks
       .sort((a: Track, b: Track) => a.order - b.order);
   }
-  get loggedIn$() { return this.auth.isAuthenticated$; }
+
   get trackCount() { return this.tracksResponse?.tracks.length; }
   get album() { return this.tracksResponse && this.tracksResponse.title; }
   get artist() { return this.tracksResponse && this.tracksResponse.artist; }
@@ -65,7 +68,6 @@ export class TrackListComponent implements OnDestroy {
   private _destroy = new Subject();
 
   constructor(
-    private auth: AuthService,
     private trackService: TrackService,
     private modal: ModalService,
     private fileDropService: FileDropService,

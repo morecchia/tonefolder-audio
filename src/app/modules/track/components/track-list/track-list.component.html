@@ -2,13 +2,13 @@
     <div class="album-details">
       <h2>{{album}}</h2>
       <span class="artist">{{artist}}</span>
-      <div class="track-info-container">
+      <div [class.logged-in]="loggedIn" class="track-info-container">
         <span class="track-info track-count">{{trackCount}} tracks</span>
-        <span class="track-info add-track" (click)="addTrackModal()"><mat-icon>add</mat-icon> Add a Track</span>
+        <span *ngIf="loggedIn" class="track-info add-track" (click)="addTrackModal()"><mat-icon>add</mat-icon> Add a Track</span>
       </div>
     </div>
     <span *ngIf="!loading; else imgLoading" class="cover-container">
-      <span class="edit-artwork" *ngIf="loggedIn$ | async">
+      <span class="edit-artwork" *ngIf="loggedIn">
         <span>
           <button *ngIf="coverFile" mat-icon-button aria-label="Save artwork" (click)="saveAlbum()">
             <mat-icon>save</mat-icon>
@@ -36,6 +36,7 @@
   <mat-list role="list" *ngIf="tracksResponse">
     <mat-list-item role="listitem" *ngFor="let track of tracks">
       <app-track
+        [loggedIn]="loggedIn"
         [track]="track"
         [playing]="currentTrack === track.name"
         [downloadLink]="getDownloadLink(track)"

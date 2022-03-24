@@ -1,9 +1,9 @@
 
 <span class="track-tools">
-  <span *ngIf="loggedIn$ | async" matTooltip="Edit Track Name" class="track-tool" (click)="trackEdit.emit()">
+  <span *ngIf="loggedIn" matTooltip="Edit Track Name" class="track-tool" (click)="trackEdit.emit()">
     <mat-icon>edit</mat-icon>
   </span>
-  <a *ngIf="loggedIn$ | async" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="track.name">
+  <a *ngIf="loggedIn" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="track.name">
     <mat-icon>cloud_download</mat-icon>
   </a>
   <span class="track-tool" matTooltip="Add to Queue" (click)="trackQueued.emit()">

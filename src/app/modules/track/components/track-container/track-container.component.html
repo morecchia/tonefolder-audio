@@ -1,4 +1,5 @@
 <app-track-list
+  [loggedIn]="loggedIn$ | async"
   [selectedAlbum]="selectedAlbum"
   [currentTrack]="currentTrack"
   [playerState]="playerState"
