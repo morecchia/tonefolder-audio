@@ -9,6 +9,9 @@ import { SelectedFile } from 'src/app/core/services/track.service';
 })
 export class PlaylistItemComponent {
   downloadLink: string;
+  
+  @Input()
+  loggedIn: boolean;
 
   @Input()
   playing: boolean;

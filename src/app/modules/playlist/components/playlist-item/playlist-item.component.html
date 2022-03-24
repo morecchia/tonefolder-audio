@@ -6,7 +6,7 @@
       <span class="track-name">{{item.title}}</span>
     </div>
   </div>
-  <a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.file">
+  <a *ngIf="loggedIn" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.file">
     <mat-icon>cloud_download</mat-icon>
   </a>
 </div>

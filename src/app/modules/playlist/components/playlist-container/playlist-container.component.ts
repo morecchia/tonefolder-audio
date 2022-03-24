@@ -3,6 +3,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { SelectedFile, TrackService } from 'src/app/core/services/track.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-playlist-container',
@@ -17,7 +18,10 @@ export class PlaylistContainerComponent {
     return this.player.currentFile?.title;
   }
 
+  get loggedIn$() { return this.auth.isAuthenticated$; }
+
   constructor(
+    private auth: AuthService,
     private playlistService: PlaylistService,
     private player: PlayerService,
     private trackService: TrackService) { }
