@@ -7,6 +7,7 @@ import { Subject, of, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
+import { Track } from 'src/app/shared/models/track';
 
 export interface SelectedFile {
   file: string;
@@ -99,6 +100,12 @@ export class TrackService extends BaseService {
       requests.push(start$, track$, file$);
     }
     return requests;
+  }
+
+  updateTrack(track: Track) {
+    return this.http
+      .put<Track>(`${environment.serviceUrl}/api/tracks/${track.id}`, track)
+      .pipe(catchError(this.errorCallback));
   }
 
   selectTrack(file: SelectedFile, playlist?: SelectedFile[]) {

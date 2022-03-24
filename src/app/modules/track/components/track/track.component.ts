@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
+import { Track } from 'src/app/shared/models/track';
 
 @Component({
   selector: 'app-track',
@@ -7,7 +9,7 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
 })
 export class TrackComponent {
   @Input()
-  title: string;
+  track: Track;
 
   @Input()
   playing: boolean;
@@ -21,7 +23,14 @@ export class TrackComponent {
   @Output()
   trackQueued = new EventEmitter<void>();
 
+  @Output()
+  trackEdit = new EventEmitter<void>();
+
   @HostBinding('class') get HeadingClass() {
     return this.playing ? 'playing' : '';
   }
+
+  get loggedIn$() { return this.auth.isAuthenticated$; }
+
+  constructor(private auth: AuthService) { }
 }

@@ -2,7 +2,10 @@
     <div class="album-details">
       <h2>{{album}}</h2>
       <span class="artist">{{artist}}</span>
-      <span class="track-count">{{trackCount}} tracks</span>
+      <div class="track-info-container">
+        <span class="track-info track-count">{{trackCount}} tracks</span>
+        <span class="track-info add-track" (click)="addTrackModal()"><mat-icon>add</mat-icon> Add a Track</span>
+      </div>
     </div>
     <span *ngIf="!loading; else imgLoading" class="cover-container">
       <span class="edit-artwork" *ngIf="loggedIn$ | async">
@@ -33,9 +36,10 @@
   <mat-list role="list" *ngIf="tracksResponse">
     <mat-list-item role="listitem" *ngFor="let track of tracks">
       <app-track
-        [title]="track.name"
+        [track]="track"
         [playing]="currentTrack === track.name"
         [downloadLink]="getDownloadLink(track)"
+        (trackEdit)="openTrackModal(track)"
         (trackSelected)="selectTrack(track)"
         (trackQueued)="queueTrack(track)">
       </app-track>

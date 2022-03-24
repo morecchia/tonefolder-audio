@@ -19,7 +19,7 @@ export const authConfig = {
         httpMethod: HttpMethod.Post,
       },
       {
-        uri: `${environment.serviceUrl}/api/tracks`,
+        uri: `${environment.serviceUrl}/api/tracks/*`,
         httpMethod: HttpMethod.Put,
       },
       {

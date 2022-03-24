@@ -1,6 +1,9 @@
 
 <span class="track-tools">
-  <a class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="title">
+  <span *ngIf="loggedIn$ | async" matTooltip="Edit Track Name" class="track-tool" (click)="trackEdit.emit()">
+    <mat-icon>edit</mat-icon>
+  </span>
+  <a *ngIf="loggedIn$ | async" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="track.name">
     <mat-icon>cloud_download</mat-icon>
   </a>
   <span class="track-tool" matTooltip="Add to Queue" (click)="trackQueued.emit()">
@@ -9,5 +12,5 @@
 </span>
 
 <div class="track-name" [class.playing]="playing" (click)="trackSelected.emit()">
-  <span>{{title}}</span>
+  <span>{{track.name}}</span>
 </div>

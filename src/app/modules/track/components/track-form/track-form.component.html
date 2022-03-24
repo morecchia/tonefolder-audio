@@ -1,0 +1,12 @@
+
+<div class="wrapper" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Track Name</mat-label>
+    <input matInput autocomplete="off" formControlName="name">
+  </mat-form-field>
+  
+  <div class="actions">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-flat-button (click)="save()" [disabled]="form.pristine || !form.valid">Save</button>
+  </div>
+</div>

@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialogRef, } from "@angular/material/dialog";
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { concat, Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
-import { SelectedFile, TrackService, imageFileTypes } from 'src/app/core/services/track.service';
+import { SelectedFile, TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { StreamState } from 'src/app/core/services/audio.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track } from 'src/app/shared/models/track';
@@ -12,6 +12,7 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { FileDropperComponent } from 'src/app/modules/file-drop/components/file-dropper/file-dropper.component'
 import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
+import { TrackFormComponent } from '../track-form/track-form.component';
 
 @Component({
   selector: 'app-track-list',
@@ -74,17 +75,31 @@ export class TrackListComponent implements OnDestroy {
       .pipe(takeUntil(this._destroy))
       .subscribe(file => {
         if (file) {
-          this.modal.dialogRef && this.modal.dialogRef.close();
           const fileEntry = file.fileEntry as FileSystemFileEntry;
-          const reader = new FileReader();
+          if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
+            fileEntry.file(media => {
+              concat(...this.trackService.saveTracks([media], this.tracksResponse))
+                .pipe(takeUntil(this._destroy))
+                .subscribe(res => {
+                  if (res.hasOwnProperty('album_id')) {
+                    this.tracksResponse.tracks.push(res);
+                  }
+                });
+            });
+          }
 
-          fileEntry.file(file => {
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-              this.tempCoverArt = reader.result;
-              this.coverFile = file;
-            };
-          });
+          if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
+            const reader = new FileReader();
+            fileEntry.file(img => {
+              reader.readAsDataURL(img);
+              reader.onload = () => {
+                this.tempCoverArt = reader.result;
+                this.coverFile = img;
+              };
+            });
+          }
+          this.modal.dialogRef && this.modal.dialogRef.close();
+          
         }
       });
   }
@@ -127,6 +142,41 @@ export class TrackListComponent implements OnDestroy {
       },
       width: '600px',
     });
+  }
+
+  addTrackModal() {
+    this.modal.open(FileDropperComponent, {
+      data: {
+        message: 'Drop a folder or file containing the track media',
+        acceptedFileTypes: audioFileTypes,
+        multiple: true,
+      },
+      width: '600px',
+    });
+  }
+
+  openTrackModal(track: Track) {
+    this.tempCoverArt = null;
+    this.modal.open(TrackFormComponent, {
+      data: {
+        track: track,
+      },
+      width: '600px',
+    });
+
+    this.modal.closed()
+      .pipe(
+        switchMap(track => {
+          const idx = this.tracksResponse.tracks.findIndex(t => t.id === track.id);
+          const newTrack = Object.assign({}, this.tracksResponse.tracks[idx], {
+            name: track.name,
+          });
+          this.tracksResponse.tracks.splice(idx, 1, newTrack);
+          return this.trackService.updateTrack(track);
+        }),
+        takeUntil(this._destroy)
+      )
+      .subscribe();
   }
 
   saveAlbum() {

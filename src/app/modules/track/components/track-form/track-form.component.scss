@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-form-field {
+  flex: 1;
+  margin-right: auto;
+}
+
+.actions {
+  padding-left: 1em;
+  display: flex;
+}
+
+button.mat-flat-button {
+  background-color: #6a6a6a;
+  color: #fff;
+}

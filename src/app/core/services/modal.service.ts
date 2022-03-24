@@ -24,7 +24,7 @@ export class ModalService {
     });
   }
 
-  confirmed(): Observable<any> {
+  closed(): Observable<any> {
     return this.dialogRef.afterClosed()
       .pipe(
         take(1),
