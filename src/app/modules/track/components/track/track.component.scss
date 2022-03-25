@@ -29,6 +29,7 @@ a.track-tool {
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  align-items: baseline;
   
   &:hover, &.playing {
     font-weight: 500;
