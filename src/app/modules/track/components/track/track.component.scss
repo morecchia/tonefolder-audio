@@ -29,14 +29,16 @@ a.track-tool {
   flex: 1;
   display: flex;
   justify-content: flex-end;
-  align-items: baseline;
   
   &:hover, &.playing {
     font-weight: 500;
   }
 
   span {
-    margin: 3px auto 0 6px;
+    flex: 1;
+    display: flex;
+    align-self: stretch;
+    align-items: center;
     max-width: calc(100vw - 140px);
     overflow: hidden;
     white-space: nowrap;
