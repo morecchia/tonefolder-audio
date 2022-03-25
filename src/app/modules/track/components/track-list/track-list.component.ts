@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core
 import { MatDialogRef, } from "@angular/material/dialog";
 import { concat, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
-import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { SelectedFile, TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { StreamState } from 'src/app/core/services/audio.service';
@@ -48,6 +47,7 @@ export class TrackListComponent implements OnDestroy {
   modalRef: MatDialogRef<FileDropperComponent>;
   tempCoverArt: string | ArrayBuffer;
   coverFile: File;
+  tracksToAdd: File[] = [];
 
   get coverArt() {
     return this.tracksResponse && this.tracksResponse.cover
@@ -76,33 +76,20 @@ export class TrackListComponent implements OnDestroy {
     this.fileDropService.fileDropped
       .pipe(takeUntil(this._destroy))
       .subscribe(file => {
-        if (file) {
-          const fileEntry = file.fileEntry as FileSystemFileEntry;
-          if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
-            fileEntry.file(media => {
-              concat(...this.trackService.saveTracks([media], this.tracksResponse))
-                .pipe(takeUntil(this._destroy))
-                .subscribe(res => {
-                  if (res.hasOwnProperty('album_id')) {
-                    this.tracksResponse.tracks.push(res);
-                  }
-                });
-            });
-          }
-
-          if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
-            const reader = new FileReader();
-            fileEntry.file(img => {
-              reader.readAsDataURL(img);
-              reader.onload = () => {
-                this.tempCoverArt = reader.result;
-                this.coverFile = img;
-              };
-            });
-          }
-          this.modal.dialogRef && this.modal.dialogRef.close();
-          
+        if (!file) {
+          return;
         }
+        const fileEntry = file.fileEntry as FileSystemFileEntry;
+        if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
+          fileEntry.file(audio => {
+            this.tracksToAdd.push(audio);
+          });
+        }
+
+        if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
+          this.uploadImage(fileEntry)
+        }
+        this.modal.dialogRef && this.modal.dialogRef.close();
       });
   }
 
@@ -190,5 +177,28 @@ export class TrackListComponent implements OnDestroy {
       .subscribe(() => {
         this.trackService.loading = false;
       });
+  }
+
+  uploadTracks() {
+    concat(...this.trackService.saveTracks(this.tracksToAdd, this.tracksResponse))
+      .pipe(takeUntil(this._destroy))
+      .subscribe(res => {
+        if (res.hasOwnProperty('album_id')) {
+          const idx = this.tracksToAdd.findIndex(t => t.name === res.name);
+          this.tracksToAdd.splice(idx, 1);
+          this.tracksResponse.tracks.push(res);
+        }
+      });
+  }
+
+  private uploadImage(fileEntry: FileSystemFileEntry) {
+    const reader = new FileReader();
+    fileEntry.file(img => {
+      reader.readAsDataURL(img);
+      reader.onload = () => {
+        this.tempCoverArt = reader.result;
+        this.coverFile = img;
+      };
+    });
   }
 }

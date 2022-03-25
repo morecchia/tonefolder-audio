@@ -4,7 +4,7 @@
       <span class="artist">{{artist}}</span>
       <div [class.logged-in]="loggedIn" class="track-info-container">
         <span class="track-info track-count">{{trackCount}} tracks</span>
-        <span *ngIf="loggedIn" class="track-info add-track" (click)="addTrackModal()"><mat-icon>add</mat-icon> Add a Track</span>
+        <span *ngIf="loggedIn" class="track-info add-track" (click)="addTrackModal()"><mat-icon>add</mat-icon> Add Tracks</span>
       </div>
     </div>
     <span *ngIf="!loading; else imgLoading" class="cover-container">
@@ -33,6 +33,17 @@
 </div>
 
 <div class="tracklist-container">
+  <div *ngIf="tracksToAdd && tracksToAdd.length">
+    <button mat-flat-button color="primary" (click)="uploadTracks()">
+      <mat-icon>upload</mat-icon> Upload {{tracksToAdd.length}} Pending
+    </button>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let track of tracksToAdd">
+        <app-track [track]="track"></app-track>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
   <mat-list role="list" *ngIf="tracksResponse">
     <mat-list-item role="listitem" *ngFor="let track of tracks">
       <app-track
