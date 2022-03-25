@@ -20,6 +20,7 @@ export class CreateAlbumComponent implements OnDestroy {
   fileList: FileListItem[] = [];
   albumCover: File;
   uploadStatus = UploadStatus;
+  fileTypes = [...audioFileTypes, ...imageFileTypes];
   
   @Input()
   coverUploadStatus: string;
@@ -56,7 +57,9 @@ export class CreateAlbumComponent implements OnDestroy {
     this.fileDropService.fileDropped
       .pipe(takeUntil(this._destroy))
       .subscribe(file => {
-        this.dropped(file);
+        if (file) {
+          this.dropped(file);
+        }
       });
   }
 
@@ -88,21 +91,21 @@ export class CreateAlbumComponent implements OnDestroy {
   }
 
   dropped(file: NgxFileDropEntry) {
-      const fileEntry = file.fileEntry as FileSystemFileEntry;
-      fileEntry.file((f: File) => {
-        if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
-          this.fileList.push({
-            name: f.name,
-            size: f.size,
-            modified: f.lastModified.toLocaleString()
-          });
-          this.fileAdded.emit(f);
-        }
-        
-        if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
-          this.albumCover = f;
-        }
-      });
+    const fileEntry = file.fileEntry as FileSystemFileEntry;
+    fileEntry.file((f: File) => {
+      if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
+        this.fileList.push({
+          name: f.name,
+          size: f.size,
+          modified: f.lastModified.toLocaleString()
+        });
+        this.fileAdded.emit(f);
+      }
+      
+      if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
+        this.albumCover = f;
+      }
+    });
   }
 
   getUploadStatus(filename: string): string {

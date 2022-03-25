@@ -6,7 +6,7 @@
   <a *ngIf="loggedIn" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="track.name">
     <mat-icon>cloud_download</mat-icon>
   </a>
-  <span class="track-tool" matTooltip="Add to Queue" (click)="trackQueued.emit()">
+  <span *ngIf="track.id" class="track-tool" matTooltip="Add to Queue" (click)="trackQueued.emit()">
     <mat-icon>playlist_add</mat-icon>
   </span>
 </span>

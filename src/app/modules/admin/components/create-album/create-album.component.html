@@ -33,7 +33,7 @@
   <div class="form-wrapper drop-zone">
     <app-file-dropper
       [message]="'Drop a folder containing the album audio files and cover art'"
-      [acceptedFileTypes]=""
+      [acceptedFileTypes]="fileTypes"
       [multiple]="true">
     </app-file-dropper>
     <div class="upload-table" *ngIf="fileList && fileList.length">
