@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { MatDialog, MatDialogRef, } from "@angular/material/dialog";
-import { DialogContainerComponent } from "../components/dialog-container/dialog-container.component";
+import { DialogContainerComponent } from "src/app/shared/components/dialog-container/dialog-container.component";
 
 @Injectable({
   providedIn: "root",

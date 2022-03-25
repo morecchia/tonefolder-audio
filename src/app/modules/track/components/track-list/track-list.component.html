@@ -33,18 +33,11 @@
 </div>
 
 <div class="tracklist-container">
-  <div *ngIf="tracksToAdd && tracksToAdd.length">
-    <button *ngIf="!uploading; else uploadCounter" mat-flat-button color="primary" (click)="uploadTracks()">
-      <mat-icon>upload</mat-icon> Upload {{tracksToAdd.length}} Pending
+  <div class="upload-container" *ngIf="fileList && fileList.length">
+    <button mat-flat-button [disabled]="uploading" color="primary" (click)="uploadTracks()">
+      <mat-icon>upload</mat-icon> Upload {{fileList.length}} Pending
     </button>
-    <ng-template #uploadCounter>
-      <span>{{tracksToAdd.length}} tracks left to upload</span>
-    </ng-template>
-    <mat-list role="list">
-      <mat-list-item role="listitem" *ngFor="let track of tracksToAdd">
-        <app-track [track]="track"></app-track>
-      </mat-list-item>
-    </mat-list>
+    <app-upload-table [fileList]="fileList"></app-upload-table>
   </div>
 
   <mat-list role="list" *ngIf="tracksResponse">

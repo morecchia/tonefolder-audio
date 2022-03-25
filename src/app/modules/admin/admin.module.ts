@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { FileDropModule  } from 'src/app/modules/file-drop/file-drop.module';
 import { AdminContainerComponent } from './components/admin-container/admin-container.component';
 import { CreateAlbumComponent } from './components/create-album/create-album.component';
@@ -20,7 +20,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    PipesModule,
+    SharedModule,
     FileDropModule,
     AdminRoutingModule,
   ]

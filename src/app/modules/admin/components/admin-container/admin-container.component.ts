@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, concat } from 'rxjs';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
-import { FileUpload, UploadStatus } from 'src/app/shared/models/track';
+import { FileListItem, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackService } from 'src/app/core/services/track.service';
 
@@ -15,8 +15,7 @@ import { TrackService } from 'src/app/core/services/track.service';
 export class AdminContainerComponent implements OnDestroy {
   saving = false;
   albumId: number;
-  albumFiles: File[] = [];
-  uploads: FileUpload[] = [];
+  uploads: FileListItem[] = [];
   coverStatus = UploadStatus.pending;
 
   private _destroy = new Subject();
@@ -28,13 +27,12 @@ export class AdminContainerComponent implements OnDestroy {
     this._destroy.complete();
   }
 
-  addFile(file: File) {
-    this.albumFiles.push(file);
-    this.uploads.push({name: file.name, status: UploadStatus.pending})
+  addFile(item: FileListItem) {
+    this.uploads.push(item)
   }
 
   clearFileList() {
-    this.albumFiles = [];
+    this.uploads = [];
   }
 
   submitAlbum(value: {album: Album, cover: File}) {
@@ -46,7 +44,7 @@ export class AdminContainerComponent implements OnDestroy {
         switchMap(a => {
           this.coverStatus = 'done';
           this.albumId = a.id;
-          return concat(...this.trackService.saveTracks(this.albumFiles, a))
+          return concat(...this.trackService.saveTracks(this.uploads.map(u => u.file), a))
         }),
         finalize(() => {
           this.saving = false;
@@ -67,6 +65,6 @@ export class AdminContainerComponent implements OnDestroy {
 
   private setUploadStatus(trackName: string, status: string) {
     const idx = this.uploads.findIndex(u => u.name === trackName);
-    this.uploads.splice(idx, 1, { name: trackName, status: status });
+    this.uploads.splice(idx, 1, Object.assign({}, this.uploads[idx], {status}));
   }
 }

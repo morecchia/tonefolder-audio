@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-import { PipesModule } from 'src/app/shared/pipes/pipes.module';
-import { MainContainerComponent } from './components/main-container/main-container.component';
-import { LoginComponent } from 'src/app/core/components/login/login.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { PlayerModule } from 'src/app/modules/player/player.module';
+import { MainContainerComponent } from './components/main-container/main-container.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,9 @@ import { PlayerModule } from 'src/app/modules/player/player.module';
     CommonModule,
     RouterModule,
     InfiniteScrollModule,
+    NgxFileDropModule,
     MaterialModule,
-    PipesModule,
+    SharedModule,
     PlayerModule,
   ],
   exports: [
@@ -26,4 +28,4 @@ import { PlayerModule } from 'src/app/modules/player/player.module';
     LoginComponent,
   ],
 })
-export class LayoutModule { }
+export class CoreModule { }

@@ -7,15 +7,12 @@ export interface Track extends Entity {
   album_id: number;
 }
 
-export interface  FileUpload {
-  name: string;
-  status: string;
-}
-
 export interface FileListItem {
+  file: File,
   name: string;
   size: number;
   modified: string;
+  status: string;
 }
 
 export const UploadStatus = {

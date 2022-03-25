@@ -114,6 +114,22 @@
   }
 }
 
+.upload-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 1em;
+
+  button {
+    margin: 8px 0;
+    background-color: #6a6a6a;
+    color: #fff;
+  }
+
+  button:disabled {
+    background-color: #bababa;
+  }
+}
+
 .tracklist-container {
   padding-top: 8px;
 }

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { Album } from 'src/app/shared/models/album';
-import { FileListItem, FileUpload, UploadStatus } from 'src/app/shared/models/track';
+import { FileListItem, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { FileDropService } from 'src/app/core/services/file-drop.service';
@@ -16,7 +16,6 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CreateAlbumComponent implements OnDestroy {
   createForm: FormGroup;
-  displayedColumns = ['name', 'size', 'status'];
   fileList: FileListItem[] = [];
   albumCover: File;
   uploadStatus = UploadStatus;
@@ -28,14 +27,11 @@ export class CreateAlbumComponent implements OnDestroy {
   @Input()
   saving: boolean;
 
-  @Input()
-  uploads: FileUpload[] = [];
-
   @Output()
   albumSubmitted = new EventEmitter<{ album: Album, cover: File }>();
 
   @Output()
-  fileAdded = new EventEmitter<File>();
+  fileAdded = new EventEmitter<FileListItem>();
 
   @Output()
   fileListReset = new EventEmitter<void>();
@@ -94,23 +90,21 @@ export class CreateAlbumComponent implements OnDestroy {
     const fileEntry = file.fileEntry as FileSystemFileEntry;
     fileEntry.file((f: File) => {
       if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
-        this.fileList.push({
+        const item = {
+          file: f,
           name: f.name,
           size: f.size,
-          modified: f.lastModified.toLocaleString()
-        });
-        this.fileAdded.emit(f);
+          modified: f.lastModified.toLocaleString(),
+          status: UploadStatus.pending,
+        };
+        this.fileList.push(item);
+        this.fileAdded.emit(item);
       }
       
       if (this.fileDropService.isAccepted(file.relativePath, imageFileTypes)) {
         this.albumCover = f;
       }
     });
-  }
-
-  getUploadStatus(filename: string): string {
-    const uploadStatus = this.uploads && this.uploads.find(u => u.name === filename);
-    return uploadStatus ? uploadStatus.status : UploadStatus.pending;
   }
 
   private setCoverPath(filename: string) {

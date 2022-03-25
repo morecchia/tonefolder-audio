@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { COMPONENTS } from './components';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { AlbumRoutingModule } from './album-routing.module';
 import { LazyImgDirective } from 'src/app/shared/directives';
 
@@ -19,13 +19,12 @@ import { LazyImgDirective } from 'src/app/shared/directives';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    PipesModule,
+    SharedModule,
     AlbumRoutingModule,
   ],
   exports: [
     RouterModule,
     ...COMPONENTS,
-    PipesModule
   ]
 })
 export class AlbumModule { }

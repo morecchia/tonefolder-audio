@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { COMPONENTS } from './components';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { TrackRoutingModule } from './track-routing.module';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { TrackRoutingModule } from './track-routing.module';
     FormsModule,
     TrackRoutingModule,
     MaterialModule,
-    PipesModule,
+    SharedModule,
   ],
   exports: [...COMPONENTS]
 })

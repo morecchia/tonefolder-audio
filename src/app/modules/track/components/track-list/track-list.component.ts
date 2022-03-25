@@ -6,13 +6,13 @@ import { environment } from 'src/environments/environment';
 import { SelectedFile, TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { StreamState } from 'src/app/core/services/audio.service';
 import { Album } from 'src/app/shared/models/album';
-import { Track } from 'src/app/shared/models/track';
+import { Track, FileListItem, UploadStatus } from 'src/app/shared/models/track';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { FileDropperComponent } from 'src/app/modules/file-drop/components/file-dropper/file-dropper.component'
 import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackFormComponent } from '../track-form/track-form.component';
-import { ConfirmComponent } from 'src/app/core/components/confirm/confirm.component';
+import { ConfirmComponent } from 'src/app/shared/components/confirm/confirm.component';
 
 @Component({
   selector: 'app-track-list',
@@ -51,7 +51,7 @@ export class TrackListComponent implements OnDestroy {
   modalRef: MatDialogRef<FileDropperComponent>;
   tempCoverArt: string | ArrayBuffer;
   coverFile: File;
-  tracksToAdd: File[] = [];
+  fileList: FileListItem[] = [];
   uploading: boolean;
 
   get coverArt() {
@@ -87,7 +87,13 @@ export class TrackListComponent implements OnDestroy {
         const fileEntry = file.fileEntry as FileSystemFileEntry;
         if (this.fileDropService.isAccepted(file.relativePath, audioFileTypes)) {
           fileEntry.file(audio => {
-            this.tracksToAdd.push(audio);
+            this.fileList.push({
+              file: audio,
+              name: audio.name,
+              size: audio.size,
+              modified: audio.lastModified.toLocaleString(),
+              status: UploadStatus.pending,
+            });
           });
         }
 
@@ -186,16 +192,24 @@ export class TrackListComponent implements OnDestroy {
 
   uploadTracks() {
     this.uploading = true;
-    concat(...this.trackService.saveTracks(this.tracksToAdd, this.tracksResponse))
+    const tracksToAdd = [];
+    concat(...this.trackService.saveTracks(this.fileList.map(f => f.file), this.tracksResponse))
       .pipe(takeUntil(this._destroy))
       .subscribe(res => {
         if (res.hasOwnProperty('album_id')) {
-          const idx = this.tracksToAdd.findIndex(t => t.name === res.name);
-          this.tracksToAdd.splice(idx, 1);
-          this.tracksResponse.tracks.push(res);
+          tracksToAdd.push(res);
         }
-        if (!this.tracksToAdd.length) {
+        if (res.hasOwnProperty('inProgress')) {
+          this.setUploadStatus(res.inProgress, UploadStatus.inProgress);
+        }
+        if (typeof res === 'string') {
+          const trackName = res.split('/').pop();
+          this.setUploadStatus(trackName, UploadStatus.done);
+        }
+        if (this.fileList.every(f => f.status === UploadStatus.done)) {
           this.uploading = false;
+          this.fileList = [];
+          this.tracksResponse.tracks.push(...tracksToAdd);
         }
       });
   }
@@ -216,6 +230,11 @@ export class TrackListComponent implements OnDestroy {
           this.deleteConfirmed.emit(track);
         }
       })
+  }
+
+  private setUploadStatus(trackName: string, status: string) {
+    const idx = this.fileList.findIndex(u => u.name === trackName);
+    this.fileList.splice(idx, 1, Object.assign({}, this.fileList[idx], {status}));
   }
 
   private uploadImage(fileEntry: FileSystemFileEntry) {
