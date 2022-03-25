@@ -28,13 +28,14 @@ a.track-tool {
 .track-name {
   flex: 1;
   display: flex;
+  justify-content: flex-end;
   
   &:hover, &.playing {
     font-weight: 500;
   }
 
   span {
-    margin: 3px 0 0 6px;
+    margin: 3px auto 0 6px;
     max-width: calc(100vw - 140px);
     overflow: hidden;
     white-space: nowrap;

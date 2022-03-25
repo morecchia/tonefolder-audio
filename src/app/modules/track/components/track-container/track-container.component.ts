@@ -60,4 +60,9 @@ export class TrackContainerComponent {
       this.playlistDialog.openPlaylist();
     }
   }
+
+  deleteTrack(track: Track) {
+    this.trackService.deleteTrack(track)
+      .subscribe();
+  }
 }

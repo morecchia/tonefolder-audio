@@ -55,6 +55,7 @@
         [playing]="currentTrack === track.name"
         [downloadLink]="getDownloadLink(track)"
         (trackEdit)="openTrackModal(track)"
+        (trackDeleted)="deleteTrack(track)"
         (trackSelected)="selectTrack(track)"
         (trackQueued)="queueTrack(track)">
       </app-track>

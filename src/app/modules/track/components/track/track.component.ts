@@ -27,6 +27,9 @@ export class TrackComponent {
   trackQueued = new EventEmitter<void>();
 
   @Output()
+  trackDeleted = new EventEmitter<void>();
+
+  @Output()
   trackEdit = new EventEmitter<void>();
 
   @HostBinding('class') get HeadingClass() {

@@ -12,6 +12,7 @@ import { FileDropperComponent } from 'src/app/modules/file-drop/components/file-
 import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackFormComponent } from '../track-form/track-form.component';
+import { ConfirmComponent } from 'src/app/core/components/confirm/confirm.component';
 
 @Component({
   selector: 'app-track-list',
@@ -42,6 +43,9 @@ export class TrackListComponent implements OnDestroy {
 
   @Output()
   trackQueued = new EventEmitter<SelectedFile>();
+
+  @Output()
+  deleteConfirmed = new EventEmitter<Track>()
 
   playingIndex: number;
   modalRef: MatDialogRef<FileDropperComponent>;
@@ -194,6 +198,24 @@ export class TrackListComponent implements OnDestroy {
           this.uploading = false;
         }
       });
+  }
+
+  deleteTrack(track: Track) {
+    this.modal.open(ConfirmComponent, {
+      data: {
+        message: `Are you sure you want to delete '${track.name}'?`,
+      }
+    });
+
+    this.modal.closed()
+      .pipe(takeUntil(this._destroy))
+      .subscribe(confirmed => {
+        if (confirmed) {
+          const idx = this.tracksResponse.tracks.findIndex(t => t.id === track.id);
+          this.tracksResponse.tracks.splice(idx, 1);
+          this.deleteConfirmed.emit(track);
+        }
+      })
   }
 
   private uploadImage(fileEntry: FileSystemFileEntry) {

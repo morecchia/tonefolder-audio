@@ -6,5 +6,6 @@
   [tracksResponse]="tracksResponse | async"
   (trackSelected)="selectTrack($event)"
   (trackToggled)="toggleTrack()"
-  (trackQueued)="queueTrack($event)">
+  (trackQueued)="queueTrack($event)"
+  (deleteConfirmed)="deleteTrack($event)">
 </app-track-list>

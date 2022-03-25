@@ -10,11 +10,13 @@ import { LayoutModule } from './core/layout/layout.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DialogContainerComponent } from './core/components/dialog-container/dialog-container.component';
+import { ConfirmComponent } from './core/components/confirm/confirm.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DialogContainerComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,

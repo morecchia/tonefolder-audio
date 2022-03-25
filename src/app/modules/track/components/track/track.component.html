@@ -11,6 +11,7 @@
   </span>
 </span>
 
-<div class="track-name" [class.playing]="playing" (click)="trackSelected.emit()">
-  <span>{{track.name}}</span>
+<div class="track-name" [class.playing]="playing">
+  <span (click)="trackSelected.emit()">{{track.name}}</span>
+  <button *ngIf="loggedIn" (click)="trackDeleted.emit()" mat-icon-button><mat-icon>delete</mat-icon></button>
 </div>

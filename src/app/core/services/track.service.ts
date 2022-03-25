@@ -108,6 +108,10 @@ export class TrackService extends BaseService {
       .pipe(catchError(this.errorCallback));
   }
 
+  deleteTrack(track: Track) {
+    return this.http.delete(`${environment.serviceUrl}/api/tracks/${track.id}`);
+  }
+
   selectTrack(file: SelectedFile, playlist?: SelectedFile[]) {
     this.currentTracks = playlist ? playlist : this.albumTracks;
     this.fileSelected.next(file);
