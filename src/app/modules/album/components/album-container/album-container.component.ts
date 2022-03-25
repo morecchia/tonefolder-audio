@@ -20,7 +20,6 @@ export class AlbumContainerComponent implements OnInit {
   }
 
   selectAlbum(album: Album) {
-    this.albumService.selectAlbum(album);
     this.router.navigate(['/tracks', album.id]);
   }
 

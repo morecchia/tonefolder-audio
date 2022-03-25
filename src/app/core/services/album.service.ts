@@ -13,7 +13,6 @@ import { BaseService } from './base.service';
 export class AlbumService extends BaseService {
   loading: boolean;
   albums: Album[] = [];
-  currentAlbum: Album;
   currentPage: number;
   nextPageUrl: string;
   sorts = [{
@@ -50,16 +49,6 @@ export class AlbumService extends BaseService {
         finalize(() => this.loading = false),
         catchError(this.errorCallback)
       );
-  }
-
-  getCurrentAlbum(albums: Album[]) {
-    const storedAlbum = localStorage.getItem('tfa-current-album');
-    return storedAlbum || albums[0];
-  }
-
-  selectAlbum(album: Album) {
-    this.currentAlbum = album;
-    localStorage.setItem('tfa-current-album', JSON.stringify(album));
   }
 
   filterAlbums(query: string) {

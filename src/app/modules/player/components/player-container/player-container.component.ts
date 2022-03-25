@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlbumService } from 'src/app/core/services/album.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { SelectedFile } from 'src/app/core/services/track.service';
 
@@ -21,16 +20,13 @@ export class PlayerContainerComponent {
 
   constructor(
     private router: Router,
-    private playerService: PlayerService,
-    private albumService: AlbumService) { }
+    private playerService: PlayerService) { }
 
   trackSeek(value: number) {
     this.playerService.seek(value);
   }
 
   loadAlbum(selected: SelectedFile) {
-    const album = this.albumService.albums.find(a => a.id == selected.albumId);
-    this.albumService.selectAlbum(album);
     this.router.navigate(['/tracks', selected.albumId]);
   }
 }

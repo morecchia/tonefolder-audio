@@ -24,7 +24,6 @@ export class AlbumListComponent {
   query: string;
   selectedSort = 'artist';
 
-  get currentAlbum() { return this.albumService.currentAlbum; }
   get focusChange() { return this.albumService.focusChange$; }
   get sortOptions() { return this.albumService.sorts; }
   get loading() { return this.albumService.loading }

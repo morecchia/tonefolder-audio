@@ -26,8 +26,7 @@
   <app-album
     *ngFor="let album of albums"
     (click)="albumSelected.emit(album)"
-    [album]="album"
-    [selected]="album === currentAlbum">
+    [album]="album">
   </app-album>
 </div>
 

@@ -20,12 +20,10 @@ export class PlayerService {
       : this.trackService.currentTracks;
   }
 
-  constructor(
-    private audioService: AudioService,
-    private trackService: TrackService,
-    private playlistService: PlaylistService) {
+  constructor(private audioService: AudioService, private trackService: TrackService, private playlistService: PlaylistService) {
     this.currentVolume = this.getStoredVolume();
     this.selectedFile = JSON.parse(localStorage.getItem('tfa-lastPlayed'));
+    console.log(this.selectedFile);
     this.trackService.fileSelected$
       .subscribe(selected => {
         this.audioService.stop();
