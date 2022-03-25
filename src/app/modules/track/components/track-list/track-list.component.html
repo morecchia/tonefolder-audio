@@ -2,7 +2,7 @@
     <div class="album-details">
       <h2>{{album}}</h2>
       <span class="artist">{{artist}}</span>
-      <div [class.logged-in]="loggedIn" class="track-info-container">
+      <div [class.can-upload]="loggedIn && !uploading" class="track-info-container">
         <span class="track-info track-count">{{trackCount}} tracks</span>
         <span *ngIf="loggedIn" class="track-info add-track" (click)="addTrackModal()"><mat-icon>add</mat-icon> Add Tracks</span>
       </div>
@@ -34,9 +34,12 @@
 
 <div class="tracklist-container">
   <div *ngIf="tracksToAdd && tracksToAdd.length">
-    <button mat-flat-button color="primary" (click)="uploadTracks()">
+    <button *ngIf="!uploading; else uploadCounter" mat-flat-button color="primary" (click)="uploadTracks()">
       <mat-icon>upload</mat-icon> Upload {{tracksToAdd.length}} Pending
     </button>
+    <ng-template #uploadCounter>
+      <span>{{tracksToAdd.length}} tracks left to upload</span>
+    </ng-template>
     <mat-list role="list">
       <mat-list-item role="listitem" *ngFor="let track of tracksToAdd">
         <app-track [track]="track"></app-track>

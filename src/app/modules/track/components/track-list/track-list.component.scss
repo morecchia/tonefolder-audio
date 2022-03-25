@@ -83,16 +83,16 @@
       border-radius: 10px;
       text-align: center;
 
-      &.logged-in {
+      &.can-upload {
         cursor: pointer;
       }
 
-      &.logged-in:hover .add-track {
+      &.can-upload:hover .add-track {
         display: flex;
         align-items: center;
       }
 
-      &.logged-in:hover .track-count {
+      &.can-upload:hover .track-count {
         display: none;
       }
 

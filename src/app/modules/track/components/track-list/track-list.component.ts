@@ -48,6 +48,7 @@ export class TrackListComponent implements OnDestroy {
   tempCoverArt: string | ArrayBuffer;
   coverFile: File;
   tracksToAdd: File[] = [];
+  uploading: boolean;
 
   get coverArt() {
     return this.tracksResponse && this.tracksResponse.cover
@@ -180,6 +181,7 @@ export class TrackListComponent implements OnDestroy {
   }
 
   uploadTracks() {
+    this.uploading = true;
     concat(...this.trackService.saveTracks(this.tracksToAdd, this.tracksResponse))
       .pipe(takeUntil(this._destroy))
       .subscribe(res => {
@@ -187,6 +189,9 @@ export class TrackListComponent implements OnDestroy {
           const idx = this.tracksToAdd.findIndex(t => t.name === res.name);
           this.tracksToAdd.splice(idx, 1);
           this.tracksResponse.tracks.push(res);
+        }
+        if (!this.tracksToAdd.length) {
+          this.uploading = false;
         }
       });
   }
