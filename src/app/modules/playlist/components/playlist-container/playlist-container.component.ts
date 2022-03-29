@@ -4,6 +4,7 @@ import { PlayerService } from 'src/app/core/services/player.service';
 import { SelectedFile, TrackService } from 'src/app/core/services/track.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { PlayContext } from 'src/app/shared/models/play-context';
 
 @Component({
   selector: 'app-playlist-container',
@@ -27,7 +28,7 @@ export class PlaylistContainerComponent {
     private trackService: TrackService) { }
 
   playItem(item: SelectedFile) {
-    this.trackService.selectTrack(item);
+    this.trackService.selectTrack(item, PlayContext.playlist);
   }
 
   clearPlaylist() {

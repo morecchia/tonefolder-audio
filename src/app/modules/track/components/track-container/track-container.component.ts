@@ -18,7 +18,7 @@ export class TrackContainerComponent {
   tracksResponse: Observable<Album>;
 
   get selectedAlbum() { return this.trackService.selectedAlbum; }
-  get playerState() { return this.playerService.state; }
+  get playerState() { return this.playerService.audioState; }
   get currentTrack() { return this.playerService.currentFile?.title; }
   get loggedIn$() { return this.auth.isAuthenticated$; }
 
@@ -45,7 +45,7 @@ export class TrackContainerComponent {
   }
 
   toggleTrack() {
-    if (this.playerService.state.playing){
+    if (this.playerService.audioState.playing){
       this.playerService.pause();
     } else {
       this.playerService.play();

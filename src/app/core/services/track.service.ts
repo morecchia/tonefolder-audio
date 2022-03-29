@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
 import { Track } from 'src/app/shared/models/track';
+import { PlayContext } from 'src/app/shared/models/play-context';
 
 export interface SelectedFile {
   file: string;
@@ -30,7 +31,7 @@ export class TrackService extends BaseService {
   currentTracks: SelectedFile[];
   selectedAlbum: Album;
 
-  private fileSelected = new Subject<SelectedFile>();
+  private fileSelected = new Subject<{track: SelectedFile, context: PlayContext}>();
   fileSelected$ = this.fileSelected.asObservable();
 
   trackRequested$ = new BehaviorSubject<Observable<any>>(null);
@@ -112,9 +113,8 @@ export class TrackService extends BaseService {
     return this.http.delete(`${environment.serviceUrl}/api/tracks/${track.id}`);
   }
 
-  selectTrack(file: SelectedFile, playlist?: SelectedFile[]) {
-    this.currentTracks = playlist ? playlist : this.albumTracks;
-    this.fileSelected.next(file);
+  selectTrack(track: SelectedFile, context: PlayContext = PlayContext.album) {
+    this.fileSelected.next({track, context});
   }
 
   private addToStore(album: Album) {

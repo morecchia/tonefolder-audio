@@ -9,14 +9,14 @@ import { SelectedFile } from 'src/app/core/services/track.service';
   styleUrls: ['./player-container.component.scss']
 })
 export class PlayerContainerComponent {
-  get trackPlaying() { return this.playerService.state.playing; }
-  get trackLoading() { return this.playerService.state.loading; }
+  get trackPlaying() { return this.playerService.audioState.playing; }
+  get trackLoading() { return this.playerService.audioState.loading; }
   get selected() { return this.playerService.selectedFile; }
   get volume() { return this.playerService.getStoredVolume(); }
-  get trackDuration() { return this.playerService.state.duration; }
-  get trackDurationReadable() { return this.playerService.state.readableDuration || '00:00:00'; }
-  get trackTime() { return this.playerService.state.currentTime; }
-  get trackTimeReadable() { return this.playerService.state.readableCurrentTime || '00:00:00'; }
+  get trackDuration() { return this.playerService.audioState.duration; }
+  get trackDurationReadable() { return this.playerService.audioState.readableDuration || '00:00:00'; }
+  get trackTime() { return this.playerService.audioState.currentTime; }
+  get trackTimeReadable() { return this.playerService.audioState.readableCurrentTime || '00:00:00'; }
 
   constructor(
     private router: Router,

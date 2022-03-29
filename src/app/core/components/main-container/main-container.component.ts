@@ -60,7 +60,7 @@ export class MainContainerComponent implements OnDestroy {
   }
 
   private togglePlay() {
-    if (this.playerService.state.playing) {
+    if (this.playerService.audioState.playing) {
       this.playerService.pause();
     } else {
       this.playerService.play();

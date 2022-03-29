@@ -3,6 +3,8 @@ import { environment } from 'src/environments/environment';
 import { AudioService, StreamState } from './audio.service';
 import { SelectedFile, TrackService } from './track.service';
 import { PlaylistService } from './playlist.service';
+import { PlayContext } from 'src/app/shared/models/play-context';
+import { PlayerState } from 'src/app/shared/models/player-state';
 
 @Injectable({
   providedIn: 'root'
@@ -10,41 +12,51 @@ import { PlaylistService } from './playlist.service';
 export class PlayerService {
   selectedFile: SelectedFile;
   currentFile: SelectedFile;
-  state: StreamState;
+  audioState: StreamState;
+  playerState: PlayerState;
   currentVolume: number;
   currentIndex = 0;
-
-  get playlist() {
-    return this.playlistService.playlist && this.playlistService.playlist.length
-      ? this.playlistService.playlist
-      : this.trackService.currentTracks;
-  }
+  playlist = [];
 
   constructor(private audioService: AudioService, private trackService: TrackService, private playlistService: PlaylistService) {
-    this.currentVolume = this.getStoredVolume();
-    this.selectedFile = JSON.parse(localStorage.getItem('tfa-lastPlayed'));
-    console.log(this.selectedFile);
+    this.initPlayer();
     this.trackService.fileSelected$
       .subscribe(selected => {
+        if (selected.context === PlayContext.album) {
+          this.playlist = this.trackService.albumTracks;
+          localStorage.setItem('tfa-playerState', JSON.stringify({
+            currentAlbum: this.trackService.albumTracks,
+            playContext: PlayContext.album,
+          }));
+        } else {
+          this.playlist = this.playlistService.playlist;
+          localStorage.setItem('tfa-playerState', JSON.stringify({
+            currentAlbum: this.trackService.albumTracks,
+            playContext: PlayContext.playlist,
+          }));
+        }
         this.audioService.stop();
-        this.selectedFile = selected;
-        this.currentFile = selected;
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.title) : 0;
-        this.load(selected.file);
+        this.selectedFile = selected.track;
+        this.currentFile = selected.track;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.track.title) : 0;
+        this.load(selected.track.file);
         localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
 
     this.audioService.stateChange$
       .subscribe(state => {
-        this.state = state;
+        this.audioState = state;
       });
 
-    this.audioService.end$
-      .subscribe(() => this.next());
+    this.audioService.end$.subscribe(e => {
+      if (e) {
+        this.next();
+      }
+    });
 
     this.playlistService.playlistUpdated$
       .subscribe(() => {
-        this.currentIndex = this.playlist && this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title);
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title) : 0;
       });
   }
 
@@ -59,7 +71,7 @@ export class PlayerService {
   }
 
   play() {
-    if (this.state && this.state.currentTime) {
+    if (this.audioState && this.audioState.currentTime) {
       this.audioService.play();
     } else {
       this.load(this.selectedFile.file);
@@ -76,13 +88,15 @@ export class PlayerService {
 
   openFile(file: SelectedFile) {
     this.audioService.stop();
-    this.currentFile = file;
-    this.selectedFile = file;
-    this.load(this.currentFile.file);
+    if (file) {
+      this.currentFile = file;
+      this.selectedFile = file;
+      this.load(this.currentFile.file);
+    }
   }
 
   next() {
-    if (!this.playlist || (this.currentIndex === this.playlist.length - 1)) {
+    if (!this.playlist || !this.playlist.length || (this.currentIndex === this.playlist.length - 1)) {
       return;
     }
 
@@ -92,7 +106,7 @@ export class PlayerService {
   }
 
   previous() {
-    if (this.currentIndex === 0) {
+    if (this.currentIndex <= 0) {
       this.seek(0);
       return;
     }
@@ -120,5 +134,21 @@ export class PlayerService {
   getStoredVolume() {
     const storedVolume = localStorage.getItem('tfa-player-volume');
     return parseInt(storedVolume) || 50;
+  }
+
+  private initPlayer() {
+    this.currentVolume = this.getStoredVolume();
+    this.selectedFile = JSON.parse(localStorage.getItem('tfa-lastPlayed'));
+    this.currentFile = this.selectedFile;
+    this.playerState = JSON.parse(localStorage.getItem('tfa-playerState'));
+    if (!this.playerState) {
+      return;
+    }
+    if (this.playerState.playContext === PlayContext.album) {
+      this.playlist = this.playerState.currentAlbum;
+    } else {
+      this.playlist = this.playlistService.playlist;
+    }
+    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === this.selectedFile.title) : 0;
   }
 }
