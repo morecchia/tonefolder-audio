@@ -16,11 +16,13 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CreateAlbumComponent implements OnDestroy {
   createForm: FormGroup;
-  fileList: FileListItem[] = [];
   albumCover: File;
   uploadStatus = UploadStatus;
   fileTypes = [...audioFileTypes, ...imageFileTypes];
   
+  @Input()
+  fileList: FileListItem[];
+
   @Input()
   coverUploadStatus: string;
 
@@ -60,6 +62,7 @@ export class CreateAlbumComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.fileDropService.fileDropped.next(null);
     this._destroy.next();
     this._destroy.complete();
   }
@@ -82,7 +85,7 @@ export class CreateAlbumComponent implements OnDestroy {
   reset() {
     this.createForm.reset();
     this.albumCover = null;
-    this.fileList = [];
+    // this.fileList = [];
     this.fileListReset.emit();
   }
 
@@ -97,7 +100,7 @@ export class CreateAlbumComponent implements OnDestroy {
           modified: f.lastModified.toLocaleString(),
           status: UploadStatus.pending,
         };
-        this.fileList.push(item);
+        // this.fileList.push(item);
         this.fileAdded.emit(item);
       }
       

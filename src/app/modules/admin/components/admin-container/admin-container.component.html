@@ -1,6 +1,7 @@
 <app-create-album
   [saving]="saving"
   [coverUploadStatus]="coverStatus"
+  [fileList]="uploads"
   (albumSubmitted)="submitAlbum($event)"
   (fileAdded)="addFile($event)"
   (fileListReset)="clearFileList()">
