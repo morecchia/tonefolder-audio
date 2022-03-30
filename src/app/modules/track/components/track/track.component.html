@@ -10,12 +10,13 @@
 
 <div class="track-container" [class.playing]="playing">
   <span class="track-name" (click)="trackSelected.emit()">{{track.name}}</span>
-  <span *ngIf="loggedIn" class="track-tools">
-    <span matTooltip="Edit Track Name" class="track-tool" (click)="trackEdit.emit()">
-      <mat-icon>edit</mat-icon>
-    </span>
-    <button matTooltip="Delete Track" (click)="trackDeleted.emit()" mat-icon-button>
-      <mat-icon>delete</mat-icon>
-    </button>
-  </span>
 </div>
+
+<span *ngIf="loggedIn" class="track-tools">
+  <span matTooltip="Edit Track Name" class="track-tool" (click)="trackEdit.emit()">
+    <mat-icon>edit</mat-icon>
+  </span>
+  <button matTooltip="Delete Track" (click)="trackDeleted.emit()" mat-icon-button>
+    <mat-icon>delete</mat-icon>
+  </button>
+</span>

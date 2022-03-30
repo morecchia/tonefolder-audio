@@ -1,16 +1,21 @@
+:host {
+  display: block;
+  padding-top: 1em;
+}
+
 .wrapper {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
 }
 
 .mat-form-field {
   flex: 1;
-  margin-right: auto;
 }
 
 .actions {
-  padding-left: 1em;
   display: flex;
+  justify-content: flex-end;
+  padding-top: 1em;
 }
 
 button.mat-flat-button {
