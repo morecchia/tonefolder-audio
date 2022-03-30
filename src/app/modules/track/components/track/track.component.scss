@@ -14,7 +14,8 @@
 }
 
 .track-tools {
-  padding-right: 1em;
+  display: flex;
+  align-items: center;
 }
 
 .track-tool {
@@ -25,7 +26,7 @@ a.track-tool {
   color: #333;
 }
 
-.track-name {
+.track-container {
   flex: 1;
   display: flex;
   justify-content: flex-end;
@@ -34,12 +35,13 @@ a.track-tool {
     font-weight: 500;
   }
 
-  span {
+  .track-name {
     flex: 1;
     display: flex;
     align-self: stretch;
     align-items: center;
     max-width: calc(100vw - 140px);
+    padding-left: 1em;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

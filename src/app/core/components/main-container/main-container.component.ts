@@ -47,7 +47,6 @@ export class MainContainerComponent implements OnDestroy {
     this.focusService.focusChange$
       .pipe(takeUntil(this._destroy))
       .subscribe((focused: boolean) => {
-        console.log({focused})
         this.inputFocused = focused;
       });
   }
