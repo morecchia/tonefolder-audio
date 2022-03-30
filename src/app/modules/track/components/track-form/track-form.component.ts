@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FocusService } from 'src/app/core/services/focus.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { Track } from 'src/app/shared/models/track';
 
@@ -14,7 +15,9 @@ export class TrackFormComponent implements OnInit {
   @Input()
   track: Track;
 
-  constructor(private fb: FormBuilder, private modal: ModalService) {
+  get focusChange() { return this.focusService.focusChange$; }
+
+  constructor(private fb: FormBuilder, private modal: ModalService, private focusService: FocusService) {
     this.form = this.fb.group({
       id: [null, Validators.required],
       name: ['', Validators.required]

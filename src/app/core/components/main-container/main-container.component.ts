@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { AlbumService } from 'src/app/core/services/album.service';
+import { FocusService } from '../../services/focus.service';
 
 @Component({
   selector: 'app-main-container',
@@ -33,7 +34,9 @@ export class MainContainerComponent implements OnDestroy {
     private router: Router,
     private auth: AuthService,
     private playerService: PlayerService,
-    private albumService: AlbumService) {
+    private albumService: AlbumService,
+    private focusService: FocusService,
+  ) {
     this.router.events
       .pipe(
         takeUntil(this._destroy),
@@ -41,9 +44,10 @@ export class MainContainerComponent implements OnDestroy {
       .subscribe((event: any) => {
         this.currentRoute = event.url;
       });
-    this.albumService.focusChange$
+    this.focusService.focusChange$
       .pipe(takeUntil(this._destroy))
       .subscribe((focused: boolean) => {
+        console.log({focused})
         this.inputFocused = focused;
       });
   }

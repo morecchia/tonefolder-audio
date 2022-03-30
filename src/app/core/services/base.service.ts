@@ -5,12 +5,10 @@ import { handleError } from '../../../utils/handle-error';
 
 export class BaseService {
   httpError$ = new BehaviorSubject<any>(null);
-  focusChange$ = new BehaviorSubject<boolean>(false);
   
   constructor(private snackbar: MatSnackBar) { }
 
   errorCallback = (errObj: HttpErrorResponse) => {
-    console.log(errObj);
     this.httpError$.next(errObj);
     if (errObj) {
       const message = errObj.error && errObj.error.message

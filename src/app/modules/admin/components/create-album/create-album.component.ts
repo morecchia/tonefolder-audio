@@ -8,6 +8,7 @@ import { AlbumService } from 'src/app/core/services/album.service';
 import { audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { takeUntil } from 'rxjs/operators';
+import { FocusService } from 'src/app/core/services/focus.service';
 
 @Component({
   selector: 'app-create-album',
@@ -38,14 +39,19 @@ export class CreateAlbumComponent implements OnDestroy {
   @Output()
   fileListReset = new EventEmitter<void>();
 
-  get focusChange() { return this.albumService.focusChange$; }
+  get focusChange() { return this.focusService.focusChange$; }
   get acceptedFileTypes() { return [...imageFileTypes, ...audioFileTypes]; }
   get artistControl() { return this.createForm.get('artist'); }
   get titleControl() { return this.createForm.get('title'); }
 
   private _destroy = new Subject();
 
-  constructor(private fb: FormBuilder, private albumService: AlbumService, private fileDropService: FileDropService) {
+  constructor(
+    private fb: FormBuilder,
+    private albumService: AlbumService,
+    private fileDropService: FileDropService,
+    private focusService: FocusService,
+  ) {
     this.createForm = this.fb.group({
       title: ['', Validators.required],
       artist: ['', Validators.required],
@@ -85,7 +91,6 @@ export class CreateAlbumComponent implements OnDestroy {
   reset() {
     this.createForm.reset();
     this.albumCover = null;
-    // this.fileList = [];
     this.fileListReset.emit();
   }
 
@@ -100,7 +105,6 @@ export class CreateAlbumComponent implements OnDestroy {
           modified: f.lastModified.toLocaleString(),
           status: UploadStatus.pending,
         };
-        // this.fileList.push(item);
         this.fileAdded.emit(item);
       }
       

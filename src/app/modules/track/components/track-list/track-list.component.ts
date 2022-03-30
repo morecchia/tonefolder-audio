@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialogRef, } from "@angular/material/dialog";
-import { concat, Subject } from 'rxjs';
+import { concat, EMPTY, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { SelectedFile, TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
@@ -167,6 +167,9 @@ export class TrackListComponent implements OnDestroy {
     this.modal.closed()
       .pipe(
         switchMap(track => {
+          if (!track) {
+            return EMPTY;
+          }
           const idx = this.tracksResponse.tracks.findIndex(t => t.id === track.id);
           const newTrack = Object.assign({}, this.tracksResponse.tracks[idx], {
             name: track.name,

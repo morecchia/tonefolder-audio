@@ -2,7 +2,8 @@
 <div class="wrapper" [formGroup]="form">
   <mat-form-field appearance="outline">
     <mat-label>Track Name</mat-label>
-    <input matInput autocomplete="off" formControlName="name">
+    <input matInput autocomplete="off" formControlName="name" 
+      (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
   </mat-form-field>
   
   <div class="actions">

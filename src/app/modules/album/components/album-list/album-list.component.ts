@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
 import { AlbumService } from 'src/app/core/services/album.service';
+import { FocusService } from 'src/app/core/services/focus.service';
 
 @Component({
   selector: 'app-album-list',
@@ -24,13 +25,13 @@ export class AlbumListComponent {
   query: string;
   selectedSort = 'artist';
 
-  get focusChange() { return this.albumService.focusChange$; }
+  get focusChange() { return this.focusService.focusChange$; }
   get sortOptions() { return this.albumService.sorts; }
   get loading() { return this.albumService.loading }
 
   private _destroy = new Subject();
 
-  constructor(private fb: FormBuilder, private albumService: AlbumService) {
+  constructor(private fb: FormBuilder, private albumService: AlbumService, private focusService: FocusService) {
     this.albumService.albumsScrolled$
       .pipe(
         filter(page => page != null),
