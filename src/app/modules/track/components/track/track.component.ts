@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'src/app/shared/models/track';
 
 @Component({
@@ -35,6 +34,4 @@ export class TrackComponent {
   @HostBinding('class') get HeadingClass() {
     return this.playing ? 'playing' : '';
   }
-
-  constructor(private auth: AuthService) { }
 }

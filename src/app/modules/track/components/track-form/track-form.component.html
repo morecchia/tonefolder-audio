@@ -6,8 +6,8 @@
       (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
   </mat-form-field>
   
-  <div class="actions">
-    <button mat-button (click)="cancel()">Cancel</button>
+  <div mat-dialog-actions>
+    <button mat-stroked-button (click)="cancel()">Cancel</button>
     <button mat-flat-button (click)="save()" [disabled]="form.pristine || !form.valid">Save</button>
   </div>
 </div>
