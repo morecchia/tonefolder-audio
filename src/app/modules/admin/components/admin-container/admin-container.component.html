@@ -10,7 +10,10 @@
     </app-create-album> 
   </mat-tab>
   <mat-tab label="Create Playlists">
-    <app-create-playlist></app-create-playlist>
+    <app-create-playlist
+      [playlists]="playlists | async"
+      (playlistSubmitted)="submitPlaylist($event)">
+    </app-create-playlist>
   </mat-tab>
   <mat-tab label="Settings">
     <app-settings></app-settings>

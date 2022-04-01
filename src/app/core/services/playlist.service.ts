@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { BaseService } from './base.service';
+import { environment } from 'src/environments/environment';
+import { Playlist } from 'src/app/shared/models/playlist';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlaylistService extends BaseService{
+export class PlaylistService extends BaseService {
   playlist: SelectedFile[] = [];
 
   playlistUpdated$ = new BehaviorSubject<void>(null);
 
-  constructor(snackbar: MatSnackBar) {
+  constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
     this.initPlaylist();
+  }
+
+  getPlaylists(): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${environment.serviceUrl}/api/playlists`);
+  }
+
+  createPlaylist(playlist: Playlist) {
+    return this.http.post(`${environment.serviceUrl}/api/playlists`, playlist);
   }
 
   addItem(item: SelectedFile) {

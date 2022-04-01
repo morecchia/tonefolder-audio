@@ -95,11 +95,14 @@ mat-sidenav {
 }
 
 table {
-  text-align: center !important;
   width: 100%;
 }
 
-tr.mat-header-row th.mat-header-cell {
+table.table-centered {
+  text-align: center !important;
+}
+
+table.table-centered tr.mat-header-row th.mat-header-cell {
   text-align: center;
 }
 
