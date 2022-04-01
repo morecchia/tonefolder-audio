@@ -9,12 +9,7 @@ import { Album } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
 import { Track } from 'src/app/shared/models/track';
 import { PlayContext } from 'src/app/shared/models/play-context';
-
-export interface SelectedFile {
-  track: Track;
-  albumTitle: string;
-  cover: string;
-}
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 export const imageFileTypes = ['.jpg', '.png'];
 export const audioFileTypes = ['.mp3', '.wav'];

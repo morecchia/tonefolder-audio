@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { PlayerService } from 'src/app/core/services/player.service';
-import { SelectedFile, TrackService } from 'src/app/core/services/track.service';
+import { TrackService } from 'src/app/core/services/track.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { PlayContext } from 'src/app/shared/models/play-context';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
   selector: 'app-playlist-container',

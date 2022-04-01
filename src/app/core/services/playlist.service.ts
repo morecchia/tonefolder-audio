@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
-import { SelectedFile } from 'src/app/core/services/track.service';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { BaseService } from './base.service';
 
 @Injectable({

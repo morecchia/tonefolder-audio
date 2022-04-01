@@ -7,11 +7,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminContainerComponent } from './components/admin-container/admin-container.component';
 import { CreateAlbumComponent } from './components/create-album/create-album.component';
 import { AdminRoutingModule } from './admin-routing.module';
+import { CreatePlaylistComponent } from './components/create-playlist/create-playlist.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
     AdminContainerComponent,
-    CreateAlbumComponent
+    CreateAlbumComponent,
+    CreatePlaylistComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,

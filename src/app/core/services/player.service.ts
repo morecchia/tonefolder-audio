@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AudioService, StreamState } from './audio.service';
-import { SelectedFile, TrackService } from './track.service';
+import { TrackService } from './track.service';
 import { PlaylistService } from './playlist.service';
 import { PlayContext } from 'src/app/shared/models/play-context';
 import { PlayerState } from 'src/app/shared/models/player-state';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Injectable({
   providedIn: 'root'

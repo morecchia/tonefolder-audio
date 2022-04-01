@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlayerService } from 'src/app/core/services/player.service';
-import { SelectedFile } from 'src/app/core/services/track.service';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
   selector: 'app-player-container',

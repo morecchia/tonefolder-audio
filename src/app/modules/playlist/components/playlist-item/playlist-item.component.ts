@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, HostBinding } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SelectedFile } from 'src/app/core/services/track.service';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
   selector: 'app-playlist-item',

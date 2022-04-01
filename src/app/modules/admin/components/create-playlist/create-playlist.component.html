@@ -1,0 +1,16 @@
+<h2 class="admin-heading">Create a Playlist</h2>
+
+<div class="form-container" [formGroup]="createForm">
+  <div class="form-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput placeholder="Enter the Playlist name" autocomplete="off"
+        (focus)="focusChange.next(true)" (blur)="focusChange.next(false)">
+    </mat-form-field>
+  </div>
+
+  <div class="form-wrapper actions">
+    <button mat-button [disabled]="saving" (click)="reset()">Reset</button>
+    <button mat-flat-button [disabled]="!createForm.valid || saving" (click)="create()">Create</button>
+  </div>
+</div>

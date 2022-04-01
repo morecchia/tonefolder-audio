@@ -3,7 +3,7 @@ import { MatDialogRef, } from "@angular/material/dialog";
 import { concat, EMPTY, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { SelectedFile, TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
+import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { StreamState } from 'src/app/core/services/audio.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track, FileListItem, UploadStatus } from 'src/app/shared/models/track';
@@ -13,6 +13,7 @@ import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackFormComponent } from '../track-form/track-form.component';
 import { ConfirmComponent } from 'src/app/shared/components/confirm/confirm.component';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
   selector: 'app-track-list',

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +27,7 @@ const MATERIAL = [
   MatProgressSpinnerModule,
   MatFormFieldModule,
   MatInputModule,
+  MatTabsModule,
   MatTableModule,
   MatTooltipModule,
   MatProgressBarModule,
