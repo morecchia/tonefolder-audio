@@ -19,7 +19,7 @@ export class TrackContainerComponent {
 
   get selectedAlbum() { return this.trackService.selectedAlbum; }
   get playerState() { return this.playerService.audioState; }
-  get currentTrack() { return this.playerService.currentFile?.title; }
+  get currentTrack() { return this.playerService.currentFile?.track.name; }
   get loggedIn$() { return this.auth.isAuthenticated$; }
 
   constructor(
@@ -36,11 +36,9 @@ export class TrackContainerComponent {
 
   selectTrack(track: Track) {
     this.trackService.selectTrack({
-      albumId: this.selectedAlbum.id,
-      album: this.selectedAlbum.title,
-      file: track.filePath,
-      title: track.name,
-      cover: this.selectedAlbum.cover
+      albumTitle: this.selectedAlbum.title,
+      cover: this.selectedAlbum.cover,
+      track: track,
     });
   }
 

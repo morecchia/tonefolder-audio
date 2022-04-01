@@ -120,11 +120,9 @@ export class TrackListComponent implements OnDestroy {
 
   queueTrack(track: Track) {
     this.trackQueued.emit({
-      albumId: this.selectedAlbum.id,
-      album: this.selectedAlbum.title,
-      title: track.name,
-      file: track.filePath,
+      albumTitle: this.selectedAlbum.title,
       cover: this.tracksResponse.cover,
+      track: track,
     });
   }
 

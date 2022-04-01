@@ -27,6 +27,6 @@ export class PlayerContainerComponent {
   }
 
   loadAlbum(selected: SelectedFile) {
-    this.router.navigate(['/tracks', selected.albumId]);
+    this.router.navigate(['/tracks', selected.track.album_id]);
   }
 }

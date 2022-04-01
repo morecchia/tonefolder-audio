@@ -16,7 +16,7 @@ export class PlaylistContainerComponent {
     return this.playlistService.playlist;
   }
   get currentTrack() {
-    return this.player.currentFile?.title;
+    return this.player.currentFile?.track.name;
   }
 
   get loggedIn$() { return this.auth.isAuthenticated$; }
@@ -37,6 +37,6 @@ export class PlaylistContainerComponent {
 
   drop(event: CdkDragDrop<SelectedFile[]>) {
     moveItemInArray(this.playlistItems, event.previousIndex, event.currentIndex);
-    this.playlistService.reorderPlaylist(event.currentIndex, event.item.data);
+    this.playlistService.reorderPlaylist(event.currentIndex);
   }
 }

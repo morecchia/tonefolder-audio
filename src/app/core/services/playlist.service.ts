@@ -24,8 +24,8 @@ export class PlaylistService extends BaseService{
 
     this.playlistUpdated$.next();
     
-    if (item.title) {
-      this.showToast(`${item.title} added to playlist!`);
+    if (item.track) {
+      this.showToast(`${item.track.name} added to playlist!`);
     }
 
     this.storePlaylist();
@@ -41,7 +41,7 @@ export class PlaylistService extends BaseService{
     localStorage.setItem('tfa-playlist', pList);
   }
 
-  reorderPlaylist(current: number, item: SelectedFile) {
+  reorderPlaylist(current: number) {
     const currentItem = Object.assign({}, this.playlist[current]);
     this.playlist.splice(current, 1, currentItem);
     this.storePlaylist();
@@ -55,6 +55,6 @@ export class PlaylistService extends BaseService{
   }
 
   private itemExists(item: SelectedFile, source: SelectedFile): boolean {
-    return `${source.album}-${source.title}` === `${item.album}-${item.title}`;
+    return item.track.id === source.track.id;
   }
 }

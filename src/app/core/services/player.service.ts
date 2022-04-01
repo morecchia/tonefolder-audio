@@ -36,10 +36,10 @@ export class PlayerService {
           }));
         }
         this.audioService.stop();
-        this.selectedFile = selected.track;
-        this.currentFile = selected.track;
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.track.title) : 0;
-        this.load(selected.track.file);
+        this.selectedFile = selected.file;
+        this.currentFile = selected.file;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.file.track.name) : 0;
+        this.load(selected.file.track.filePath);
         localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
 
@@ -56,7 +56,7 @@ export class PlayerService {
 
     this.playlistService.playlistUpdated$
       .subscribe(() => {
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title) : 0;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.track.name) : 0;
       });
   }
 
@@ -74,7 +74,7 @@ export class PlayerService {
     if (this.audioState && this.audioState.currentTime) {
       this.audioService.play();
     } else {
-      this.load(this.selectedFile.file);
+      this.load(this.selectedFile.track.filePath);
     }
   }
 
@@ -91,7 +91,7 @@ export class PlayerService {
     if (file) {
       this.currentFile = file;
       this.selectedFile = file;
-      this.load(this.currentFile.file);
+      this.load(this.currentFile.track.filePath);
     }
   }
 
@@ -149,6 +149,6 @@ export class PlayerService {
     } else {
       this.playlist = this.playlistService.playlist;
     }
-    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === this.selectedFile.title) : 0;
+    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === this.selectedFile.track.name) : 0;
   }
 }

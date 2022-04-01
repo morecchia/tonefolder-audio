@@ -11,10 +11,8 @@ import { Track } from 'src/app/shared/models/track';
 import { PlayContext } from 'src/app/shared/models/play-context';
 
 export interface SelectedFile {
-  file: string;
-  title: string;
-  albumId: number;
-  album: string;
+  track: Track;
+  albumTitle: string;
   cover: string;
 }
 
@@ -31,7 +29,7 @@ export class TrackService extends BaseService {
   currentTracks: SelectedFile[];
   selectedAlbum: Album;
 
-  private fileSelected = new Subject<{track: SelectedFile, context: PlayContext}>();
+  private fileSelected = new Subject<{file: SelectedFile, context: PlayContext}>();
   fileSelected$ = this.fileSelected.asObservable();
 
   trackRequested$ = new BehaviorSubject<Observable<any>>(null);
@@ -47,10 +45,9 @@ export class TrackService extends BaseService {
       this.selectedAlbum = stored;
       this.albumTracks = stored.tracks.map(track => ({
         albumId: stored.id,
-        album: stored.title,
-        file: track.filePath,
+        albumTitle: stored.title,
         cover: stored.cover,
-        title: track.name
+        track: track
       }));
 
       return of(stored);
@@ -65,10 +62,9 @@ export class TrackService extends BaseService {
           this.selectedAlbum = res;
           this.albumTracks = res?.tracks?.map(track => ({
             albumId: res.id,
-            album: res.title,
+            albumTitle: res.title,
             cover: res.cover,
-            file: track.filePath,
-            title: track.name
+            track: track
           }));
           this.currentTracks = this.albumTracks;
           this.addToStore(res);
@@ -113,8 +109,8 @@ export class TrackService extends BaseService {
     return this.http.delete(`${environment.serviceUrl}/api/tracks/${track.id}`);
   }
 
-  selectTrack(track: SelectedFile, context: PlayContext = PlayContext.album) {
-    this.fileSelected.next({track, context});
+  selectTrack(file: SelectedFile, context: PlayContext = PlayContext.album) {
+    this.fileSelected.next({file, context});
   }
 
   private addToStore(album: Album) {
