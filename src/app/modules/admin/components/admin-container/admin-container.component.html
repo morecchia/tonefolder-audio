@@ -11,6 +11,7 @@
   </mat-tab>
   <mat-tab label="Create Playlists">
     <app-create-playlist
+      [saving]="saving"
       [playlists]="playlists | async"
       (playlistSubmitted)="submitPlaylist($event)">
     </app-create-playlist>

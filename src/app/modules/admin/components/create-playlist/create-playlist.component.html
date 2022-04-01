@@ -35,7 +35,10 @@
 </div>
 
 <ng-template #noPlaylists>
-  <div class="form-container">
+  <div *ngIf="saving" class="form-container">
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+  <div *ngIf="!saving" class="form-container">
     <p><i>There are no playlists at the moment</i></p>
   </div>
 </ng-template>

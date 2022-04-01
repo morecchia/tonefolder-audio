@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, concat, Observable } from 'rxjs';
-import { finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
 import { Album } from 'src/app/shared/models/album';
 import { FileListItem, UploadStatus } from 'src/app/shared/models/track';
 import { AlbumService } from 'src/app/core/services/album.service';
@@ -20,7 +20,7 @@ export class AdminContainerComponent implements OnDestroy {
   uploads: FileListItem[] = [];
   coverStatus = UploadStatus.pending;
   playlists: Observable<Playlist[]>;
-  
+
   private _destroy = new Subject();
 
   constructor(
@@ -73,10 +73,14 @@ export class AdminContainerComponent implements OnDestroy {
       });
   }
 
-  submitPlaylist(playlist: Playlist) {
-    this.playlistService.createPlaylist(playlist)
-      .pipe(takeUntil(this._destroy))
-      .subscribe(res => console.log(res));
+  submitPlaylist(data: {playlist: Playlist, collection: Playlist[]}) {
+    this.saving = true;
+    this.playlists = this.playlistService.createPlaylist(data.playlist)
+      .pipe(
+        takeUntil(this._destroy),
+        map((res: Playlist) => [...data.collection, res]),
+        finalize(() => this.saving = false)
+      );
   }
 
   private setUploadStatus(trackName: string, status: string) {

@@ -19,7 +19,7 @@ export class CreatePlaylistComponent {
   saving: boolean;
 
   @Output()
-  playlistSubmitted = new EventEmitter<Playlist>();
+  playlistSubmitted = new EventEmitter<{playlist: Playlist, collection: Playlist[]}>();
 
   get focusChange() { return this.focusService.focusChange$; }
 
@@ -30,7 +30,8 @@ export class CreatePlaylistComponent {
   }
 
   create() {
-    this.playlistSubmitted.emit(this.createForm.value);
+    this.playlistSubmitted.emit({playlist: this.createForm.value, collection: this.playlists});
+    this.reset();
   }
 
   reset() {
