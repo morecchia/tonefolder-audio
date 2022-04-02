@@ -11,7 +11,7 @@ import { Track } from 'src/app/shared/models/track';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { PlaylistSelectComponent } from 'src/app/shared/components/playlist-select/playlist-select.component';
 import { ModalService } from 'src/app/core/services/modal.service';
-import { takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-track-container',
@@ -71,25 +71,22 @@ export class TrackContainerComponent implements OnDestroy {
     });
 
     this.modal.closed()
-      .pipe(takeUntil(this._destroy))
-      .subscribe(id => {
-        let playlist = null;
-
-        if (id) {
-          this.playlistService.addItem(id, track);
-          playlist = this.playlistService.playlists.find(p => p.id === id);
-        }
-
-        if (playlist != null && !this.playerService.selectedFile) {
-          if (this.playlistService.playlist.length === 1) {
-            this.trackService.selectTrack(track);
-            this.playlistDialog.openPlaylist();
-          }
+      .pipe(
+        takeUntil(this._destroy),
+        switchMap(id => this.playlistService.addItem(id, track))
+      )
+      .subscribe(res => {
+        const playlist = this.playlistService.playlists.find(p => p.id === res.id);
+        if (playlist != null && !this.playerService.selectedFile &&  this.playlistService.playlist.length === 1) {
+          this.trackService.selectTrack(track);
+          this.playlistDialog.openPlaylist();
         }
       })
   }
 
   deleteTrack(track: Track) {
-    this.trackService.deleteTrack(track).subscribe();
+    this.trackService.deleteTrack(track)
+      .pipe(takeUntil(this._destroy))
+      .subscribe();
   }
 }
