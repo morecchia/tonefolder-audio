@@ -11,14 +11,14 @@
   align-items: center;
   max-width: 700px;
   margin: 0 auto;
-}
 
-.form-wrapper, .mat-form-field {
-  width: 100%;
-}
-
-.form-wrapper {
-  padding: 1em 0;
+  .form-wrapper, .mat-form-field {
+    width: 100%;
+  }
+  
+  .form-wrapper {
+    padding: 1em 0;
+  }
 }
 
 .actions {

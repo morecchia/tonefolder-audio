@@ -6,12 +6,16 @@ import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { BaseService } from './base.service';
 import { environment } from 'src/environments/environment';
 import { Playlist } from 'src/app/shared/models/playlist';
+import { map } from 'rxjs/operators';
+import { Track } from 'src/app/shared/models/track';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService extends BaseService {
+  playlists: Playlist[] = [];
   playlist: SelectedFile[] = [];
+  hasTracks: boolean;
 
   playlistUpdated$ = new BehaviorSubject<void>(null);
 
@@ -21,14 +25,33 @@ export class PlaylistService extends BaseService {
   }
 
   getPlaylists(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>(`${environment.serviceUrl}/api/playlists`);
+    return this.http.get<Playlist[]>(`${environment.serviceUrl}/api/playlists`)
+      .pipe(map(res => {
+        this.playlists = res;
+        return res;
+      }));
+  }
+
+  getPlaylist(id: number): Observable<Playlist> {
+    return this.http.get<any>(`${environment.serviceUrl}/api/playlists/${id}`)
+      .pipe(map(res => {
+        this.hasTracks = res && res.tracks && res.tracks.length > 0;
+
+        return Object.assign({}, res, {
+          tracks: res.tracks.map((t: Track) => ({
+            track: t,
+            albumTitle: t.album.title,
+            cover: t.album.cover
+          }))
+        });
+      }));
   }
 
   createPlaylist(playlist: Playlist) {
     return this.http.post(`${environment.serviceUrl}/api/playlists`, playlist);
   }
 
-  addItem(item: SelectedFile) {
+  addItem(id: number, item: SelectedFile) {
     if (!this.playlist.find(i => this.itemExists(item, i))) {
       this.playlist.push(item);
     }

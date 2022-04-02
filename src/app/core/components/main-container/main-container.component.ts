@@ -6,6 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { FocusService } from '../../services/focus.service';
+import { PlaylistService } from '../../services/playlist.service';
 
 @Component({
   selector: 'app-main-container',
@@ -34,6 +35,7 @@ export class MainContainerComponent implements OnDestroy {
     private router: Router,
     private auth: AuthService,
     private playerService: PlayerService,
+    private playlistService: PlaylistService,
     private albumService: AlbumService,
     private focusService: FocusService,
   ) {
@@ -49,6 +51,9 @@ export class MainContainerComponent implements OnDestroy {
       .subscribe((focused: boolean) => {
         this.inputFocused = focused;
       });
+    this.playlistService.getPlaylists()
+      .pipe(takeUntil(this._destroy))
+      .subscribe();
   }
 
   ngOnDestroy(): void {

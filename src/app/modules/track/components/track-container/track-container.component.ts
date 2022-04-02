@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TrackService } from 'src/app/core/services/track.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
@@ -9,13 +9,16 @@ import { PlaylistDialogService } from 'src/app/core/services/playlist-dialog.ser
 import { Album } from 'src/app/shared/models/album';
 import { Track } from 'src/app/shared/models/track';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
+import { PlaylistSelectComponent } from 'src/app/shared/components/playlist-select/playlist-select.component';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-track-container',
   templateUrl: './track-container.component.html',
   styleUrls: ['./track-container.component.scss']
 })
-export class TrackContainerComponent {
+export class TrackContainerComponent implements OnDestroy {
   tracksResponse: Observable<Album>;
 
   get selectedAlbum() { return this.trackService.selectedAlbum; }
@@ -23,9 +26,12 @@ export class TrackContainerComponent {
   get currentTrack() { return this.playerService.currentFile?.track.name; }
   get loggedIn$() { return this.auth.isAuthenticated$; }
 
+  private _destroy = new Subject();
+
   constructor(
     private auth: AuthService,
     private route: ActivatedRoute,
+    private modal: ModalService,
     private trackService: TrackService,
     private playerService: PlayerService,
     private playlistService: PlaylistService,
@@ -33,6 +39,11 @@ export class TrackContainerComponent {
     this.route.params.subscribe(params => {
       this.tracksResponse = this.trackService.getTracks(params.id);
     });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   selectTrack(track: Track) {
@@ -51,17 +62,34 @@ export class TrackContainerComponent {
     }
   }
 
-  queueTrack(item: SelectedFile) {
-    this.playlistService.addItem(item);
+  queueTrack(track: SelectedFile) {
+    this.modal.open(PlaylistSelectComponent, {
+      data: {
+        selected: track
+      },
+      width: '600px',
+    });
 
-    if (this.playlistService.playlist.length === 1 && !this.playerService.selectedFile) {
-      this.trackService.selectTrack(item);
-      this.playlistDialog.openPlaylist();
-    }
+    this.modal.closed()
+      .pipe(takeUntil(this._destroy))
+      .subscribe(id => {
+        let playlist = null;
+
+        if (id) {
+          this.playlistService.addItem(id, track);
+          playlist = this.playlistService.playlists.find(p => p.id === id);
+        }
+
+        if (playlist != null && !this.playerService.selectedFile) {
+          if (this.playlistService.playlist.length === 1) {
+            this.trackService.selectTrack(track);
+            this.playlistDialog.openPlaylist();
+          }
+        }
+      })
   }
 
   deleteTrack(track: Track) {
-    this.trackService.deleteTrack(track)
-      .subscribe();
+    this.trackService.deleteTrack(track).subscribe();
   }
 }

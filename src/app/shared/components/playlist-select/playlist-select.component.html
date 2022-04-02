@@ -1,0 +1,15 @@
+<div mat-dialog-title>
+  <span>Select a playlist</span>
+</div>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-select [(value)]="selectedId" >
+      <mat-option *ngFor="let item of playlists" [value]="item.id">{{item.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-flat-button [mat-dialog-close]="selectedId" cdkFocusInitial>Select</button>
+</div>
