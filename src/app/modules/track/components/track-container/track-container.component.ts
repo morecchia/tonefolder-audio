@@ -77,7 +77,7 @@ export class TrackContainerComponent implements OnDestroy {
       )
       .subscribe(res => {
         const playlist = this.playlistService.playlists.find(p => p.id === res.id);
-        if (playlist != null && !this.playerService.selectedFile &&  this.playlistService.playlist.length === 1) {
+        if (playlist != null && !this.playerService.selectedFile) {
           this.trackService.selectTrack(track);
           this.playlistDialog.openPlaylist();
         }

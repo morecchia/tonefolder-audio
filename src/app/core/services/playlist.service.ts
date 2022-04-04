@@ -15,6 +15,7 @@ import { Track } from 'src/app/shared/models/track';
 export class PlaylistService extends BaseService {
   playlists: Playlist[] = [];
   playlist: SelectedFile[] = [];
+  selectedPlaylistId: number;
   hasTracks: boolean;
 
   playlistUpdated$ = new BehaviorSubject<void>(null);
@@ -36,6 +37,8 @@ export class PlaylistService extends BaseService {
     return this.http.get<any>(`${environment.serviceUrl}/api/playlists/${id}`)
       .pipe(map(res => {
         this.hasTracks = res && res.tracks && res.tracks.length > 0;
+        this.selectedPlaylistId = res.id;
+        localStorage.setItem('tfa-currentPlaylist', `${this.selectedPlaylistId}`);
         this.playlist = res.tracks.map((t: Track) => ({
           track: t,
           albumTitle: t.album.title,
@@ -56,21 +59,20 @@ export class PlaylistService extends BaseService {
   }
 
   addItem(id: number, item: SelectedFile) {
+    if (this.itemExists(item)){
+      return of(this.playlists.find(p => p.id === id));
+    }
+
     return this.http.put<Playlist>(`${environment.serviceUrl}/api/playlists/${id}`, { track: item.track })
       .pipe(finalize(() => {
         this.playlistUpdated$.next();
         if (item.track) {
           this.showToast(`${item.track.name} added to playlist!`);
         }
-        this.storePlaylist();
       }));
   }
 
   clearPlaylist() {
-
-  }
-
-  storePlaylist() {
 
   }
 
@@ -79,10 +81,11 @@ export class PlaylistService extends BaseService {
   }
 
   private initPlaylist() {
-
+    this.selectedPlaylistId = parseInt(localStorage.getItem('tfa-currentPlaylist'));
   }
 
-  private itemExists(item: SelectedFile, source: SelectedFile): boolean {
-    return item.track.id === source.track.id;
+  private itemExists(item: SelectedFile): boolean {
+    const existing = this.playlist && this.playlist.find(t => t.track.id === item.track.id);
+    return existing != null;
   }
 }

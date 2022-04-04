@@ -28,7 +28,7 @@ export class PlaylistContainerComponent {
     private trackService: TrackService
   ) {
     if (this.playlists && this.playlists.length) {
-      this.selectedId = this.playlists[0].id;
+      this.selectedId = this.playlistService.selectedPlaylistId;
       this.playlist$ = this.playlistService.getPlaylist(this.selectedId);
     }
   }
