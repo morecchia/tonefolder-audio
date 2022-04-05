@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TrackService } from 'src/app/core/services/track.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
@@ -36,6 +35,11 @@ export class PlaylistContainerComponent {
   selectPlaylist(change: MatSelectChange) {
     this.selectedId = change.value;
     this.playlist$ = this.playlistService.getPlaylist(this.selectedId);
+  }
+
+  reorderPlaylist(index: number) {
+    this.playlistService.reorderPlaylist(index, this.selectedId)
+      .subscribe(update => console.log({update}));
   }
 
   playItem(item: SelectedFile) {

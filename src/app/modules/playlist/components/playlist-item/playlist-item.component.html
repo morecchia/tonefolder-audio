@@ -1,6 +1,7 @@
 <div class="playlist-item" [class.playing]="playing">
   <div class="item-details">
-    <img class="track-art" [src]="cover" />
+    <!-- <img class="track-art" [src]="cover" /> -->
+    <span class="track-art">{{item.order}}</span>
     <div class="item-title">
       <span class="album-name">{{item.albumTitle}}</span>
       <span class="track-name">{{item.track.name}}</span>

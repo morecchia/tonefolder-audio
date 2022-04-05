@@ -42,7 +42,8 @@ export class TrackService extends BaseService {
         albumId: stored.id,
         albumTitle: stored.title,
         cover: stored.cover,
-        track: track
+        track: track,
+        order: track.order,
       }));
 
       return of(stored);
@@ -59,7 +60,8 @@ export class TrackService extends BaseService {
             albumId: res.id,
             albumTitle: res.title,
             cover: res.cover,
-            track: track
+            track: track,
+            order: track.order
           }));
           this.currentTracks = this.albumTracks;
           this.addToStore(res);

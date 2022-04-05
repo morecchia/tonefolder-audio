@@ -13,8 +13,10 @@
 </div>
 <mat-dialog-content class="mat-typography">
   <app-playlist-content *ngIf="playlist$ | async as selected"
+    [playlistId]="selected.id"
     [playlistItems]="selected.tracks"
     [loggedIn]="loggedIn$ | async"
+    (playlistReordered)="reorderPlaylist($event)"
     (itemPlayed)="playItem($event)">
   </app-playlist-content>
 </mat-dialog-content>

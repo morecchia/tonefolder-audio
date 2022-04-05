@@ -20,7 +20,7 @@ export class MainContainerComponent implements OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.code === 'Space' && this.fileSelected && !this.inputFocused) {
+    if (event.code === 'Space' && !this.inputFocused && this.fileSelected) {
       event.preventDefault();
       this.togglePlay();
     }

@@ -42,7 +42,8 @@ export class PlaylistService extends BaseService {
         this.playlist = res.tracks.map((t: Track) => ({
           track: t,
           albumTitle: t.album.title,
-          cover: t.album.cover
+          cover: t.album.cover,
+          order: t.pivot.order
         }));
         return Object.assign({}, res, {
           tracks: this.playlist
@@ -58,26 +59,39 @@ export class PlaylistService extends BaseService {
       }));
   }
 
-  addItem(id: number, item: SelectedFile) {
-    if (this.itemExists(item)){
-      return of(this.playlists.find(p => p.id === id));
-    }
-
-    return this.http.put<Playlist>(`${environment.serviceUrl}/api/playlists/${id}`, { track: item.track })
-      .pipe(finalize(() => {
-        this.playlistUpdated$.next();
-        if (item.track) {
-          this.showToast(`${item.track.name} added to playlist!`);
-        }
-      }));
+  updatePlaylist(playlistId: number, item: SelectedFile) {
+    const { track, order } = item;
+    return this.http.put<any>(`${environment.serviceUrl}/api/playlists/${playlistId}`, { track, order })
+      .pipe(
+        map(res => {
+          this.playlist = res.tracks.map((t: Track) => ({
+            track: t,
+            albumTitle: t.album.title,
+            cover: t.album.cover,
+            order: t.pivot.order
+          }));
+          return Object.assign({}, res, {
+            tracks: this.playlist
+          });
+        }),
+        finalize(() => {
+          this.playlistUpdated$.next();
+          if (!this.itemExists(item)){
+            this.showToast(`${track.name} added to playlist!`);
+          }
+        }));
   }
 
   clearPlaylist() {
 
   }
 
-  reorderPlaylist(current: number) {
-
+  reorderPlaylist(index: number, playlistId: number) {
+    const currentItem = Object.assign({}, this.playlist[index], {
+      order: index,
+    });
+    this.playlist.splice(index, 1, currentItem);
+    return this.updatePlaylist(playlistId, currentItem);
   }
 
   private initPlaylist() {

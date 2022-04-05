@@ -7,6 +7,7 @@ export interface Track extends Entity {
   order: number;
   album_id: number;
   album: Album;
+  pivot: any;
 }
 
 export interface FileListItem {

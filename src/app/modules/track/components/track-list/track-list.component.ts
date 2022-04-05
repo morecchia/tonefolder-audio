@@ -124,6 +124,7 @@ export class TrackListComponent implements OnDestroy {
       albumTitle: this.selectedAlbum.title,
       cover: this.tracksResponse.cover,
       track: track,
+      order: 0,
     });
   }
 

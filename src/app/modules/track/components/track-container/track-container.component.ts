@@ -11,7 +11,7 @@ import { Track } from 'src/app/shared/models/track';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { PlaylistSelectComponent } from 'src/app/shared/components/playlist-select/playlist-select.component';
 import { ModalService } from 'src/app/core/services/modal.service';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-track-container',
@@ -51,6 +51,7 @@ export class TrackContainerComponent implements OnDestroy {
       albumTitle: this.selectedAlbum.title,
       cover: this.selectedAlbum.cover,
       track: track,
+      order: track.order,
     });
   }
 
@@ -73,7 +74,8 @@ export class TrackContainerComponent implements OnDestroy {
     this.modal.closed()
       .pipe(
         takeUntil(this._destroy),
-        switchMap(id => this.playlistService.addItem(id, track))
+        filter(id => id),
+        switchMap(id => this.playlistService.updatePlaylist(id, track))
       )
       .subscribe(res => {
         const playlist = this.playlistService.playlists.find(p => p.id === res.id);
