@@ -59,9 +59,14 @@ export class PlaylistService extends BaseService {
       }));
   }
 
-  updatePlaylist(playlistId: number, item: SelectedFile) {
-    const { track, order } = item;
-    return this.http.put<any>(`${environment.serviceUrl}/api/playlists/${playlistId}`, { track, order })
+  updatePlaylist(playlistId: number, item: SelectedFile, ordered: {} = null) {
+    if (ordered === null) { // add the item to the end of the playlist
+      this.playlist.push(item);
+      ordered = {};
+      ordered[item.track.id] = this.playlist.length - 1;
+    }
+
+    return this.http.put<any>(`${environment.serviceUrl}/api/playlists/${playlistId}`, { track: item.track, ordered })
       .pipe(
         map(res => {
           this.playlist = res.tracks.map((t: Track) => ({
@@ -77,7 +82,7 @@ export class PlaylistService extends BaseService {
         finalize(() => {
           this.playlistUpdated$.next();
           if (!this.itemExists(item)){
-            this.showToast(`${track.name} added to playlist!`);
+            this.showToast(`${item.track.name} added to playlist!`);
           }
         }));
   }
@@ -91,7 +96,8 @@ export class PlaylistService extends BaseService {
       order: index,
     });
     this.playlist.splice(index, 1, currentItem);
-    return this.updatePlaylist(playlistId, currentItem);
+    const order = this.generateOrderMap(this.playlist);
+    return this.updatePlaylist(playlistId, currentItem, order);
   }
 
   private initPlaylist() {
@@ -101,5 +107,13 @@ export class PlaylistService extends BaseService {
   private itemExists(item: SelectedFile): boolean {
     const existing = this.playlist && this.playlist.find(t => t.track.id === item.track.id);
     return existing != null;
+  }
+
+  private generateOrderMap(playlist: SelectedFile[]) {
+    const ordered = {};
+    for (let [i, v] of playlist.entries()) {
+      ordered[v.track.id] = i;
+    }
+    return ordered;
   }
 }

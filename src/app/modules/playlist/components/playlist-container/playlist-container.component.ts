@@ -38,8 +38,7 @@ export class PlaylistContainerComponent {
   }
 
   reorderPlaylist(index: number) {
-    this.playlistService.reorderPlaylist(index, this.selectedId)
-      .subscribe(update => console.log({update}));
+    this.playlistService.reorderPlaylist(index, this.selectedId).subscribe();
   }
 
   playItem(item: SelectedFile) {
