@@ -60,6 +60,7 @@ export class PlaylistService extends BaseService {
   }
 
   updatePlaylist(playlistId: number, item: SelectedFile, ordered: {} = null) {
+    const oldPlaylist = [...this.playlist];
     if (ordered === null) { // add the item to the end of the playlist
       this.playlist.push(item);
       ordered = {};
@@ -80,8 +81,8 @@ export class PlaylistService extends BaseService {
           });
         }),
         finalize(() => {
-          this.playlistUpdated$.next();
-          if (!this.itemExists(item)){
+          if (!this.itemExists(item, oldPlaylist)){
+            this.playlistUpdated$.next();
             this.showToast(`${item.track.name} added to playlist!`);
           }
         }));
@@ -104,8 +105,8 @@ export class PlaylistService extends BaseService {
     this.selectedPlaylistId = parseInt(localStorage.getItem('tfa-currentPlaylist'));
   }
 
-  private itemExists(item: SelectedFile): boolean {
-    const existing = this.playlist && this.playlist.find(t => t.track.id === item.track.id);
+  private itemExists(item: SelectedFile, playlist: SelectedFile[]): boolean {
+    const existing = playlist && playlist.find(t => t.track.id === item.track.id);
     return existing != null;
   }
 

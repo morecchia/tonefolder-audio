@@ -9,14 +9,13 @@ import { SelectedFile } from '../../models/selected-file';
   styleUrls: ['./playlist-select.component.scss']
 })
 export class PlaylistSelectComponent {
-  @Input()
-  selected: SelectedFile;
-
   selectedId: number;
   
   get playlists() { return this.playlistService.playlists; }
 
-  constructor(private playlistService: PlaylistService) { }
+  constructor(private playlistService: PlaylistService) {
+    this.selectedId = this.playlistService.selectedPlaylistId;
+  }
 
   selectPlaylist(change: MatSelectChange) {
     this.selectedId = change.value;

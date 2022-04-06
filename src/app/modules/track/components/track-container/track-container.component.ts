@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Observable, Subject } from 'rxjs';
+import { concatMap, filter, takeUntil } from 'rxjs/operators';
 import { TrackService } from 'src/app/core/services/track.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
@@ -11,7 +12,6 @@ import { Track } from 'src/app/shared/models/track';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { PlaylistSelectComponent } from 'src/app/shared/components/playlist-select/playlist-select.component';
 import { ModalService } from 'src/app/core/services/modal.service';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-track-container',
@@ -66,7 +66,7 @@ export class TrackContainerComponent implements OnDestroy {
   queueTrack(track: SelectedFile) {
     this.modal.open(PlaylistSelectComponent, {
       data: {
-        selected: track
+        track,
       },
       width: '600px',
     });
@@ -75,10 +75,11 @@ export class TrackContainerComponent implements OnDestroy {
       .pipe(
         takeUntil(this._destroy),
         filter(id => id),
-        switchMap(id => this.playlistService.updatePlaylist(id, track))
+        concatMap(id => this.playlistService.getPlaylist(id)),
+        concatMap(res => this.playlistService.updatePlaylist(res.id, track))
       )
-      .subscribe(res => {
-        const playlist = this.playlistService.playlists.find(p => p.id === res.id);
+      .subscribe((playlist) => {
+        
         if (playlist != null && !this.playerService.selectedFile) {
           this.trackService.selectTrack(track);
           this.playlistDialog.openPlaylist();
