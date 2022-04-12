@@ -27,14 +27,6 @@ export const authConfig = {
         httpMethod: HttpMethod.Delete,
       },
       {
-        uri: `${environment.serviceUrl}/api/playlists`,
-        httpMethod: HttpMethod.Post,
-      },
-      {
-        uri: `${environment.serviceUrl}/api/playlists/*`,
-        httpMethod: HttpMethod.Put,
-      },
-      {
         uri: `${environment.serviceUrl}/api/uploads`,
         httpMethod: HttpMethod.Post,
       }],

@@ -76,10 +76,9 @@ export class TrackContainerComponent implements OnDestroy {
         takeUntil(this._destroy),
         filter(id => id),
         concatMap(id => this.playlistService.getPlaylist(id)),
-        concatMap(res => this.playlistService.updatePlaylist(res.id, track))
+        concatMap(res => this.playlistService.appendPlaylist(res.id, track))
       )
       .subscribe((playlist) => {
-        
         if (playlist != null && !this.playerService.selectedFile) {
           this.trackService.selectTrack(track);
           this.playlistDialog.openPlaylist();

@@ -33,7 +33,11 @@ export class PlaylistContainerComponent implements OnDestroy {
     this.playlist$ = this.playlistService.getPlaylist(this.selectedId);
     this.playlistService.playlistUpdated$
       .pipe(takeUntil(this._destroy))
-      .subscribe(() => this.loadPlaylist());
+      .subscribe(playlist => {
+        if (playlist) {
+          this.playlist$ = of(playlist);
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -47,7 +51,9 @@ export class PlaylistContainerComponent implements OnDestroy {
   }
 
   reorderPlaylist(index: number) {
-    this.playlistService.reorderPlaylist(index, this.selectedId).subscribe();
+    this.playlistService.reorderPlaylist(index, this.selectedId)
+      .pipe(takeUntil(this._destroy))
+      .subscribe();
   }
 
   playItem(item: SelectedFile) {
@@ -55,18 +61,8 @@ export class PlaylistContainerComponent implements OnDestroy {
   }
 
   clearPlaylist() {
-    this.playlistService.clearPlaylist();
-  }
-
-  private loadPlaylist() {
-    const current = this.playlistService.playlists.find(p => p.id === this.selectedId);
-    if (this.playlistService.playlist && this.playlistService.playlist.length) {
-      this.playlist$ = of({
-        id: this.selectedId,
-        name: current.name,
-        tracks: this.playlistService.playlist,
-        created_at: current.created_at,
-      });
-    }
+    this.playlistService.clearPlaylist(this.selectedId)
+      .pipe(takeUntil(this._destroy))
+      .subscribe();
   }
 }

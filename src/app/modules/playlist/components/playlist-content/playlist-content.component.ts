@@ -23,7 +23,10 @@ export class PlaylistContentComponent {
 
   @Output()
   playlistReordered = new EventEmitter<number>();
-
+  
+  @Input()
+  sorting: boolean;
+  
   get currentTrackId() {
     return this.player.currentFile?.track.id;
   }

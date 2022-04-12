@@ -6,7 +6,7 @@ import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { BaseService } from './base.service';
 import { environment } from 'src/environments/environment';
 import { Playlist } from 'src/app/shared/models/playlist';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { Track } from 'src/app/shared/models/track';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class PlaylistService extends BaseService {
   selectedPlaylistId: number;
   hasTracks: boolean;
 
-  playlistUpdated$ = new BehaviorSubject<void>(null);
+  playlistUpdated$ = new BehaviorSubject<Playlist>(null);
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -59,14 +59,7 @@ export class PlaylistService extends BaseService {
       }));
   }
 
-  updatePlaylist(playlistId: number, item: SelectedFile, ordered: {} = null) {
-    const oldPlaylist = [...this.playlist];
-    if (ordered === null) { // add the item to the end of the playlist
-      this.playlist.push(item);
-      ordered = {};
-      ordered[item.track.id] = this.playlist.length - 1;
-    }
-
+  updatePlaylist(playlistId: number, item: SelectedFile, ordered: {}) {
     return this.http.put<any>(`${environment.serviceUrl}/api/playlists/${playlistId}`, { track: item.track, ordered })
       .pipe(
         map(res => {
@@ -76,20 +69,45 @@ export class PlaylistService extends BaseService {
             cover: t.album.cover,
             order: t.pivot.order
           }));
+          this.playlistUpdated$.next(Object.assign({}, res, {
+            tracks: this.playlist
+          }));
           return Object.assign({}, res, {
             tracks: this.playlist
           });
-        }),
-        finalize(() => {
-          if (!this.itemExists(item, oldPlaylist)){
-            this.playlistUpdated$.next();
-            this.showToast(`${item.track.name} added to playlist!`);
-          }
         }));
   }
 
-  clearPlaylist() {
+  clearPlaylist(id: number) {
+    const currentPlaylist = this.playlists.find(p => p.id === this.selectedPlaylistId);
+    this.playlistUpdated$.next(Object.assign({}, currentPlaylist, {
+      tracks: []
+    }));
+    return this.http.delete(`${environment.serviceUrl}/api/playlists/${id}?delete=false`);
+  }
 
+  appendPlaylist(playlistId: number, item: SelectedFile) {
+    const currentPlaylist = this.playlists.find(p => p.id === this.selectedPlaylistId);
+
+    if (this.itemExists(item, this.playlist)){
+      return of(Object.assign({}, currentPlaylist, {
+        tracks: this.playlist
+      }));
+    }
+
+    item.order = this.playlist.length - 1;
+    const ordered = {};
+    ordered[item.track.id] = item.order;
+
+    this.playlist.push(item);
+
+    this.playlistUpdated$.next(Object.assign({}, currentPlaylist, {
+      tracks: this.playlist
+    }));
+
+    this.showToast(`${item.track.name} added to playlist!`);
+
+    return this.updatePlaylist(playlistId, item, ordered);
   }
 
   reorderPlaylist(index: number, playlistId: number) {
