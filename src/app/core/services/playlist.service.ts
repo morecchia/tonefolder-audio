@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SelectedFile } from 'src/app/shared/models/selected-file';
+import { map } from 'rxjs/operators';
 import { BaseService } from './base.service';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { environment } from 'src/environments/environment';
 import { Playlist } from 'src/app/shared/models/playlist';
-import { finalize, map, switchMap } from 'rxjs/operators';
 import { Track } from 'src/app/shared/models/track';
 
 @Injectable({
@@ -96,6 +96,7 @@ export class PlaylistService extends BaseService {
     }
 
     item.order = this.playlist.length - 1;
+    
     const ordered = {};
     ordered[item.track.id] = item.order;
 
