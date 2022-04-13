@@ -23,7 +23,7 @@ export class AlbumListComponent {
 
   filterForm: FormGroup;
   query: string;
-  selectedSort = 'artist';
+  selectedSort = 'latest';
 
   get focusChange() { return this.focusService.focusChange$; }
   get sortOptions() { return this.albumService.sorts; }
