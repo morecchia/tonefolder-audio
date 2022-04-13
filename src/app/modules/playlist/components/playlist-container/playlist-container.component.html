@@ -16,7 +16,6 @@
     [playlistId]="selected.id"
     [playlistItems]="selected.tracks"
     [loggedIn]="loggedIn$ | async"
-    (playlistReordered)="reorderPlaylist($event)"
     (itemPlayed)="playItem($event)">
   </app-playlist-content>
 </mat-dialog-content>

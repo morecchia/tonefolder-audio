@@ -34,6 +34,9 @@ export class PlayerControlsComponent {
   @Input()
   durationFormatted: string;
 
+  @Input()
+  hasPlaylists: boolean
+
   @Output()
   trackSeek = new EventEmitter<number>();
 

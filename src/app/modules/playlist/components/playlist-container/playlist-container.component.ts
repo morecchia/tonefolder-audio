@@ -7,7 +7,7 @@ import { PlayContext } from 'src/app/shared/models/play-context';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
 import { Playlist } from 'src/app/shared/models/playlist';
 import { MatSelectChange } from '@angular/material/select';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-playlist-container',
@@ -38,6 +38,15 @@ export class PlaylistContainerComponent implements OnDestroy {
           this.playlist$ = of(playlist);
         }
       });
+    this.playlistService.playlistReordered$
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        filter(i => i !== null),
+        switchMap(i => this.playlistService.reorderPlaylist(i, this.selectedId)),
+        takeUntil(this._destroy),
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {
@@ -48,12 +57,6 @@ export class PlaylistContainerComponent implements OnDestroy {
   selectPlaylist(change: MatSelectChange) {
     this.selectedId = change.value;
     this.playlist$ = this.playlistService.getPlaylist(this.selectedId);
-  }
-
-  reorderPlaylist(index: number) {
-    this.playlistService.reorderPlaylist(index, this.selectedId)
-      .pipe(takeUntil(this._destroy))
-      .subscribe();
   }
 
   playItem(item: SelectedFile) {

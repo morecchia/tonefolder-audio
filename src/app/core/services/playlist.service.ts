@@ -19,6 +19,7 @@ export class PlaylistService extends BaseService {
   hasTracks: boolean;
 
   playlistUpdated$ = new BehaviorSubject<Playlist>(null);
+  playlistReordered$ = new BehaviorSubject<number>(null);
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -112,11 +113,8 @@ export class PlaylistService extends BaseService {
   }
 
   reorderPlaylist(index: number, playlistId: number) {
-    const currentItem = Object.assign({}, this.playlist[index], {
-      order: index,
-    });
-    this.playlist.splice(index, 1, currentItem);
     const order = this.generateOrderMap(this.playlist);
+    const currentItem = this.playlist[index];
     return this.updatePlaylist(playlistId, currentItem, order);
   }
 

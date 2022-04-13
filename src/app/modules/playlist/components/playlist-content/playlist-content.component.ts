@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PlayerService } from 'src/app/core/services/player.service';
+import { PlaylistService } from 'src/app/core/services/playlist.service';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
@@ -20,9 +21,6 @@ export class PlaylistContentComponent {
 
   @Output()
   itemPlayed = new EventEmitter<SelectedFile>();
-
-  @Output()
-  playlistReordered = new EventEmitter<number>();
   
   @Input()
   sorting: boolean;
@@ -36,10 +34,15 @@ export class PlaylistContentComponent {
       this.playlistItems.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
   }
 
-  constructor(private player: PlayerService) { }
+  constructor(private player: PlayerService, private playlistService: PlaylistService) { }
 
   drop(event: CdkDragDrop<SelectedFile[]>) {
     moveItemInArray(this.playlistItems, event.previousIndex, event.currentIndex);
-    this.playlistReordered.emit(event.currentIndex)
+    const currentItem = Object.assign({}, this.playlistItems[event.currentIndex], {
+      order: event.currentIndex,
+    });
+    this.playlistItems.splice(event.currentIndex, 1, currentItem);
+    this.playlistService.playlist = this.playlistItems;
+    this.playlistService.playlistReordered$.next(event.currentIndex);
   }
 }
