@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { FocusService } from '../../services/focus.service';
@@ -51,9 +51,11 @@ export class MainContainerComponent implements OnDestroy {
       .subscribe((focused: boolean) => {
         this.inputFocused = focused;
       });
-    this.playlistService.getPlaylists()
-      .pipe(takeUntil(this._destroy))
-      .subscribe();
+    this.playlistService.initPlaylist()
+      .pipe(
+        switchMap(() => this.playlistService.getPlaylists()),
+        takeUntil(this._destroy)
+      ).subscribe();
   }
 
   ngOnDestroy(): void {

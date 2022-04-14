@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseService } from './base.service';
 import { SelectedFile } from 'src/app/shared/models/selected-file';
@@ -23,7 +23,6 @@ export class PlaylistService extends BaseService {
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
-    this.initPlaylist();
   }
 
   getPlaylists(): Observable<Playlist[]> {
@@ -35,6 +34,13 @@ export class PlaylistService extends BaseService {
   }
 
   getPlaylist(id: number): Observable<Playlist> {
+    if (id === this.selectedPlaylistId && this.playlist.length) {
+      const current = this.playlists.find(p => p.id === id);
+      return of(Object.assign({}, current, {
+        tracks: this.playlist
+      }));
+    }
+
     return this.http.get<any>(`${environment.serviceUrl}/api/playlists/${id}`)
       .pipe(map(res => {
         this.hasTracks = res && res.tracks && res.tracks.length > 0;
@@ -118,8 +124,10 @@ export class PlaylistService extends BaseService {
     return this.updatePlaylist(playlistId, currentItem, order);
   }
 
-  private initPlaylist() {
-    this.selectedPlaylistId = parseInt(localStorage.getItem('tfa-currentPlaylist'));
+  initPlaylist() {
+    const stored = localStorage.getItem('tfa-currentPlaylist');
+    this.selectedPlaylistId = stored ? parseInt(stored) : null;
+    return this.selectedPlaylistId ? this.getPlaylist(this.selectedPlaylistId) : EMPTY;
   }
 
   private itemExists(item: SelectedFile, playlist: SelectedFile[]): boolean {

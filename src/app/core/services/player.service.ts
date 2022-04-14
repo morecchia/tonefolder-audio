@@ -17,7 +17,7 @@ export class PlayerService {
   playerState: PlayerState;
   currentVolume: number;
   currentIndex = 0;
-  playlist = [];
+  playlist: SelectedFile[] = [];
 
   constructor(private audioService: AudioService, private trackService: TrackService, private playlistService: PlaylistService) {
     this.initPlayer();
@@ -39,7 +39,7 @@ export class PlayerService {
         this.audioService.stop();
         this.selectedFile = selected.file;
         this.currentFile = selected.file;
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.file.track.name) : 0;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track.id === selected.file.track.id) : 0;
         this.load(selected.file.track.filePath);
         localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
@@ -58,7 +58,7 @@ export class PlayerService {
     this.playlistService.playlistUpdated$
       .subscribe(() => {
         this.currentIndex = this.playlist ? this.playlist.findIndex(i =>
-          this.currentFile && i.title === this.currentFile.track.name) : 0;
+          this.currentFile && i.track.id === this.currentFile.track.id) : 0;
       });
   }
 
@@ -151,6 +151,6 @@ export class PlayerService {
     } else {
       this.playlist = this.playlistService.playlist;
     }
-    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === this.selectedFile.track.name) : 0;
+    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track.id === this.selectedFile.track.id) : 0;
   }
 }
