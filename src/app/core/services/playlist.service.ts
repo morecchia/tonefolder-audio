@@ -24,6 +24,12 @@ export class PlaylistService extends BaseService {
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
   }
+  
+  initPlaylist() {
+    const stored = localStorage.getItem('tfa-currentPlaylist');
+    this.selectedPlaylistId = stored ? parseInt(stored) : null;
+    return this.selectedPlaylistId ? this.getPlaylist(this.selectedPlaylistId) : EMPTY;
+  }
 
   getPlaylists(): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(`${environment.serviceUrl}/api/playlists`)
@@ -122,12 +128,6 @@ export class PlaylistService extends BaseService {
     const order = this.generateOrderMap(this.playlist);
     const currentItem = this.playlist[index];
     return this.updatePlaylist(playlistId, currentItem, order);
-  }
-
-  initPlaylist() {
-    const stored = localStorage.getItem('tfa-currentPlaylist');
-    this.selectedPlaylistId = stored ? parseInt(stored) : null;
-    return this.selectedPlaylistId ? this.getPlaylist(this.selectedPlaylistId) : EMPTY;
   }
 
   private itemExists(item: SelectedFile, playlist: SelectedFile[]): boolean {

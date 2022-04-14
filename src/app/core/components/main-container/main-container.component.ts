@@ -55,7 +55,9 @@ export class MainContainerComponent implements OnDestroy {
       .pipe(
         switchMap(() => this.playlistService.getPlaylists()),
         takeUntil(this._destroy)
-      ).subscribe();
+      ).subscribe(() => {
+        this.playerService.initPlayer();
+      });
   }
 
   ngOnDestroy(): void {

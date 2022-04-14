@@ -1,5 +1,5 @@
 :host {
-  margin-right: 1em;
+  width: 25%;
 }
 
 .player-title-container {
@@ -38,7 +38,7 @@
 
 .player-title-placeholder span,
 .player-title-link {
-  max-width: 200px;
+  max-width: 260px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -54,18 +54,29 @@
   display: none;
 }
 
-@media (min-width: 820px) {
+@media (max-width: 1120px) {
   .player-title-placeholder span,
-  .playing-title-link {
-    max-width: 300px;
+  .player-title-link {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .player-title-placeholder span,
+  .player-title-link {
+    max-width: 140px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 670px) {
+  .player-title-placeholder span,
+  .player-title-link {
+    max-width: 100px;
   }
 }
 
 @media (max-width: 540px) {
   :host {
     margin-right: 0;
-  }
-  .player-title-text {
-    max-width: 100px;
   }
 }
