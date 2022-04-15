@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragSortEvent, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
@@ -38,6 +38,16 @@ export class PlaylistContentComponent {
     for (let [i, v] of this.playlistItems.entries()) {
       v.order = i
     }
-    this.playlistService.playlistReordered$.next(this.playlistItems);
+    this.playlistService.playlistReordered$.next({
+      playlist: this.playlistItems,
+      id: this.playlistId
+    });
+  }
+
+  drag() {
+    this.playlistService.playlistReordered$.next({
+      playlist: this.playlistItems,
+      id: null
+    });
   }
 }

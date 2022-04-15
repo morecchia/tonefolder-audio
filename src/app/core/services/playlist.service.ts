@@ -18,7 +18,7 @@ export class PlaylistService extends BaseService {
   selectedPlaylistId: number;
 
   playlistUpdated$ = new BehaviorSubject<Playlist>(null);
-  playlistReordered$ = new BehaviorSubject<SelectedFile[]>(null);
+  playlistReordered$ = new BehaviorSubject<{playlist: SelectedFile[], id: number}>(null);
 
   get hasTracks(): boolean { return this.playlist && this.playlist.length > 0; }
 
@@ -126,6 +126,12 @@ export class PlaylistService extends BaseService {
   }
 
   reorderPlaylist(playlist: SelectedFile[], playlistId: number) {
+    if (playlistId === null) {
+      const currentPlaylist = this.playlists.find(p => p.id === this.selectedPlaylistId);
+      return of(Object.assign({}, currentPlaylist, {
+        tracks: this.playlist
+      }));
+    }
     const order = this.generateOrderMap(playlist.map(p => p.track));
     return this.updatePlaylist(playlistId, null, order);
   }
