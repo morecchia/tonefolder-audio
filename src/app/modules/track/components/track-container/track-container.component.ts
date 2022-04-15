@@ -42,7 +42,7 @@ export class TrackContainerComponent implements OnDestroy {
 
     this.trackService.tracksReordered$
       .pipe(
-        debounceTime(2000),
+        debounceTime(200),
         filter(t => t !== null),
         switchMap(t => this.trackService.reorderTracks(t)),
         takeUntil(this._destroy),
@@ -51,6 +51,7 @@ export class TrackContainerComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.trackService.tracksReordered$.next(null);
     this._destroy.next();
     this._destroy.complete();
   }
