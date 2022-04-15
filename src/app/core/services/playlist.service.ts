@@ -56,7 +56,7 @@ export class PlaylistService extends BaseService {
           track: t,
           albumTitle: t.album.title,
           cover: t.album.cover,
-          order: t.pivot.order
+          order: parseInt(t.pivot.order)
         }));
         return Object.assign({}, res, {
           tracks: this.playlist
@@ -81,11 +81,11 @@ export class PlaylistService extends BaseService {
             track: t,
             albumTitle: t.album.title,
             cover: t.album.cover,
-            order: t.pivot.order
+            order: parseInt(t.pivot.order)
           }));
-          // this.playlistUpdated$.next(Object.assign({}, res, {
-          //   tracks: this.playlist
-          // }));
+          this.playlistUpdated$.next(Object.assign({}, res, {
+            tracks: this.playlist
+          }));
           return Object.assign({}, res, {
             tracks: this.playlist
           });
@@ -116,7 +116,6 @@ export class PlaylistService extends BaseService {
     ordered[item.track.id] = item.order;
 
     this.playlist.push(item);
-    console.log(this.playlist);
     this.playlistUpdated$.next(Object.assign({}, currentPlaylist, {
       tracks: this.playlist
     }));
