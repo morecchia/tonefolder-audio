@@ -1,8 +1,22 @@
-<app-create-album
-  [saving]="saving"
-  [coverUploadStatus]="coverStatus"
-  [fileList]="uploads"
-  (albumSubmitted)="submitAlbum($event)"
-  (fileAdded)="addFile($event)"
-  (fileListReset)="clearFileList()">
-</app-create-album> 
+<mat-tab-group animationDuration="0" mat-align-tabs="center">
+  <mat-tab label="Create Albums">
+    <app-create-album
+      [saving]="saving"
+      [coverUploadStatus]="coverStatus"
+      [fileList]="uploads"
+      (albumSubmitted)="submitAlbum($event)"
+      (fileAdded)="addFile($event)"
+      (fileListReset)="clearFileList()">
+    </app-create-album> 
+  </mat-tab>
+  <mat-tab label="Create Playlists">
+    <app-create-playlist
+      [saving]="saving"
+      [playlists]="playlists | async"
+      (playlistSubmitted)="submitPlaylist($event)">
+    </app-create-playlist>
+  </mat-tab>
+  <mat-tab label="Settings">
+    <app-settings></app-settings>
+  </mat-tab>
+</mat-tab-group>

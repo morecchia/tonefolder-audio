@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SelectedFile } from 'src/app/core/services/track.service';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
   selector: 'app-player-title',
@@ -15,10 +15,10 @@ export class PlayerTitleComponent {
   albumClicked = new EventEmitter<SelectedFile>();
 
   get album() {
-    return this.selected && this.selected.album;
+    return this.selected && this.selected.albumTitle;
   }
   get track() {
-    return this.selected && this.selected.title;
+    return this.selected && this.selected.track.name;
   }
   get coverArt() {
     return this.selected && this.selected.cover

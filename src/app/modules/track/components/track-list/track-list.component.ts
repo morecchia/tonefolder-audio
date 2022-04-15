@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialogRef, } from "@angular/material/dialog";
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { concat, EMPTY, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { SelectedFile, TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
+import { TrackService, audioFileTypes, imageFileTypes } from 'src/app/core/services/track.service';
 import { StreamState } from 'src/app/core/services/audio.service';
 import { Album } from 'src/app/shared/models/album';
 import { Track, FileListItem, UploadStatus } from 'src/app/shared/models/track';
@@ -13,6 +14,7 @@ import { FileDropService } from 'src/app/core/services/file-drop.service';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { TrackFormComponent } from '../track-form/track-form.component';
 import { ConfirmComponent } from 'src/app/shared/components/confirm/confirm.component';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Component({
   selector: 'app-track-list',
@@ -120,11 +122,10 @@ export class TrackListComponent implements OnDestroy {
 
   queueTrack(track: Track) {
     this.trackQueued.emit({
-      albumId: this.selectedAlbum.id,
-      album: this.selectedAlbum.title,
-      title: track.name,
-      file: track.filePath,
+      albumTitle: this.selectedAlbum.title,
       cover: this.tracksResponse.cover,
+      track: track,
+      order: 0,
     });
   }
 
@@ -175,7 +176,7 @@ export class TrackListComponent implements OnDestroy {
             name: track.name,
           });
           this.tracksResponse.tracks.splice(idx, 1, newTrack);
-          return this.trackService.updateTrack(track);
+          return this.trackService.updateTracks(track);
         }),
         takeUntil(this._destroy)
       )
@@ -233,6 +234,14 @@ export class TrackListComponent implements OnDestroy {
           this.deleteConfirmed.emit(track);
         }
       })
+  }
+
+  drop(event: CdkDragDrop<SelectedFile[]>) {
+    moveItemInArray(this.tracksResponse.tracks, event.previousIndex, event.currentIndex);
+    for (let [i, v] of this.tracksResponse.tracks.entries()) {
+      v.order = i
+    }
+    this.trackService.tracksReordered$.next(this.tracksResponse.tracks);
   }
 
   private setUploadStatus(trackName: string, status: string) {

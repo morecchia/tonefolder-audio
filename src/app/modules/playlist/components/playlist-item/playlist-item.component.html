@@ -2,11 +2,11 @@
   <div class="item-details">
     <img class="track-art" [src]="cover" />
     <div class="item-title">
-      <span class="album-name">{{item.album}}</span>
-      <span class="track-name">{{item.title}}</span>
+      <span class="album-name">{{item.albumTitle}}</span>
+      <span class="track-name">{{item.track.name}}</span>
     </div>
   </div>
-  <a *ngIf="loggedIn" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.file">
+  <a *ngIf="loggedIn" class="track-tool" matTooltip="Download" [href]="downloadLink" [download]="item.track.name">
     <mat-icon>cloud_download</mat-icon>
   </a>
 </div>

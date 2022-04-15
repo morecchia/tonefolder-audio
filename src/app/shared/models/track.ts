@@ -1,3 +1,4 @@
+import { Album } from "./album";
 import { Entity } from "./entity";
 
 export interface Track extends Entity {
@@ -5,6 +6,8 @@ export interface Track extends Entity {
   filePath: string;
   order: number;
   album_id: number;
+  album: Album;
+  pivot: any;
 }
 
 export interface FileListItem {

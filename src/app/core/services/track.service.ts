@@ -3,20 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, catchError, finalize } from 'rxjs/operators';
-import { Subject, of, BehaviorSubject } from 'rxjs';
+import { Subject, of, BehaviorSubject, EMPTY } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
 import { Track } from 'src/app/shared/models/track';
 import { PlayContext } from 'src/app/shared/models/play-context';
-
-export interface SelectedFile {
-  file: string;
-  title: string;
-  albumId: number;
-  album: string;
-  cover: string;
-}
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 export const imageFileTypes = ['.jpg', '.png'];
 export const audioFileTypes = ['.mp3', '.wav'];
@@ -28,13 +21,13 @@ export class TrackService extends BaseService {
   loading: boolean;
   trackStorage: Album[] = [];
   albumTracks: SelectedFile[];
-  currentTracks: SelectedFile[];
   selectedAlbum: Album;
 
-  private fileSelected = new Subject<{track: SelectedFile, context: PlayContext}>();
+  private fileSelected = new Subject<{file: SelectedFile, context: PlayContext}>();
   fileSelected$ = this.fileSelected.asObservable();
 
   trackRequested$ = new BehaviorSubject<Observable<any>>(null);
+  tracksReordered$ = new BehaviorSubject<Track[]>(null);
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -42,15 +35,14 @@ export class TrackService extends BaseService {
 
   getTracks(albumId: number): Observable<Album> {
     const stored = this.trackStorage.find(ts => ts.id === albumId);
-
     if (stored) {
       this.selectedAlbum = stored;
       this.albumTracks = stored.tracks.map(track => ({
         albumId: stored.id,
-        album: stored.title,
-        file: track.filePath,
+        albumTitle: stored.title,
         cover: stored.cover,
-        title: track.name
+        track: track,
+        order: track.order,
       }));
 
       return of(stored);
@@ -65,12 +57,11 @@ export class TrackService extends BaseService {
           this.selectedAlbum = res;
           this.albumTracks = res?.tracks?.map(track => ({
             albumId: res.id,
-            album: res.title,
+            albumTitle: res.title,
             cover: res.cover,
-            file: track.filePath,
-            title: track.name
+            track: track,
+            order: track.order
           }));
-          this.currentTracks = this.albumTracks;
           this.addToStore(res);
           return res;
         }),
@@ -103,9 +94,10 @@ export class TrackService extends BaseService {
     return requests;
   }
 
-  updateTrack(track: Track) {
+  updateTracks(track: Track, order: {} = null, albumId: number = null) {
+    const id = track ? track.id : 0;
     return this.http
-      .put<Track>(`${environment.serviceUrl}/api/tracks/${track.id}`, track)
+      .put<Track>(`${environment.serviceUrl}/api/tracks/${id}`, {track, order, albumId})
       .pipe(catchError(this.errorCallback));
   }
 
@@ -113,8 +105,13 @@ export class TrackService extends BaseService {
     return this.http.delete(`${environment.serviceUrl}/api/tracks/${track.id}`);
   }
 
-  selectTrack(track: SelectedFile, context: PlayContext = PlayContext.album) {
-    this.fileSelected.next({track, context});
+  selectTrack(file: SelectedFile, context: PlayContext = PlayContext.album) {
+    this.fileSelected.next({file, context});
+  }
+
+  reorderTracks(tracks: Track[]) {
+    const order = this.generateOrderMap(tracks);
+    return this.updateTracks(null, order, this.selectedAlbum.id);
   }
 
   private addToStore(album: Album) {

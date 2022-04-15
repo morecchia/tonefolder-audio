@@ -40,8 +40,8 @@
     <app-upload-table [fileList]="fileList"></app-upload-table>
   </div>
 
-  <mat-list role="list" *ngIf="tracksResponse">
-    <mat-list-item role="listitem" *ngFor="let track of tracks">
+  <mat-list *ngIf="tracksResponse" role="list" cdkDropList (cdkDropListDropped)="drop($event)">
+    <mat-list-item role="listitem" *ngFor="let track of tracks" cdkDrag [cdkDragData]="track">
       <app-track
         [loggedIn]="loggedIn"
         [track]="track"

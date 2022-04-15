@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AudioService, StreamState } from './audio.service';
-import { SelectedFile, TrackService } from './track.service';
+import { TrackService } from './track.service';
 import { PlaylistService } from './playlist.service';
 import { PlayContext } from 'src/app/shared/models/play-context';
 import { PlayerState } from 'src/app/shared/models/player-state';
+import { SelectedFile } from 'src/app/shared/models/selected-file';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,9 @@ export class PlayerService {
   playerState: PlayerState;
   currentVolume: number;
   currentIndex = 0;
-  playlist = [];
+  playlist: SelectedFile[] = [];
 
   constructor(private audioService: AudioService, private trackService: TrackService, private playlistService: PlaylistService) {
-    this.initPlayer();
     this.trackService.fileSelected$
       .subscribe(selected => {
         if (selected.context === PlayContext.album) {
@@ -36,10 +36,10 @@ export class PlayerService {
           }));
         }
         this.audioService.stop();
-        this.selectedFile = selected.track;
-        this.currentFile = selected.track;
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === selected.track.title) : 0;
-        this.load(selected.track.file);
+        this.selectedFile = selected.file;
+        this.currentFile = selected.file;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track.id === selected.file.track.id) : 0;
+        this.load(selected.file.track.filePath);
         localStorage.setItem('tfa-lastPlayed', JSON.stringify(this.currentFile));
       });
 
@@ -56,8 +56,25 @@ export class PlayerService {
 
     this.playlistService.playlistUpdated$
       .subscribe(() => {
-        this.currentIndex = this.playlist ? this.playlist.findIndex(i => this.currentFile && i.title === this.currentFile.title) : 0;
+        this.currentIndex = this.playlist ? this.playlist.findIndex(i =>
+          this.currentFile && i.track.id === this.currentFile.track.id) : 0;
       });
+  }
+
+  initPlayer() {
+    this.currentVolume = this.getStoredVolume();
+    this.selectedFile = JSON.parse(localStorage.getItem('tfa-lastPlayed'));
+    this.currentFile = this.selectedFile;
+    this.playerState = JSON.parse(localStorage.getItem('tfa-playerState'));
+    if (!this.playerState) {
+      return;
+    }
+    if (this.playerState.playContext === PlayContext.album) {
+      this.playlist = this.playerState.currentAlbum;
+    } else {
+      this.playlist = this.playlistService.playlist;
+    }
+    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track.id === this.selectedFile.track.id) : 0;
   }
 
   load(track: string) {
@@ -74,7 +91,7 @@ export class PlayerService {
     if (this.audioState && this.audioState.currentTime) {
       this.audioService.play();
     } else {
-      this.load(this.selectedFile.file);
+      this.load(this.selectedFile.track.filePath);
     }
   }
 
@@ -91,7 +108,7 @@ export class PlayerService {
     if (file) {
       this.currentFile = file;
       this.selectedFile = file;
-      this.load(this.currentFile.file);
+      this.load(this.currentFile.track.filePath);
     }
   }
 
@@ -134,21 +151,5 @@ export class PlayerService {
   getStoredVolume() {
     const storedVolume = localStorage.getItem('tfa-player-volume');
     return parseInt(storedVolume) || 50;
-  }
-
-  private initPlayer() {
-    this.currentVolume = this.getStoredVolume();
-    this.selectedFile = JSON.parse(localStorage.getItem('tfa-lastPlayed'));
-    this.currentFile = this.selectedFile;
-    this.playerState = JSON.parse(localStorage.getItem('tfa-playerState'));
-    if (!this.playerState) {
-      return;
-    }
-    if (this.playerState.playContext === PlayContext.album) {
-      this.playlist = this.playerState.currentAlbum;
-    } else {
-      this.playlist = this.playlistService.playlist;
-    }
-    this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.title === this.selectedFile.title) : 0;
   }
 }

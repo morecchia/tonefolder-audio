@@ -9,6 +9,7 @@ import { UploadTableComponent } from './components/upload-table/upload-table.com
 import { FileDropperComponent } from './components/file-dropper/file-dropper.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FileSizePipe } from './pipes/filesize.pipe';
+import { PlaylistSelectComponent } from './components/playlist-select/playlist-select.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FileSizePipe } from './pipes/filesize.pipe';
     FileDropperComponent,
     FilterPipe,
     FileSizePipe,
+    PlaylistSelectComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,40 @@
+.admin-heading {
+  color: #333;
+  text-align: center;
+  padding-top: 1em;
+}
+
+.form-container {
+  padding: 0 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px;
+  margin: 0 auto;
+
+  .form-wrapper, .mat-form-field {
+    width: 100%;
+  }
+  
+  .form-wrapper {
+    padding: 1em 0;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin-left: 1em;
+  }
+
+  button.mat-flat-button {
+    background-color: #6a6a6a;
+    color: #fff;
+  }
+
+  button:disabled {
+    background-color: #bababa;
+  }
+}

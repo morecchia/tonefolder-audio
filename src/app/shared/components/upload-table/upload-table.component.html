@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="fileList">
+<table mat-table [dataSource]="fileList" class="table-centered">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Filename </th>
     <td mat-cell *matCellDef="let element"> {{element.name}} </td>

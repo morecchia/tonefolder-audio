@@ -1,0 +1,17 @@
+<mat-list *ngIf="playlistItems?.length; else playlistEmpty" role="list" class="playlist-list"
+  cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListSorted)="drag()">
+  <mat-list-item role="listitem" *ngFor="let playlistItem of playlistOrdered" class="playlist-item"
+    cdkDrag [cdkDragData]="playlistItem">
+    <app-playlist-item
+      [loggedIn]="loggedIn"
+      [playing]="currentTrackId === playlistItem.track.id"
+      [item]="playlistItem"
+      (click)="itemPlayed.emit(playlistItem)">
+    </app-playlist-item>
+  </mat-list-item>
+</mat-list>
+<ng-template #playlistEmpty>
+  <div class="empty">
+    <span class="muted">Playlist empty.</span>
+  </div>
+</ng-template>

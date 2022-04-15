@@ -1,4 +1,4 @@
-import { SelectedFile } from "src/app/core/services/track.service";
+import { SelectedFile } from "./selected-file";
 import { PlayContext } from "./play-context";
 
 export interface PlayerState {

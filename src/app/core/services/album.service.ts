@@ -16,12 +16,15 @@ export class AlbumService extends BaseService {
   currentPage: number;
   nextPageUrl: string;
   sorts = [{
+    label: 'Latest',
+    value: 'latest'
+  },{
     label: 'Artist',
     value: 'artist'
   }, {
     label: 'Title',
     value: 'title'
-  }, {
+  },{
     label: 'Date Added',
     value: 'created_at'
   }];
