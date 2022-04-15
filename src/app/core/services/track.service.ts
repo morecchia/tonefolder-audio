@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, catchError, finalize } from 'rxjs/operators';
-import { Subject, of, BehaviorSubject } from 'rxjs';
+import { Subject, of, BehaviorSubject, EMPTY } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Album } from 'src/app/shared/models/album';
 import { BaseService } from './base.service';
@@ -21,13 +21,13 @@ export class TrackService extends BaseService {
   loading: boolean;
   trackStorage: Album[] = [];
   albumTracks: SelectedFile[];
-  currentTracks: SelectedFile[];
   selectedAlbum: Album;
 
   private fileSelected = new Subject<{file: SelectedFile, context: PlayContext}>();
   fileSelected$ = this.fileSelected.asObservable();
 
   trackRequested$ = new BehaviorSubject<Observable<any>>(null);
+  tracksReordered$ = new BehaviorSubject<Track[]>(null);
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -63,7 +63,6 @@ export class TrackService extends BaseService {
             track: track,
             order: track.order
           }));
-          this.currentTracks = this.albumTracks;
           this.addToStore(res);
           return res;
         }),
@@ -96,9 +95,10 @@ export class TrackService extends BaseService {
     return requests;
   }
 
-  updateTrack(track: Track) {
+  updateTracks(track: Track, order: {} = null, albumId: number = null) {
+    const id = track ? track.id : 0;
     return this.http
-      .put<Track>(`${environment.serviceUrl}/api/tracks/${track.id}`, track)
+      .put<Track>(`${environment.serviceUrl}/api/tracks/${id}`, {track, order, albumId})
       .pipe(catchError(this.errorCallback));
   }
 
@@ -108,6 +108,11 @@ export class TrackService extends BaseService {
 
   selectTrack(file: SelectedFile, context: PlayContext = PlayContext.album) {
     this.fileSelected.next({file, context});
+  }
+
+  reorderTracks(tracks: Track[]) {
+    const order = this.generateOrderMap(tracks);
+    return this.updateTracks(null, order, this.selectedAlbum.id);
   }
 
   private addToStore(album: Album) {

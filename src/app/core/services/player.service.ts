@@ -72,7 +72,6 @@ export class PlayerService {
     if (this.playerState.playContext === PlayContext.album) {
       this.playlist = this.playerState.currentAlbum;
     } else {
-      console.log(this.playlistService.playlist);
       this.playlist = this.playlistService.playlist;
     }
     this.currentIndex = this.playlist ? this.playlist.findIndex(i => i.track.id === this.selectedFile.track.id) : 0;

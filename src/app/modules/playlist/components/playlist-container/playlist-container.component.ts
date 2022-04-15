@@ -40,10 +40,10 @@ export class PlaylistContainerComponent implements OnDestroy {
       });
     this.playlistService.playlistReordered$
       .pipe(
-        debounceTime(1000),
+        debounceTime(2000),
         distinctUntilChanged(),
-        filter(i => i !== null),
-        switchMap(i => this.playlistService.reorderPlaylist(i, this.selectedId)),
+        filter(p => p !== null),
+        switchMap(p => this.playlistService.reorderPlaylist(p, this.selectedId)),
         takeUntil(this._destroy),
       )
       .subscribe();

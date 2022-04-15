@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialogRef, } from "@angular/material/dialog";
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { concat, EMPTY, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -175,7 +176,7 @@ export class TrackListComponent implements OnDestroy {
             name: track.name,
           });
           this.tracksResponse.tracks.splice(idx, 1, newTrack);
-          return this.trackService.updateTrack(track);
+          return this.trackService.updateTracks(track);
         }),
         takeUntil(this._destroy)
       )
@@ -233,6 +234,14 @@ export class TrackListComponent implements OnDestroy {
           this.deleteConfirmed.emit(track);
         }
       })
+  }
+
+  drop(event: CdkDragDrop<SelectedFile[]>) {
+    moveItemInArray(this.tracksResponse.tracks, event.previousIndex, event.currentIndex);
+    for (let [i, v] of this.tracksResponse.tracks.entries()) {
+      v.order = i
+    }
+    this.trackService.tracksReordered$.next(this.tracksResponse.tracks);
   }
 
   private setUploadStatus(trackName: string, status: string) {

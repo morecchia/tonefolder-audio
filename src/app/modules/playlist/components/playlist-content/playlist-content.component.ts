@@ -22,9 +22,6 @@ export class PlaylistContentComponent {
   @Output()
   itemPlayed = new EventEmitter<SelectedFile>();
   
-  @Input()
-  sorting: boolean;
-  
   get currentTrackId() {
     return this.player.currentFile?.track.id;
   }
@@ -38,11 +35,9 @@ export class PlaylistContentComponent {
 
   drop(event: CdkDragDrop<SelectedFile[]>) {
     moveItemInArray(this.playlistItems, event.previousIndex, event.currentIndex);
-    const currentItem = Object.assign({}, this.playlistItems[event.currentIndex], {
-      order: event.currentIndex,
-    });
-    this.playlistItems.splice(event.currentIndex, 1, currentItem);
-    this.playlistService.playlist = this.playlistItems;
-    this.playlistService.playlistReordered$.next(event.currentIndex);
+    for (let [i, v] of this.playlistItems.entries()) {
+      v.order = i
+    }
+    this.playlistService.playlistReordered$.next(this.playlistItems);
   }
 }

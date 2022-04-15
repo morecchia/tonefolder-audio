@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Observable, Subject } from 'rxjs';
-import { concatMap, filter, takeUntil } from 'rxjs/operators';
+import { concatMap, debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { TrackService } from 'src/app/core/services/track.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { PlaylistService } from 'src/app/core/services/playlist.service';
@@ -39,6 +39,15 @@ export class TrackContainerComponent implements OnDestroy {
     this.route.params.subscribe(params => {
       this.tracksResponse = this.trackService.getTracks(params.id);
     });
+
+    this.trackService.tracksReordered$
+      .pipe(
+        debounceTime(2000),
+        filter(t => t !== null),
+        switchMap(t => this.trackService.reorderTracks(t)),
+        takeUntil(this._destroy),
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

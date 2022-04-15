@@ -19,7 +19,7 @@ export class PlaylistService extends BaseService {
   hasTracks: boolean;
 
   playlistUpdated$ = new BehaviorSubject<Playlist>(null);
-  playlistReordered$ = new BehaviorSubject<number>(null);
+  playlistReordered$ = new BehaviorSubject<SelectedFile[]>(null);
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -73,7 +73,8 @@ export class PlaylistService extends BaseService {
   }
 
   updatePlaylist(playlistId: number, item: SelectedFile, ordered: {}) {
-    return this.http.put<any>(`${environment.serviceUrl}/api/playlists/${playlistId}`, { track: item.track, ordered })
+    const track = item ? item.track : null;
+    return this.http.put<any>(`${environment.serviceUrl}/api/playlists/${playlistId}`, { track, ordered })
       .pipe(
         map(res => {
           this.playlist = res.tracks.map((t: Track) => ({
@@ -124,22 +125,13 @@ export class PlaylistService extends BaseService {
     return this.updatePlaylist(playlistId, item, ordered);
   }
 
-  reorderPlaylist(index: number, playlistId: number) {
-    const order = this.generateOrderMap(this.playlist);
-    const currentItem = this.playlist[index];
-    return this.updatePlaylist(playlistId, currentItem, order);
+  reorderPlaylist(playlist: SelectedFile[], playlistId: number) {
+    const order = this.generateOrderMap(playlist.map(p => p.track));
+    return this.updatePlaylist(playlistId, null, order);
   }
 
   private itemExists(item: SelectedFile, playlist: SelectedFile[]): boolean {
     const existing = playlist && playlist.find(t => t.track.id === item.track.id);
     return existing != null;
-  }
-
-  private generateOrderMap(playlist: SelectedFile[]) {
-    const ordered = {};
-    for (let [i, v] of playlist.entries()) {
-      ordered[v.track.id] = i;
-    }
-    return ordered;
   }
 }

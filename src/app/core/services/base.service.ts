@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { handleError } from '../../../utils/handle-error';
+import { Entity } from 'src/app/shared/models/entity';
 
 export class BaseService {
   httpError$ = new BehaviorSubject<any>(null);
@@ -21,5 +22,13 @@ export class BaseService {
   showToast(message: string, state?: string) {
     const options: MatSnackBarConfig = state ? { panelClass: state, duration: 2000 } : { duration: 2000 };
     this.snackbar.open(message, 'Ok', options);
+  }
+
+  generateOrderMap(items: Entity[]) {
+    const ordered = {};
+    for (let [i, v] of items.entries()) {
+      ordered[v.id] = i;
+    }
+    return ordered;
   }
 }
