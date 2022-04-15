@@ -35,7 +35,6 @@ export class TrackService extends BaseService {
 
   getTracks(albumId: number): Observable<Album> {
     const stored = this.trackStorage.find(ts => ts.id === albumId);
-    console.log({albumId, store: this.trackStorage, found: stored});
     if (stored) {
       this.selectedAlbum = stored;
       this.albumTracks = stored.tracks.map(track => ({

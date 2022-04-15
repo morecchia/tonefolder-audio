@@ -16,10 +16,11 @@ export class PlaylistService extends BaseService {
   playlists: Playlist[] = [];
   playlist: SelectedFile[] = [];
   selectedPlaylistId: number;
-  hasTracks: boolean;
 
   playlistUpdated$ = new BehaviorSubject<Playlist>(null);
   playlistReordered$ = new BehaviorSubject<SelectedFile[]>(null);
+
+  get hasTracks(): boolean { return this.playlist && this.playlist.length > 0; }
 
   constructor(private http: HttpClient, snackbar: MatSnackBar) {
     super(snackbar);
@@ -49,7 +50,6 @@ export class PlaylistService extends BaseService {
 
     return this.http.get<any>(`${environment.serviceUrl}/api/playlists/${id}`)
       .pipe(map(res => {
-        this.hasTracks = res && res.tracks && res.tracks.length > 0;
         this.selectedPlaylistId = res.id;
         localStorage.setItem('tfa-currentPlaylist', `${this.selectedPlaylistId}`);
         this.playlist = res.tracks.map((t: Track) => ({
@@ -83,9 +83,9 @@ export class PlaylistService extends BaseService {
             cover: t.album.cover,
             order: t.pivot.order
           }));
-          this.playlistUpdated$.next(Object.assign({}, res, {
-            tracks: this.playlist
-          }));
+          // this.playlistUpdated$.next(Object.assign({}, res, {
+          //   tracks: this.playlist
+          // }));
           return Object.assign({}, res, {
             tracks: this.playlist
           });
@@ -94,6 +94,7 @@ export class PlaylistService extends BaseService {
 
   clearPlaylist(id: number) {
     const currentPlaylist = this.playlists.find(p => p.id === this.selectedPlaylistId);
+    this.playlist = [];
     this.playlistUpdated$.next(Object.assign({}, currentPlaylist, {
       tracks: []
     }));
@@ -115,7 +116,7 @@ export class PlaylistService extends BaseService {
     ordered[item.track.id] = item.order;
 
     this.playlist.push(item);
-
+    console.log(this.playlist);
     this.playlistUpdated$.next(Object.assign({}, currentPlaylist, {
       tracks: this.playlist
     }));

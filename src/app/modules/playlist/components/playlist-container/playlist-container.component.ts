@@ -41,7 +41,6 @@ export class PlaylistContainerComponent implements OnDestroy {
     this.playlistService.playlistReordered$
       .pipe(
         debounceTime(200),
-        distinctUntilChanged(),
         filter(p => p !== null),
         switchMap(p => this.playlistService.reorderPlaylist(p, this.selectedId)),
         takeUntil(this._destroy),
@@ -50,6 +49,8 @@ export class PlaylistContainerComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.playlistService.playlistUpdated$.next(null);
+    this.playlistService.playlistReordered$.next(null);
     this._destroy.next();
     this._destroy.complete();
   }
