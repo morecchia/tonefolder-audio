@@ -37,7 +37,8 @@ export class TrackContainerComponent implements OnDestroy {
     private playlistService: PlaylistService,
     private playlistDialog: PlaylistDialogService) {
     this.route.params.subscribe(params => {
-      this.tracksResponse = this.trackService.getTracks(params.id);
+      const id = parseInt(params.id);
+      this.tracksResponse = this.trackService.getTracks(id);
     });
 
     this.trackService.tracksReordered$
